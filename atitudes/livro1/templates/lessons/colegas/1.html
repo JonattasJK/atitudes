@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão Home irá voltar para a página inicial!</h5>
+		<h5>Parabéns!!! Você está oitava lição!</h5>
+		<img src={% static '/img/6/placa.png' %} alt="Placa" width="100%">
+		<em>A amizade é uma via de mão dupla, os dois lados precisam mostrar bondade e respeito</em>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+       <h2 class="yellow">Boas Maneiras e<br><b class="orange">seus colegas</b></h2>
+        <img src={% static '/img/8/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: amizade, bondade e respeito</h3>
+        <nav class="box base">
+			<h3 class="item base-detail">Relacionamento com os colegas</h3> 
+			<p>Para ajudar a criar entre os colegas e amigos da escola um ambiente
+saudável e harmonioso, vamos refletir sobre a palavra RESPEITO.</p>
+		</nav>
+		<div class="line"></div>
+		<nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/Observando.gif' %} alt="Mãos à obra" width="150px">
+			<div class="box"> <h3 class="box contrast white">Observando...</h3>
+				<h4>Observe as duas ilustrações e com a ajuda do dicionário pesquise as palavras 
+				<a href="https://www.dicio.com.br/respeito/" target="_blank">respeito</a> e
+				<a href="https://www.dicio.com.br/desrespeito/" target="_blank">desrespeito</a></h4>
+				<img class="sticker-left" src={% static '/img/8/respeito.png' %} alt="Respeito" width="49%">
+				<img class="sticker-left" src={% static '/img/8/desrespeito.png' %} alt="Desrespeito" width="49%">
+				<p></p>
+			</div>
+		</nav>
+	    <a href="{% url 'livro1:lesson' 'colegas' 2 %}" class="large">
+        	<button class="button next"><span>VAMOS LÁ!</span></button>
+        </a>
+        <img src={% static '/img/8/rodape.png' %} alt="amigos" width="100%">
+    </article>
+  </section>
+
+{% endblock %} 	

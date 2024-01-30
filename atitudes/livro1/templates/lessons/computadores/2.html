@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'computadores' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez oooutraaa descobertaA!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.2.sort }}</strong>
+			  	<p><i>{{ itens.2.name }}:</i> {{ itens.2.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'computadores' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+	<img src={% static '/img/14/arroba.png' %} alt="Livro" width="100%">
+  	<img class="sticker-right" src={% static '/img/14/seta.png' %} alt="Livro" width="40%">
+	<h4>Sites maliciosos são lugares da internet onde você pode pegar algum vírus.</h4>
+	
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" style="height:100%">
+        <a href="{% url 'livro1:lesson' 'computadores' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box">
+			<h3 class="purple">Comportamentos e atitudes no laboratório de informática</h3>
+			<h5 class="green">Para manter o laboratório de informática em perfeitas condições devemos nos comportar adequadamente, observando algumas atitudes:</h5>
+			<img class="sticker-left" src={% static '/img/14/pc1.png' %} alt="lendo" width="50%">
+			<p><em class="box contrast white">1</em>Lavar bem as mãos antes de entrar no laboratório de informática da escola.</p>
+			<p><em class="box contrast white">2</em>Solicitar auxílio do professor ou instrutor para ligar, desligar ou reiniciar os computadores.</p>
+			<p><em class="box contrast white">3</em>Manter os equipamentos em seus devidos lugares.</p>
+			<img class="sticker-right" src={% static '/img/14/pc2.png' %} alt="lendo" width="50%">
+			<p><em class="box contrast white">4</em>Solicitar auxílio do professor ou monitor, caso seja necessário, limpar a tela
+				do computador. Nunca passe os dedos ou tente limpar sozinho o monitor, pois o equipamento é frágil e poderá ser
+				permanentemente danificado.</p>
+			<p><em class="box contrast white">5</em>O laboratório de informática é muito útil para o desenvolvimento de pesquisas e 
+				trabalhos escolares. Portanto, utilize-o com responsabilidade: blogs, sites de relacionamento ou programas de 
+				bate-papo on-line não devem ser acessados.</p>
+			<img class="sticker-left" src={% static '/img/14/pastas.png' %} alt="lendo" width="50%">
+			<p><em class="box contrast white">6</em>Preservar o silêncio. Assim como na biblioteca, o laboratório de informática também
+				é lugar de silêncio. Você deve ter em mente que seus colegas precisam de concentração para realizar as pesquisas e elaborar
+				seus trabalhos. Por isso, se você precisar do auxílio do professor, levante a mão e aguarde até que ele venha atendê-lo ou vá
+				até ele. Jamais o chame em voz alta.</p>
+	    </nav>
+	    <div class="item large alert"></div>
+		<nav class="box">
+			<h3 class="purple">Atitudes incorretas</h3>
+			<img class="sticker-left" src={% static '/img/14/pc3.png' %} alt="lendo" width="50%">
+			<p><em class="box contrast white">1</em>Instalar ou desinstalar quaisquer tipos de <em class="blue">software</em>.</p>
+			<p><em class="box contrast white">2</em>Consumir alimentos ou bebidas no interior do laboratório.</p>
+			<p><em class="box contrast white">3</em>Colar adesivos, riscar ou danificar os equipamentos.</p>
+			<img class="sticker-right" src={% static '/img/14/pc4.png' %} alt="lendo" width="50%">
+			<p><em class="box contrast white">4</em>Conversar em voz alta ou falar ao celular.</p>
+			<p><em class="box contrast white">5</em>Correr entre as mesas ou nas dependências do laboratório de informática.</p>
+			<p><em class="box contrast white">6</em><em class="blue">Deletar</em> arquivos ou pastas de arquivos que não foram criadas por você.</p>
+	    </nav>
+	    {% if itens.1 %}
+			<nav class="box alert large">
+				<img class="sticker-right" src={% static '/img/1/glossario.gif' %} width="150px">
+				<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+					<p>{{ itens.0.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/glossario.gif' %} width="150px"></a>
+			</section>
+		{% endif %}
+		<div class="line"></div>
+		{% if itens.3 %}
+			<nav class="box sunny large" style="width:100%">
+				<img class="sticker-right" src={% static '/img/1/glossario.gif' %} width="150px" height="150px">
+				<div class="box"> <h3 class="blue">{{ itens.2.name }}</h3>
+					<p>{{ itens.2.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal2');"><img src={% static '/img/1/glossario.gif' %} width="150px"></a>
+			</section>
+		{% endif %}<div class="line"></div>
+		<a href="{% url 'livro1:lesson' 'computadores' 3 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+
+{% endblock %}

@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  		</div>
+	  		<form action="#" method="post" class="element box">
+	  			{% csrf_token %}
+				<input type="hidden" name="text" id="text" value="10">
+				<input type="submit" value="Resgatar meu prêmio">
+		  	</form>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <img class="sticker-left" src={% static '/img/9/professora.png' %} alt="Professora" width="100%">
+    
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'professor' 5 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <nav class="box">
+			<h3 class="purple">Boas maneiras na relação aluno-professor</h3>
+			<img class="sticker-left" src={% static '/img/9/problema.png' %} alt="Atividade" width="40%">
+			<p><em class="box contrast white">1</em>Respeite seu professor, em sala de aula ele é uma autoridade.</p>
+			<p><em class="box contrast white">2</em>Procure chegar na aula antes do professor e acomode-se antes que ele inicie a aula.</p>
+			<p><em class="box contrast white">3</em>Não converse com os colegas ou fale ao celular enquanto o professor explica a matéria.</p>
+			<p><em class="box contrast white">4</em>Se você precisar se retirar da sala de aula por um momento, para ir ao banheiro por exemplo,
+				peça licença ao professor antes de sair.</p>
+			<p><em class="box contrast white">5</em>Respeite as instalações da escola: é um dever e uma das atitudes para ter um bom relacionamento com seus professores.</p>
+			<p><em class="box contrast white">6</em>Não se dedique apenas às matérias de que gosta; na escola todos os programas ensinados são 
+				necessários e lhe serão úteis num futuro próximo.</p>
+			<img class="sticker-right" src={% static '/img/9/princesa.png' %} alt="Atividade" width="40%">
+			<p><em class="box contrast white">7</em>Seja um aluno dedicado e informe-se sempre sobre os trabalhos e tarefas que devem ser feitos em casa.</p>
+			<p><em class="box contrast white">8</em>Se você não conseguir entregar um trabalho dentro do prazo estipulado, não conte mentiras: assuma suas responsabilidades.</p>
+			<p><em class="box contrast white">9</em>Ao final da aula, deixe a sala de aula organizada e aguarde o professor finalizar a aula para retirar-se.</p>
+			<p><em class="box contrast white">10</em>Ao desenvolver suas pesquisas, não faça cópias de trabalhos de outras pessoas, o professor precisa avaliar o
+				seu aprendizado. Se você precisar copiar pequenos trechos, dê crédito aos verdadeiros autores.</p>
+	    </nav>
+		<nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividade" width="150px">
+			<img class="sticker-right" src={% static '/img/9/nerd.png' %} alt="Nerd" width="150px">
+			<h3 class="box contrast white">Atividade</h3>
+			<h4>E se você fosse um professor...</h4>
+		</nav>
+		{% if itens.8 != False %}
+			<div class="line"></div>
+			<nav class="box base">
+				<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Mãos à obra" width="150px">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa<br>
+					{% if itens.8.score < 100 %} 
+						Você marcou <strong>{{itens.8.score}}</strong> pontos e a pontuação máxima é 100. Você pode tentar marcar os 100 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.8.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.8.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.8.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.8.score < 100 %}
+				{% if request.user.profile.credits > itens.8.credits %}
+					<a href="{% url 'livro1:questUndo' '9-5' itens.8.score 'professor' 6 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.8.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.8.credits }} créditos e poderá receber até <strong>100,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p>E se você fosse professor?<br>
+				<em class="purple">{{ itens.9 }}</em></p>
+			<div class="line"></div>
+			<nav class="box sunny large">
+				<img class="sticker-left" src={% static '/img/1/Observando.gif' %} alt="Observando" width="150px">
+				<h3 class="box contrast white">Observando...</h3>
+				<img class="sticker-right" src={% static '/img/9/mesa.png' %} alt="mesa" width="30%">
+				<h4>Agora que você sabe quais são as atitudes que demonstram boas maneiras,
+					que tal observar o seu comportamento em relação aos professores?</h4>
+				<img class="sticker-left" src={% static '/img/9/materias.png' %} alt="mesa" width="30%">
+				<p>Reflita sobre: o que faço de bom para meus professores? O que tenho que melhorar? Sou solidário? Participo dos trabalhos em grupo?
+					Nos trabalhos em grupo, sempre faço minha parte? Eu empresto meus materiais quando os amigos precisam? Na prática de esporte,
+					sei perder? Nas torcidas, sei diferenciar o que é brincadeira do que não é?</p>
+			</nav>
+			<div class="line"></div>
+			<a href="{% url 'livro1:chapter' 9 request.user.profile.id %}" class="btn completed">
+					Meu livro &ensp;<i class="fas fa-book-reader"></i></a>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny hide">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="box happy large">
+				<h4>Como professor, como seria a sua aula e o que você faria para tornar a aula mais atrativa e agradável para os alunos?</h4>
+				<textarea id="ftext" placeholder="O que você faria?" rows="4" oninput="textSize(this,100)"></textarea><p></p>
+			</nav>
+				<a class="button" onclick="answareText('questModal','9-5');">Terminar</a><p></p>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

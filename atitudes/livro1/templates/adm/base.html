@@ -1,0 +1,171 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-KRSTDWP');</script>
+	<!-- End Google Tag Manager -->
+	<title>Projeto Atitudes</title>
+	<link rel="Atitudes icon" href="{%  static '/img/icoEthos.ico' %}">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+	<script src="{% static 'js/functions.js' %}"></script>
+</head>
+<body class="base">
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRSTDWP"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+<!-- Header -->
+<header>
+  <img src={% static '/img/title1.png' %} alt="Atitudes">
+  <!-- Navigation Bar -->
+  <nav class="navbar base-detail">
+  	{% if request.user.username != '' %}
+	  	<span class="menu-link" id="leftBtn" onclick="openSide('leftSide','leftBtn')">Alunos
+	  	<div class="menu-icon-container">
+		    <div class="bar1"></div>
+		    <div class="bar2"></div>
+		    <div class="bar3"></div>
+		</div>
+	  	</span>
+  	{% endif %}
+    <a class="menu-link" href="{% url 'livro1:home' %}"><i class="fas fa-hand-point-left"></i> Início</a>
+    {% if request.user.profile.level <= 3 %}
+    	<a class="menu-link" href="{% url 'livro1:admPanel' %}">Painel de administração <i class="fas fa-toolbox"></i></a>
+    {% endif %}
+  	{% if request.user.username != '' %}
+		<span class="menu-link" id="rightBtn" onclick="openSide('rightSide','rightBtn')">
+		<div class="menu-icon-container">
+		    <div class="bar1"></div>
+		    <div class="bar2"></div>
+		    <div class="bar3"></div>
+		</div>
+		Administração</span>
+   	{% endif %}
+  </nav>
+</header>
+
+<!-- Modal -->
+<div id="imageModal" class="modal" onclick="closeImage()">
+  <span class="close" onclick="closeImage()">&times;</span>
+  <img class="modal-content" id="bigImage">
+  <div id="caption"></div>
+</div>
+
+<!-- The flexible grid (content) -->
+<main class="back-img">
+  <aside class="side clean-detail" id="leftSide">
+  	{% if school %}
+  		<p>Alunos da {{school.name}}</p>
+  	{% else %}
+  		<p>Alunos independentes da escola</p>
+  	{% endif %}
+  	{% if pupils %}
+  		{% for p in pupils %}
+			<a href="{% url 'livro1:userInfo' p.id %}" class="btn {% if p.active %} completed {% else %} available {% endif %}">
+				{{p.user.username}} &ensp;<i class="fas fa-check"></i></a>
+		{% endfor %}
+	{% else %}
+		<h4>Nenhum aluno para ser mostrado no momento</h4>
+    {% endif %}
+  </aside>
+  
+  {% block body %}
+  {% endblock %}
+  
+  <aside class="side clean-detail" id="rightSide">
+	{% if school %}
+		<nav class="item happy">
+		  <div class="box">
+				<a href="{% url 'livro1:schoolInfo' school.id %}" class="btn completed">
+				{{ school.name }} &ensp;<i class="fas fa-university"></i></a>
+				<a href="{% url 'livro1:admSchool' school.id %}" class="btn completed">
+				{% if school.name == request.user.profile.related_school.name %} Deixar  
+				{% else %} Assumir {% endif %} essa escola &ensp;<i class="fas fa-users-cog"></i></a>
+		  </div>
+		</nav>
+	  {% if request.user.profile.level <= 2 %}
+		<a href="{% url 'livro1:newUser' school.id %}" class="btn completed">
+			Cadastrar usuário &ensp;<i class="fas fa-user-plus"></i></a>
+		<a href="{% url 'livro1:editSchool' school.id %}" class="btn available">
+			Editar escola &ensp;<i class="fas fa-edit"></i></a>
+		<a href="{% url 'livro1:deleteSchool' school.id %}" class="btn available" onclick="return confirm('A escola {{school.name}} será excluída permanentemente e essa ação NÃO pode ser desfeita. Todos os usuários relacionados também serão excluídos');">
+			Excluir escola &ensp;<i class="fas fa-edit"></i></a>
+			
+	  {% endif %}	
+	  {% if users %}<br>{% for user in users %}
+		<nav class="item base-detail">
+		    <div class="box">
+				<a href="{% url 'livro1:userInfo' user.id %}" class="btn {%if user.level == 3 %}completed{% else %}available{% endif %}">
+				{{ user.user.username }}&ensp;{% if user.level == 3 %}<i class="fas fa-user">{% else %}<i class="fas fa-user-tie">{% endif %}</i></a>
+		    </div>
+		</nav>
+	  {% endfor %}{% endif %}
+    {% else %}
+    	<a href="{% url 'livro1:newUser' 0 %}" class="btn completed">
+			Cadastrar usuário &ensp;<i class="fas fa-user-plus"></i></a>
+    {% endif %}
+    {% if request.user.profile.level <= 1 %}
+      <br>
+	  <a href="{% url 'livro1:newSchool' %}" class="btn available">
+		Cadastrar escola &ensp;<i class="fas fa-university"></i></a>
+      {% if schools %}	
+		<nav class="item alert">
+		  <div class="box">
+		  	{% for school in schools %}
+				<a href="{% url 'livro1:schoolInfo' school.id %}" class="btn completed">
+				{{ school.name }} &ensp;<i class="fas fa-university"></i></a>
+		  	{% endfor %}
+		  </div>
+		</nav>
+	  {% endif %}
+	  <a href="{% url 'livro1:userList' 0 %}" class="btn completed">
+		Listar usuários &ensp;<i class="fas fa-users"></i></a>
+	  <a href="{% url 'livro1:listInterative' 0 %}" class="btn completed">
+		Usuários inativos &ensp;<i class="fas fa-exclamation-triangle"></i></a>
+	  <a href="{% url 'livro1:listInterative' 1 %}" class="btn completed">
+		Usuários findo &ensp;<i class="fas fa-trophy"></i></a>
+	  <a href="{% url 'livro1:addRating' %}" class="btn completed">
+		Adicionar avaliação &ensp;<i class="fas fa-notes-medical"></i></a>
+    {% endif %}
+  </aside>
+</main>
+
+<!-- Footer -->
+<footer class="base-detail">
+  {% if request.user.profile.related_school %}
+	<nav class="item sunny"><i class="fas fa-university"></i><a>{{ request.user.profile.related_school.name }}</a></nav>
+	<nav class="item sunny"><i class="fas fa-key"></i><a>Acessos disponíveis: {{ request.user.profile.related_school.accession}}</a></nav>
+  {% else %}
+  	{% if request.user.username == '' %}
+	  <a class="white">Projeto Atitudes</a>
+	{% else %}
+		<a class="white">Você não está vinculado a nenhuma escola</a>
+	{% endif %}
+  {% endif %}
+</footer>
+{% if request.user.username != '' %}
+	<script>
+		screenSize();
+	</script>
+{% else %}
+	<script>
+		if (document.getElementById("aluno").checked){
+			hideOrShow('4',1);
+			hideOrShow('5',0);
+		} else if (document.getElementById("cliente").checked){
+			hideOrShow('5',1);
+			hideOrShow('4',0);
+		}
+	</script>
+{% endif %}
+</body>
+</html>
+

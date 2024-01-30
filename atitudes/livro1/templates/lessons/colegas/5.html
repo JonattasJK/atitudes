@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '8-3' 0 'colegas' 5 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <h4 class="green"> Você pode usar um dicionário online para te ajudar a encontrar
+		o significado das palavras!</h4><br>
+	<a href="https://www.dicio.com.br/" target="_blank"><strong>Dicionário aqui!</strong></a>
+	<img src={% static '/img/1/VcSabia.gif' %} alt="Você sabia?" height="270px" width="150px">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'colegas' 4 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <p>Clique no <a href="https://www.dicio.com.br/" target="_blank"><strong>dicionário</strong></a> e busque o significado das
+			palavras do quadro abaixo. Depois de cada pesquisa, monte o quebra-cabeça
+			encaixando a palavra com o seu significado.</p>
+			
+		{% if itens.4 != False %}
+			<div class="line"></div>
+			<nav class="box happy">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa<br>
+					{% if itens.4.score < 100 %} 
+						Você marcou <strong>{{itens.4.score}}</strong> pontos e a pontuação máxima é 100. Você pode tentar marcar os 100 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.4.score}}</strong> pontos, a pontuação máxima! Meus parabéns!
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.4.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.4.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.4.score < 100 %}
+				{% if request.user.profile.credits > itens.4.credits %}
+					<a href="{% url 'livro1:questUndo' '8-3' itens.4.score 'colegas' 5 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.4.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.4.credits }} créditos e poderá receber até <strong>100,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<a href="{% url 'livro1:lesson' 'colegas' 6 %}" class="large">
+				<button class="button next"><span>VAMOS LÁ!</span></button>
+			</a>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny">Acertos:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<div class="box happy large" style="padding: 12px;">
+				<nav class="item base">
+					<h5 class="jigsaw1 jigsaw-b">
+						Receber de boa vontade.
+						<span class="r"></span>
+					</h5>
+					<h5 class="jigsaw2">
+		 				<i id="f1Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+		 				<input type="hidden" id="f1Score" value="10">
+						<select name="disciplina" id="f1" style="background-color: #0284cf;" onchange="selectAnswer('f1Smile','f1Score','f1')">
+							<option value="0" > -- Opção -- </option>
+							<option value="True" >Aceitar</option>
+							<option value="False" >Integrar</option>
+							<option value="False" >Brincar</option>
+							<option value="False" >Auxiliar</option>
+							<option value="False" >Respeitar</option>
+						</select>
+						<span class="l"></span>
+					</h5>
+				</nav>
+				<nav class="item base">
+					<h5 class="jigsaw1 jigsaw-c">
+						Coletividade, incluir em um grupo.
+						<span class="r"></span>
+					</h5>
+					<h5 class="jigsaw2">
+		 				<i id="f2Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+		 				<input type="hidden" id="f2Score" value="10">
+						<select name="disciplina" id="f2" style="background-color: #0284cf;" onchange="selectAnswer('f2Smile','f2Score','f2')">
+							<option value="0" > -- Opção -- </option>
+							<option value="False" >Aceitar</option>
+							<option value="True" >Integrar</option>
+							<option value="False" >Brincar</option>
+							<option value="False" >Auxiliar</option>
+							<option value="False" >Respeitar</option>
+						</select>
+						<span class="l"></span>
+					</h5>
+				</nav>
+				<nav class="item base">
+					<h5 class="jigsaw1 jigsaw-d">
+						Prestar ajuda, socorrer, acudir.
+						<span class="r"></span>
+					</h5>
+					<h5 class="jigsaw2">
+		 				<i id="f4Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+		 				<input type="hidden" id="f4Score" value="10">
+						<select name="disciplina" id="f4" style="background-color: #0284cf;" onchange="selectAnswer('f4Smile','f4Score','f4')">
+							<option value="0" > -- Opção -- </option>
+							<option value="False" >Aceitar</option>
+							<option value="False" >Integrar</option>
+							<option value="False" >Brincar</option>
+							<option value="True" >Auxiliar</option>
+							<option value="False" >Respeitar</option>
+						</select>
+						<span class="l"></span>
+					</h5>
+				</nav>
+				<nav class="item base">
+					<h5 class="jigsaw1 jigsaw-e">
+						Ter consideração, tratar com educação.
+						<span class="r"></span>
+					</h5>
+					<h5 class="jigsaw2">
+		 				<i id="f5Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+		 				<input type="hidden" id="f5Score" value="10">
+						<select name="disciplina" id="f5" style="background-color: #0284cf;" onchange="selectAnswer('f5Smile','f5Score','f5')">
+							<option value="0" > -- Opção -- </option>
+							<option value="False" >Aceitar</option>
+							<option value="False" >Integrar</option>
+							<option value="False" >Brincar</option>
+							<option value="False" >Auxiliar</option>
+							<option value="True" >Respeitar</option>
+						</select>
+						<span class="l"></span>
+					</h5>
+				</nav>
+				<nav class="item base">
+					<h5 class="jigsaw1 jigsaw-f">
+						Distrair, entreter com jogos.
+						<span class="r"></span>
+					</h5>
+					<h5 class="jigsaw2">
+		 				<i id="f3Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+		 				<input type="hidden" id="f3Score" value="10">
+						<select name="disciplina" id="f3" style="background-color: #0284cf;" onchange="selectAnswer('f3Smile','f3Score','f3')">
+							<option value="0" > -- Opção -- </option>
+							<option value="False" >Aceitar</option>
+							<option value="False" >Integrar</option>
+							<option value="True" >Brincar</option>
+							<option value="False" >Auxiliar</option>
+							<option value="False" >Respeitar</option>
+						</select>
+						<span class="l"></span>
+					</h5>
+				</nav>
+			</div>
+			<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+			<div class="line"></div>
+			<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+			<div class="box contrast large" style="padding: 12px;">
+				<nav class="item base">
+					<h5 class="jigsaw1 jigsaw-e">
+						Chatear, ser desonesto com alguém, agir como “espertalhão”.
+						<span class="r"></span>
+					</h5>
+					<h5 class="jigsaw2">
+		 				<i id="f7Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+		 				<input type="hidden" id="f7Score" value="10">
+						<select name="disciplina" id="f7" style="background-color: #0284cf;" onchange="selectAnswer('f7Smile','f7Score','f7')">
+							<option value="0" > -- Opção -- </option>
+							<option value="False" >Ofender</option>
+							<option value="True" >Sacanear</option>
+							<option value="False" >Agredir</option>
+							<option value="False" >Ameaçar</option>
+							<option value="False" >Excluir</option>
+						</select>
+						<span class="l"></span>
+					</h5>
+				</nav>
+				<nav class="item base">
+					<h5 class="jigsaw1 jigsaw-d">
+						Injuriar alguém, desonrar, xingar, magoar.
+						<span class="r"></span>
+					</h5>
+					<h5 class="jigsaw2">
+		 				<i id="f6Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+		 				<input type="hidden" id="f6Score" value="10">
+						<select name="disciplina" id="f6" style="background-color: #0284cf;" onchange="selectAnswer('f6Smile','f6Score','f6')">
+							<option value="0" > -- Opção -- </option>
+							<option value="True" >Ofender</option>
+							<option value="False" >Sacanear</option>
+							<option value="False" >Agredir</option>
+							<option value="False" >Ameaçar</option>
+							<option value="False" >Excluir</option>
+						</select>
+						<span class="l"></span>
+					</h5>
+				</nav>
+				<nav class="item base">
+					<h5 class="jigsaw1 jigsaw-c">
+						Provocar medo, prometer algo ruim.
+						<span class="r"></span>
+					</h5>
+					<h5 class="jigsaw2">
+		 				<i id="f9Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+		 				<input type="hidden" id="f9Score" value="10">
+						<select name="disciplina" id="f9" style="background-color: #0284cf;" onchange="selectAnswer('f9Smile','f9Score','f9')">
+							<option value="0" > -- Opção -- </option>
+							<option value="False" >Ofender</option>
+							<option value="False" >Sacanear</option>
+							<option value="False" >Agredir</option>
+							<option value="True" >Ameaçar</option>
+							<option value="False" >Excluir</option>
+						</select>
+						<span class="l"></span>
+					</h5>
+				</nav>
+				<nav class="item base">
+					<h5 class="jigsaw1 jigsaw-b">
+						Deixar "de fora", afastar, rejeitar.
+						<span class="r"></span>
+					</h5>
+					<h5 class="jigsaw2">
+		 				<i id="f10Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+		 				<input type="hidden" id="f10Score" value="10">
+						<select name="disciplina" id="f10" style="background-color: #0284cf;" onchange="selectAnswer('f10Smile','f10Score','f10')">
+							<option value="0" > -- Opção -- </option>
+							<option value="False" >Ofender</option>
+							<option value="False" >Sacanear</option>
+							<option value="False" >Agredir</option>
+							<option value="False" >Ameaçar</option>
+							<option value="True" >Excluir</option>
+						</select>
+						<span class="l"></span>
+					</h5>
+				</nav>
+				<nav class="item base">
+					<h5 class="jigsaw1 jigsaw-a">
+						Bater, agredir, atacar.
+						<span class="r"></span>
+					</h5>
+					<h5 class="jigsaw2">
+		 				<i id="f8Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+		 				<input type="hidden" id="f8Score" value="10">
+						<select name="disciplina" id="f8" style="background-color: #0284cf;" onchange="selectAnswer('f8Smile','f8Score','f8')">
+							<option value="0" > -- Opção -- </option>
+							<option value="False" >Ofender</option>
+							<option value="False" >Sacanear</option>
+							<option value="True" >Agredir</option>
+							<option value="False" >Ameaçar</option>
+							<option value="False" >Excluir</option>
+						</select>
+						<span class="l"></span>
+					</h5>
+				</nav>
+			</div>
+			<a class="button" onclick="questFinish('questModal','8-3','colegas',5,100);">Terminar</a>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

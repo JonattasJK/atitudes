@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+			<img src={% static '/img/9/princesa.png' %} alt="Cartão de porta" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" >
+    	<a href="{% url 'livro1:lesson' 'sala' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <h3 class="purple">As atitudes que demonstram boas maneiras em sala de aula</h3>
+		<nav class="box happy"><nav class="">
+			<img class="sticker-left" src={% static '/img/10/porta.png' %} alt="porta" width="200px">
+			<p class="item sunny">Se, ao chegar na sala de aula, a porta estiver fechada, bata e peça licença para entrar.</p>
+    	</nav></nav>
+    	<div class="line"></div>
+		<nav class="box base"><nav class="">
+			<img class="sticker-right" src={% static '/img/10/tempo.png' %} alt="tempo" width="200px">
+			<p class="item sunny">Seja pontual e cumpra todos os horários. Quando chegar à escola entre um projeto e outro,
+				não atrapalhe as outras aulas.</p>
+    	</nav></nav>
+    	<div class="line"></div>
+		<nav class="box shine"><nav class="">
+			<img class="sticker-left" src={% static '/img/10/terno.png' %} alt="terno" width="200px">
+			<p class="item sunny">Os estudantes devem se apresentar bem vestidos. Se a escola tiver uniforme, todos devem usá-lo. A regra
+				da escola precisa ser cumprida.</p>
+    	</nav></nav>
+    	<div class="line"></div>
+		<nav class="box base-detail"><nav class="">
+			<img class="sticker-right" src={% static '/img/10/beleza.png' %} alt="beleza" width="200px">
+			<p class="item sunny">Estragar ou destruir material escolar não são atitudes corretas. Se você pedir algum material emprestado,
+				devolva. Qualquer coisa emprestada deve ser devolvida com agradecimentos.</p>
+    	</nav></nav>
+    	<div class="line"></div>
+		<nav class="box alert"><nav class="">
+			<img class="sticker-left" src={% static '/img/10/limpar.png' %} alt="limpar" width="200px">
+			<p class="item sunny">É bom lembrar que mesas, carteiras, TV e outros equipamentos de sua sala de aula são de uso coletivo.
+				Dê o exemplo sendo cuidadoso. Se avistar alguém destruindo o patrimônio coletivo, chame sua atenção e
+				mostre a ele que está errado.</p>
+    	</nav></nav>
+    	<div class="line"></div>
+		<nav class="box happy"><nav class="">
+			<img class="sticker-right" src={% static '/img/10/lixo.png' %} alt="lixo" width="200px">
+			<p class="item sunny">Cuide da limpeza de sua sala: junte os lixinhos que fez ou o papel que deixou cair sem querer.</p>
+    	</nav></nav>
+    	<div class="line"></div>
+		<nav class="box base"><nav class="">
+			<img class="sticker-left" src={% static '/img/10/mentira.png' %} alt="mentira" width="200px">
+			<p class="item sunny">Participe dos trabalhos em grupo, respeitando todos os colegas, e nunca conte mentiras!</p>
+    	</nav></nav>
+    	<div class="line"></div>
+		<nav class="box shine"><nav class="">
+			<img class="sticker-right" src={% static '/img/10/estudando.png' %} alt="estudando" width="200px">
+			<p class="item sunny">Durante as provas, não cole nem copie do colega. Seja honesto para com você mesmo(a).</p>
+    	</nav></nav>
+    	<div class="line"></div>
+		<nav class="box base-detail"><nav class="">
+			<img class="sticker-left" src={% static '/img/10/eu.png' %} alt="eu" width="200px">
+			<p class="item sunny">Sempre que precisar perguntar algo para o professor, levante a mão e aguarde a sua vez!</p>
+    	</nav></nav>
+    	<div class="line"></div>
+		<nav class="box alert"><nav class="">
+			<img class="sticker-right" src={% static '/img/10/abriu.png' %} alt="Atitudes" width="200px">
+			<p class="item sunny">Ao final da aula, dirija-se para a saída com cuidado: não empurre, não reclame ou participe
+				de grupos que queiram brigar ou ofender alguém.</p>
+    	</nav></nav>
+		
+    	<a href="{% url 'livro1:lesson' 'sala' 4 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+
+{% endblock %}

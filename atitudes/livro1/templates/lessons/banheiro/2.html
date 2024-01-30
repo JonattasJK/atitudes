@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.2.sort }}</strong>
+			  	<p><i>{{ itens.2.name }}:</i> {{ itens.2.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'banheiro' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.4.sort }}</strong>
+			  	<p><i>{{ itens.4.name }}:</i> {{ itens.4.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.4.id 'banheiro' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h4>A escova de dentes é um item muito pessoal! Cada um deve usar a sua própria escova e não emprestar</h4>
+	  	<img src={% static '/img/11/escova2.png' %} alt="Giz" width="100%">
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" style="height:100%">
+        <a href="{% url 'livro1:lesson' 'banheiro' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/VcSabia.gif' %} alt="Você sabia?" width="150px">
+			<div class="box"> <h3 class="green contrast">Você sabia...</h3>
+				<h4>...que o primeiro banheiro público do mundo foi aberto em 1852? No dia 2 de fevereiro de 1852, a administração municipal de
+					Londres abriu o primeiro banheiro público do mundo na Fleet Street, o centro da imprensa na capital britânica. A instalação
+					sanitária pública era reservada apenas aos homens. Mas, nove dias depois, foi inaugurado um toalete público também para as mulheres.
+				</h4>
+			</div>
+		</nav>
+		<nav>
+			<img class="sticker-right" src={% static '/img/11/fantasminha.png' %} alt="Gasparzinho" width="40%">
+			<p>Vamos conhecer agora algumas atitudes que demonstram boas maneiras na utilização dos banheiros.
+				Não se esqueça que a regra principal é agir como um "fantasminha"!</p>
+		</nav>
+		<nav class="box">
+			<h3 class="purple">Principais atitudes ao utilizar os banheiros</h3>
+			<img class="sticker-right" src={% static '/img/11/vaso.png' %} alt="lapis" width="40%">
+			<p><em class="box contrast white">1</em>Logo após utilizar o vaso sanitário, feche-o e dê a descarga com o vaso fechado.
+				Assim, você evita não só a contaminação do ambiente, como também possíveis respingos de água em torno do assento.</p>
+			<p><em class="box contrast white">2</em>Caso tenha molhado o vaso sanitário, seque-o com um pedaço de papel higiênico e 
+				coloque o papel no cesto de lixo. Não deixe <i class="blue">detritos</i> no vaso sanitário.</p>
+			<img class="sticker-right" src={% static '/img/11/mao.png' %} alt="lapis" width="20%">
+			<p><em class="box contrast white">3</em>Após usar o banheiro, lave sempre as mãos. Ao lavar as mãos, seja responsável: evite o
+				desperdício de água, fechando a torneira enquanto se ensaboa.</p>
+			<img class="sticker-left" src={% static '/img/11/pia.png' %} alt="lapis" width="40%">
+			<p><em class="box contrast white">4</em>Se a descarga do banheiro de sua escola tem vazamento, está estragada ou não está funcionando,
+				faça sua parte! Avise a professora ou o zelador da escola.</p>
+			<img class="sticker-right" src={% static '/img/11/cabelo.png' %} alt="lapis" width="20%">
+			<p><em class="box contrast white">5</em>Após utilizar a pia, recolha fios de cabelo, sobras de creme dental ou restos de alimentos 
+				que ficaram após escovar os dentes. Lembre-se de que temos que passar despercebidos pelo banheiro.</p>
+			<p><em class="box contrast white">6</em>Ao utilizar o banheiro <i class="blue">alheio</i>, não mexa no que não é seu. Desodorantes, perfumes, escovas de 
+				cabelo ou toalhas são objetos pessoais e de uso individual.</p>
+			<img class="sticker-left" src={% static '/img/11/escovas.png' %} alt="lapis" width="40%">
+			<p><em class="box contrast white">7</em>Outro hábito importante é lavar a escova de dentes com detergente ou sabão neutro, e não apenas
+				enxaguá-la após o uso. Também não devemos deixá-la em cima da pia, guarde-a no armário.</p>
+			<img class="sticker-right" src={% static '/img/11/porta.png' %} alt="lapis" width="40%">
+			<p><em class="box contrast white">8</em>Seja responsável e não tome banhos demorados. Além do desperdício da água, o consumo de luz
+				fará com que a conta da luz fique mais cara. Também não deixe no banheiro roupas molhadas ou usadas.</p>
+			<p><em class="box contrast white">9</em>Ao usar o banheiro, não deixe que os outros participem do que está acontecendo: feche a porta
+				para que ninguém ouça barulhos ou sinta odores desagradáveis.</p>
+	    </nav>
+		{% if itens.3 %}
+			<section class="box sunny">
+				<div class="box"> <h3 class="blue">{{ itens.2.name }}</h3>
+					<p>{{ itens.2.text }}</p>
+				</div>
+				<img src={% static '/img/1/glossario.gif' %} alt="Glossário" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/glossario.gif' %} alt="Glossário" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		{% if itens.5 %}
+			<section class="box happy">
+				<div class="box"> <h3 class="blue">{{ itens.4.name }}</h3>
+					<p>{{ itens.4.text }}</p>
+				</div>
+				<img src={% static '/img/1/glossario.gif' %} alt="Glossário" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal2');"><img src={% static '/img/1/glossario.gif' %} alt="Glossário" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		<nav class="box base large">
+			<img class="sticker-left" src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" width="150px">
+			<div class="box"> <h3 class="red base-detail">Lembre-se</h3>
+				<h4>Para que as atitudes aprendidas se tornem um hábito é necessário praticar todos os dias. Não importa se num determinado dia estamos
+					com sono ou preguiça: precisamos fazer as coisas certas e bem feitas todos os dias!<br><br>
+					Você deverá passar pelo banheiro como um fantasminha!<br><br>
+					Ninguém, nem mesmo um detetive, deve encontrar rastros de suas atividades no banheiro!
+				</h4>
+			</div>
+		</nav>
+		<a href="{% url 'livro1:lesson' 'banheiro' 3 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+
+{% endblock %}

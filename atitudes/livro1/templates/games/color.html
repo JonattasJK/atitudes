@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+	<aside class="side clean-detail" id="leftSide">
+		<a href="{% url 'livro1:home' %}" class="btn completed">
+			Home &ensp;<i class="fas fa-home"></i></a>
+		<a href="{% url 'livro1:library' request.user.profile.id%}" class="btn completed">
+			Biblioteca &ensp;<i class="fas fa-atlas"></i></a>
+		<h2 class="green">É hora de pintar!</h2>
+		<p> Se você veio direcionado por uma lição, clique em "Escolha uma imagem" e encontre a imagem que tem tudo a ver com a lição que você estava fazendo!</p>
+	</aside>
+
+	<article class="main clean">
+		<em class="green">Meu </em><em class="pink">livro </em><em class="yellow">de </em><em class="blue">colorir</em>
+		<iframe id="colorir" src="https://colorir.projetoatitudes.com/19112020colorir/index.html" title="Meu livro de colorir" style="border:none;"></iframe>
+		<h2 class="orange">Uhuuuuul!</h2>
+		<p>Aqui você pode colorir imagens relacionadas às lições e também várias outras! Aproveite para aprimorar suas habilidades de pintura.</p>
+        
+		<a href="{% url 'livro1:continues' %}" class="button previous"><span>Voltar para a lição</span></a>
+	</article>
+{% endblock %} 	

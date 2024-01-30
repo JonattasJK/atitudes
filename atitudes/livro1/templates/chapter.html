@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<div id="finishModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="pink">Uhuuuul!!!!!</h1></nav>
+	  	<div class="modal-animation">
+		  	<img src={% static '/img/finish.gif' %} alt="fim" width="100%">
+		  	<img src={% static '/img/Ethos.gif' %} alt="sticker" width="200px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="green item" style="background-color:rgba(255, 255, 255, 0.5);">Parabéns!</strong>
+			  	<p>Você concluiu essa lição.</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<a href="{% url 'livro1:finishLesson' lesson %}" >
+	  			<button class="button next"><span>Terminar</span></button>
+	  		</a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+
+<aside class="side clean-detail" id="leftSide">
+	<a href="{% url 'livro1:home' %}" class="btn completed">
+		Home &ensp;<i class="fas fa-home"></i></a>
+	<a href="{% url 'livro1:lesson' lessonName 1 %}" class="btn completed">
+		Voltar para a lição &ensp;<i class="fas fa-pencil-alt"></i></a>
+	<a href="{% url 'livro1:library' request.user.profile.id%}" class="btn completed">
+		Biblioteca &ensp;<i class="fas fa-book"></i></a>
+	<a onclick="openPage('page2', 'page1');" class="button interactive"><span>Como escrever um livro&ensp;<i class="fas fa-question"></i></span></a>
+	<div class="notSqueeze">
+		<p class="box base">
+			<h5>Agora é hora de você soltar a sua criatividade!</h5>
+			<h2 class="green">Você é o autor!</h2>
+			<h4> Nesta página você irá escrever cada capítulo do seu livro.</h4>
+			<h5> Após clicar em <strong>Editar capítulo</strong> siga as instruções: </h5>
+		</p>
+		<p><strong class="green">1 - </strong> A primeira parte da página é o bloco de texto. Ali você irá escrever o seu capítulo.</p>
+		<p><strong class="green">2 - </strong> Aqui do lado esquerdo você terá opções de texto para personalizar seus parágrafos.</p>
+		<p><strong class="green">3 - </strong> Abaixo do bloco de texto você verá o seu caderno. Ali aparecerá os textos do capítulo do seu livro.</p>
+		<p><strong class="green">4 - </strong> Abaixo das opções de texto, você terá a sua lista de adesivos. Assim você pode escolher algum para colocar em seu livro.</p>
+	</div>
+</aside>
+  
+<section class="page box clean" style="overflow: auto;">
+	<article class="page" id="page1" >
+		
+		<h1 class="red">Agora é com você!</h1>
+		<em>Capítulo {{lesson}}</em>
+		<a href="{% url 'livro1:editChapter' lesson profile.id %}" class="btn completed">
+			Editar capítulo &ensp;<i class="fas fa-clipboard"></i></a>
+
+		<div class="notepad">
+		  <div>
+			{% if chapter %}
+				{% for p in chapter %}
+					{% if p.style == 'img' %}
+						<img class="{{ p.position }}" src={% static p.paragraph %} alt="Atitudes" width="150px">
+					{% else %}
+						<{{ p.style }} class="{{ p.color }}"> {{p.paragraph}} </{{ p.style }}>
+					{% endif %}
+				{% endfor %}
+			{% else %}
+				<h2 class="orange">O seu livro</h2>
+				<p class="green">Escreva nesse capítulo sobre o que você aprendeu na lição {{lesson}}. Você precisa escrever ao menos 500 letras para terminar a lição.</p>
+				<img class="sticker-right" src={% static '/img/stickers/1.png' %} alt="Atitudes" width="150px"> 
+				<h3>Você é o autor!</h3>
+				<p>Solte a criatividade e mostre o que você sabe! Com certeza você é capaz de escrever um ótimo livro!</p>
+			{% endif %}
+		  </div>
+		</div>
+		<p class="purple">Você digitou {{words}} caracteres.</p>
+		{% if request.user.profile == profile %}
+			{% if request.user.profile.stage == lesson%}
+				{% if words >= 500 %}
+					<button class="button next" onclick="showModal('finishModal')"><span>Terminar lição</span></button>
+				{% else %}
+					<div class="item alert"><h5> Você precisa escrever no mínimo 500 caracteres para poder terminar a lição</h5></div>
+					<button class="button next" disabled onclick="#"><span>Terminar lição</span></button>
+				{% endif %}
+			{% else %}
+			    <div class="item happy"><h5> Você já concluiu essa lição, mas pode editar seu capítulo sempre que quiser</h5></div>
+			{% endif %}
+		{% else %}
+			<div class="item alert"><h5> Apenas {{profile.user.first_name}} pode finalizar essa lição</h5></div>
+		{% endif %}
+
+		<a href="{% url 'livro1:home' %}" class="btn completed">
+			Home &ensp;<i class="fas fa-home"></i></a>
+	</article>  
+	
+	<article class="page" id="page2">
+		<a onclick="openPage('page1', 'page2');" class="btn available interactive"><span><i class="far fa-hand-point-left"></i>&ensp;Voltar para o capítulo</span></a>
+		<h3 class="purple">As <b class="red">dez mais</b> para escrever um bom livro</h3>
+		<em> Escreva seu livro com o que aprendeu já aprendeu até aqui. A seguir, algumas dicas que podem auxiliá-lo nesta missão: </em>
+		<nav class="item base"> • 1 - Para ser um bom escritor é preciso ler bastante. A leitura melhora a escrita e nos traz mais conteúdo. Quem lê mais,
+			tem mais ideias.</nav>
+		<nav class="item happy">	• 2 - Gostar da língua portuguesa é importante, afinal é a matéria-prima de um livro. Para escrever, você vai lidar com
+			ela o tempo todo.</nav>
+		<nav class="item sunny"> • 3 - Troque ideias com a família e os amigos sobre o assunto o qual pretende escrever. Eles podem dar boas contribuições.</nav>
+		<nav class="item shine"> • 4 - Faça anotações sempre que se lembrar de algo interessante, elas podem se transformar em partes do seu livro.
+			Guarde-as numa pasta ou transcreva para um arquivo no computador.</nav>
+		<nav class="item base"> • 5 - Quando começar a escrever, procure um local tranquilo em que possa se concentrar para pensar em seu livro.</nav>
+		<nav class="item happy"> • 6 - Faça um roteiro com os assuntos e temas que você deseja abordar ou, se quiser contar uma história, faça anotações
+			sobre os personagens e o enredo.</nav>
+		<nav class="item sunny"> • 7 - Sempre consulte o dicionário. Ele vai te ajudar não só quando tiver dúvidas, mas caso precise de sinônimos para
+			as palavras ou se quiser conhecê-las melhor. O dicionário deve ser o companheiro de toda escrita.</nav>
+		<nav class="item shine"> • 8 - É interessante mostrar o texto a outras pessoas, para trocar opiniões e saber o que elas estão achando. Assim você
+			pode começar a perceber como os futuros leitores vão reagir ao livro que você escreveu.</nav>
+		<nav class="item base"> • 9 - Hora do título. Pense em algo que chame a atenção dos leitores e provoque a curiosidade.</nav>
+		<nav class="item happy"> • 10 - A capa deve, é claro, combinar com o livro e dizer algo sobre ele, mas de forma interessante. Lembre-se de que
+			ela é o primeiro contato do leitor com o livro.</nav>
+		<button onclick="openPage('page1', 'page2');" class="button next"><span>Vamos lá!</span></button>
+		<img src={% static '/img/14/mesa.png' %} alt="Agora é com você" width="500px">
+		<h2 class="green">Agora é com você!</h2>
+	</article>
+</section>
+ 
+  <script>
+  	openPage('page1','page2');
+  </script>
+
+{% endblock %}
+

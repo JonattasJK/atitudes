@@ -1,0 +1,73 @@
+{% extends "adm/base.html" %}
+{% load static %}
+
+{% block body %}
+
+<article class="main clean">
+  <form action="#" method="post">
+	<article class="item happy">
+	  {% csrf_token %}
+	  <div class="box">
+	  	{% if form.errors %}
+			{{form.non_field_errors}}
+		{% endif %}
+			<h4>Preencha os campos referentes à escola que será cadastrada</h4>
+	  	
+	  </div>
+	</article>&emsp;
+	{% if school %}
+		<article class="item happy">
+		  <div class="box large">
+			<label for="fname">Nome da escola:</label><br>
+			<input type="text" id="fname" name="name" value="{{ school.name }}" placeholder="Escola tal">
+		  </div>
+		</article>
+		<article class="item happy">
+		  <div class="box large">
+			<label for="fdescription">Descrição:</label><br>
+			<input type="text" id="fdescription" name="description" value="{{ school.description }}" placeholder="Escola de ensino tal especializada em etc">
+		  </div>
+		</article>
+		<article class="item happy">
+		  <div class="box large">
+			<label for="fcnpj">CNPJ:</label><br>
+			<input type="number" id="fcnpj" name="cnpj" value="{{ school.cnpj }}" placeholder="Apenas números! Ex: 12345678000123">
+		  </div>
+		</article>
+		<article class="item happy">
+		  <div class="box large">
+			<label for="faddress">Endereço:</label><br>
+			<input type="text" id="faddress" name="address" value="{{ school.address }}" placeholder="Rua, número, cidade">
+		  </div>
+		</article>
+	{% else %}
+		<article class="item happy">
+		  <div class="box large">
+			<label for="fname">Nome da escola:</label><br>
+			<input type="text" id="fname" name="name" value="{{ form.name.value|default_if_none:"" }}" placeholder="Escola tal">
+		  </div>
+		</article>
+		<article class="item happy">
+		  <div class="box large">
+			<label for="fdescription">Descrição:</label><br>
+			<input type="text" id="fdescription" name="description" value="{{ form.description.value|default_if_none:"" }}" placeholder="Escola de ensino tal especializada em etc">
+		  </div>
+		</article>
+		<article class="item happy">
+		  <div class="box large">
+			<label for="fcnpj">CNPJ:</label><br>
+			<input type="number" id="fcnpj" name="cnpj" value="{{ form.cnpj.value|default_if_none:"" }}" placeholder="Apenas números! Ex: 12345678000123">
+		  </div>
+		</article>
+		<article class="item happy">
+		  <div class="box large">
+			<label for="faddress">Endereço:</label><br>
+			<input type="text" id="faddress" name="address" value="{{ form.address.value|default_if_none:"" }}" placeholder="Rua, número, cidade">
+		  </div>
+		</article>
+	{% endif %}
+	<input type="submit" value="Salvar escola">
+  </form>
+</article>
+
+{% endblock %} 

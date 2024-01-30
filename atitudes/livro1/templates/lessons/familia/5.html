@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.2.sort }}</strong>
+			  	<p><i>{{ itens.2.name }}:</i> {{ itens.2.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'familia' 5 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '3-4' 0 'familia' 5 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <nav style="display: flex; justify-content: center; align-items: center; height:85%;">
+    	<ul><li id="a" value="9">com licença</li>
+		<li id="c" value="7">por favor</li>
+		<li id="d" value="7">gratidão</li>
+		<li id="e" value="11">cumprimentar</li>
+		<li id="f" value="7">silêncio</li>
+		<li id="g" value="9">disciplina</li>
+		<li id="i" value="7">obedecer</li>
+		<li id="j" value="8">respeitar</li>
+		<li id="k" value="7">desculpa</li>
+		<li id="l" value="5">cuidar</li>
+		<li id="m" value="8">organizar</li>
+		<li id="n" value="5">ajudar</li>
+		<li id="o" value="14">Comprometimento</li>
+		<li id="p" value="6">tolerar</li></ul>
+	</nav>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'familia' 4 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box sunny">
+			<img class="sticker-right" src={% static '/img/1/maosAObra.gif' %} alt="Mãos à obra" width="230px">
+			<div class="box"> <h3 class="box base">Mãos à obra!</h3>
+				<h4>No início da lição você pôde observar um <b class="blue">acróstico</b> formado a partir da
+					palavra <strong>Família Feliz</strong>. Agora é sua vez de completar o acróstico com as palavras
+					relacionadas às Boas Maneiras em Família. Então, Mãos à Obra!</h4>
+			</div>
+		</nav>
+		<div class="line"></div>
+		{% if itens.8 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.8.score < 140 %} 
+						Você marcou <strong>{{itens.8.score}}</strong> pontos e a pontuação máxima é 140. Você pode tentar marcar os 140 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.8.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.8.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.8.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.8.score < 140 %}
+				{% if request.user.profile.credits > itens.8.credits %}
+					<a href="{% url 'livro1:questUndo' '3-4' itens.8.score 'familia' 5 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.8.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.8.credits }} créditos e poderá receber até <strong>140,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+		{% else %}
+		  <label class="green" onclick="justOpenSide('leftSide','leftBtn');">Dica ao lado esquerdo</label>
+		  <nav class="flex">
+			<div class="item base">Acertos:&ensp;<strong id="hits" class="red">0</strong>
+			</div>&emsp;<div class="item base"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+		  </nav>
+		  <div class="crosswords"><table>
+			<tr>
+				<td></td><td></td><td></td><th><input type="text" maxlength="1" oninput="cw(this,'oC')" tabindex="1"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'oO')"tabindex="2"></th><th><input type="text" maxlength="1" oninput="cw(this,'oM')"tabindex="3"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'oP')"tabindex="4"></th><th>R</th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'oO')"tabindex="5"></th><th><input type="text" maxlength="1" oninput="cw(this,'oM')"tabindex="6"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'oE')"tabindex="7"></th><th><input type="text"  maxlength="1" oninput="cw(this,'oT')"tabindex="8"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'oI')"tabindex="9"></th><th><input type="text" maxlength="1" oninput="cw(this,'oM')"tabindex="10"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'oE')"tabindex="11"></th><th><input type="text" maxlength="1" oninput="cw(this,'oN')"tabindex="12"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'oT')"tabindex="13"></th><th><input type="text" maxlength="1" oninput="cw(this,'oO')"tabindex="14"></th>
+			</tr><tr>
+				<td></td><td></td><td></td><td></td><td></td><td></td><th><input type="text" maxlength="1" oninput="cw(this,'jR')"tabindex="15"></th><th>E</th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'jS')"tabindex="16"></th><th><input type="text" maxlength="1" oninput="cw(this,'jP')"tabindex="17"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'jE')"tabindex="18"></th><th><input type="text" maxlength="1" oninput="cw(this,'jI')"tabindex="19"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'jT')"tabindex="20"></th><th><input type="text" maxlength="1" oninput="cw(this,'jA')"tabindex="21"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'jR')"tabindex="22"></th>
+			</tr><tr>
+				<td></td><td></td><td></td><td></td><th>C</th><th>O</th><th>N</th><th>S</th><th>I</th><th>D</th><th>E</th><th>R</th><th>A</th><th>Ç</th><th>Ã</th><th>O</th>
+			</tr><tr>
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td><th>P</th><th><input type="text" maxlength="1" oninput="cw(this,'cO')"tabindex="31"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'cR')"tabindex="32"></th><td></td><th>
+				<input type="text" maxlength="1" oninput="cw(this,'cF')"tabindex="33"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'cA')"tabindex="34"></th><th><input type="text" maxlength="1" oninput="cw(this,'cV')"tabindex="35"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'cO')"tabindex="36"></th><th><input type="text" maxlength="1" oninput="cw(this,'cR')"tabindex="37"></th>
+			</tr><tr>
+				<th><input type="text" maxlength="1" oninput="cw(this,'dG')"tabindex="38"></th><th><input type="text" maxlength="1" oninput="cw(this,'dR')"tabindex="39"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'dA')"tabindex="40"></th><th><input type="text" maxlength="1" oninput="cw(this,'dT')"tabindex="41"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'dI')"tabindex="42"></th><th><input type="text" maxlength="1" oninput="cw(this,'dD')"tabindex="43"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'dA')"tabindex="44"></th><th>O</th>
+			</tr><tr>
+				<td></td><td></td><td></td><th><input type="text" maxlength="1" oninput="cw(this,'fS')"tabindex="45"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'fI')"tabindex="46"></th><th><input type="text" maxlength="1" oninput="cw(this,'fL')"tabindex="47"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'fE')"tabindex="48"></th><th>N</th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'fC')"tabindex="49"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'fI')"tabindex="50"></th><th><input type="text" maxlength="1" oninput="cw(this,'fO')"tabindex="51"></th>
+			</tr><tr>
+				<td></td><td></td><td></td><td></td><td></td><th><input type="text" maxlength="1" oninput="cw(this,'gD')"tabindex="52"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'gI')"tabindex="53"></th><th>S</th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'gC')"tabindex="54"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'gI')"tabindex="55"></th><th><input type="text" maxlength="1" oninput="cw(this,'gP')"tabindex="56"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'gL')"tabindex="57"></th><th><input type="text" maxlength="1" oninput="cw(this,'gI')"tabindex="58"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'gN')"tabindex="59"></th><th><input type="text" maxlength="1" oninput="cw(this,'gA')"tabindex="60"></th>
+			</tr><tr>
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td><th>A</th><th>M</th><th>I</th><th>Z</th><th>A</th><th>D</th><th>E</th>
+			</tr><tr>
+				<td></td><td></td><td></td><td></td><td></td><td></td><th><input type="text" maxlength="1" oninput="cw(this,'iO')"tabindex="68"></th><th>B</th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'iE')"tabindex="69"></th><th><input type="text" maxlength="1" oninput="cw(this,'iD')"tabindex="70"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'iE')"tabindex="71"></th><th><input type="text" maxlength="1" oninput="cw(this,'iC')"tabindex="72"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'iE')"tabindex="73"></th><th><input type="text" maxlength="1" oninput="cw(this,'iR')"tabindex="74"></th>
+			</tr><tr>
+				<td></td><td></td><th><input type="text" maxlength="1" oninput="cw(this,'eC')"tabindex="75"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'eU')"tabindex="76"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'eM')"tabindex="77"></th><th><input type="text" maxlength="1" oninput="cw(this,'eP')"tabindex="78"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'eR')"tabindex="79"></th><th>I</th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'eM')"tabindex="80"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'eE')"tabindex="81"></th><th><input type="text" maxlength="1" oninput="cw(this,'eN')"tabindex="82"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'eT')"tabindex="83"></th><th><input type="text" maxlength="1" oninput="cw(this,'eA')"tabindex="84"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'eR')"tabindex="85"></th>
+			</tr><tr>
+				<td></td><td></td><th><input type="text" maxlength="1" oninput="cw(this,'kD')"tabindex="86"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'kE')"tabindex="87"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'kS')"tabindex="88"></th><th><input type="text" maxlength="1" oninput="cw(this,'kC')"tabindex="89"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'kU')"tabindex="90"></th><th>L</th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'kP')"tabindex="91"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'kA')"tabindex="92"></th>
+			</tr><tr>
+				<td></td><td></td><th><input type="text" maxlength="1" oninput="cw(this,'aC')"tabindex="93"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'aO')"tabindex="94"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'aM')"tabindex="95"></th><td></td><th>
+				<input type="text" maxlength="1" oninput="cw(this,'aL')"tabindex="96"></th><th>I</th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'aC')"tabindex="97"></th><th><input type="text" maxlength="1" oninput="cw(this,'aE')"tabindex="98"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'aN')"tabindex="99"></th><th><input type="text" maxlength="1" oninput="cw(this,'aC')"tabindex="100"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'aA')"tabindex="101"></th>
+			</tr><tr>
+				<td></td><td></td><td></td><td></td><th><input type="text" maxlength="1" oninput="cw(this,'lC')"tabindex="102"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'lU')"tabindex="103"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'lI')"tabindex="104"></th><th>D</th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'lA')"tabindex="105"></th><th><input type="text" maxlength="1" oninput="cw(this,'lR')"tabindex="106"></th>
+			</tr><tr>
+				<td></td><td></td><td></td><td></td><th><input type="text" maxlength="1" oninput="cw(this,'mO')"tabindex="107"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'mR')"tabindex="108"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'mG')"tabindex="109"></th><th>A</th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'mN')"tabindex="110"></th><th><input type="text" maxlength="1" oninput="cw(this,'mI')"tabindex="111"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'mZ')"tabindex="112"></th><th><input type="text" maxlength="1" oninput="cw(this,'mA')"tabindex="113"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'mR')"tabindex="114"></th>
+			</tr><tr>
+				<td></td><td></td><td></td><td></td><th><input type="text" maxlength="1" oninput="cw(this,'nA')"tabindex="115"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'nJ')"tabindex="116"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'nU')"tabindex="117"></th><th>D</th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'nA')"tabindex="118"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'nR')"tabindex="119"></th>
+			</tr><tr>
+				<td></td><td></td><td></td><td></td><th><input type="text" maxlength="1" oninput="cw(this,'pT')"tabindex="120"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'pO')"tabindex="121"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'pL')"tabindex="122"></th><th>E</th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'pR')"tabindex="123"></th><th><input type="text" maxlength="1" oninput="cw(this,'pA')"tabindex="124"></th><th>
+				<input type="text" maxlength="1" oninput="cw(this,'pR')"tabindex="125"></th>
+			</tr>
+		  </table></div>
+		  <a class="button" onclick="questFinish('questModal','3-4','familia',5,140);">Terminar</a>
+		{% endif %}
+		{% if itens.3 %}
+			<section class="box happy">
+				<div class="box"> <h3 class="blue">{{ itens.2.name }}</h3>
+					<p>{{ itens.2.text }}</p>
+				</div>
+				<img src={% static '/img/1/lembrese.gif' %} alt="Glossario" height="150px" width="150px">
+			</section><br>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/lembrese.gif' %} alt="Glossario" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		{% if itens.8 != False %}
+			<a href="{% url 'livro1:lesson' 'familia' 6 %}" class="large">
+				<button class="button next"><span>VAMOS LÁ!</span></button>
+			</a>
+	    {% endif %}
+    </article>
+  </section>
+
+{% endblock %}

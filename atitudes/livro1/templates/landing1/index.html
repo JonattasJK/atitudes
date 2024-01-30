@@ -1,0 +1,293 @@
+{% extends "landing1/base.html" %}
+{% load static %}
+
+{% block body %}
+
+<div id="conhecer" class="modal" onclick="closeModal('conhecer');">
+	<div class="modal-container">
+		<nav class="box modal-container" style="background: #F8F8FF;">
+			<h1 style="color: #4775d1">Aprenda a conhecer</h1>
+			<iframe src="{% url 'livro1:iframe' 0 %}" width="100%" height="700vh" title="Iframe Example"></iframe>
+	  </nav>
+	</div>
+</div>
+<div id="fazer" class="modal" onclick="closeModal('fazer');">
+	<div class="modal-container">
+		<nav class="box modal-container" style="background: #F8F8FF;">
+			<h1 style="color: #4775d1">Aprenda a fazer</h1>
+			<iframe src="{% url 'livro1:iframe' 1 %}" width="100%" height="700vh" title="Iframe Example"></iframe>
+	  </nav>
+	</div>
+</div>
+<div id="ser" class="modal" onclick="closeModal('ser');">
+	<div class="modal-container">
+		<nav class="box modal-container" style="background: #F8F8FF;">
+			<h1 style="color: #4775d1">Aprenda a ser</h1>
+			<iframe src="{% url 'livro1:iframe' 2 %}" width="100%" height="700vh" title="Iframe Example"></iframe>
+	  </nav>
+	</div>
+</div>
+<div id="conviver" class="modal" onclick="closeModal('conviver');">
+	<div class="modal-container">
+		<nav class="box modal-container" style="background: #F8F8FF;">
+			<h1 style="color: #4775d1">Aprenda a conviver</h1>
+			<iframe src="{% url 'livro1:iframe' 3 %}" width="100%" height="700vh" title="Iframe Example"></iframe>
+	  </nav>
+	</div>
+</div>
+
+			<!-- Banner -->
+				<section id="banner">
+					<div class="content">
+						<header style="max-width:650px; text-align: center; font-size: 20pt;">
+							<img src="{% static 'img/title2.png' %}" alt="" width="100%"/>
+							<p style="text-shadow:0px 0px 10px #003399; text-align: center;">Livro Educativo Gamificado que vai ensinar<br>BOAS ATITUDES  para a vida!</p>
+							<a href="{% url 'livro1:newUser' 0 %}" style="text-shadow:0px 0px 10px #3399ff; background-color:#81c9df; width: 50%; min-width: 250px" class="button">Comece Agora Grátis</a>
+							<br><h5 style="text-shadow:0px 0px 10px #003399;">Disciplina sem drama: um guia prático para ajudar na educação e comportamento das crianças</h5>
+							
+						</header>
+						<span class="image"><img src="{% static 'img/EthosST.gif' %}" alt="" /></span>
+					</div>
+					<a href="#one" class="goto-next scrolly">Next</a>
+				</section>
+				<!-- 
+					<section id="banner">
+					<div class="content">
+						<header style="max-width:650px; text-align: center; font-size: 20pt;">
+							<p style="text-shadow:0px 0px 10px #003399; text-align: center;">Bem-vindo ao</p>
+							<img src="{% static 'img/title2.png' %}" alt="" width="100%"/>
+							<p style="text-shadow:0px 0px 10px #003399; text-align: center;">Uma jornada gamificada para ensinar boas maneiras,
+								valores e cidadania</p>
+							<a href="#five" style="text-shadow:0px 0px 10px #3399ff; background-color:#81c9df; width: 50%; min-width: 250px" class="button">QUERO AGORA</a>
+							<br><h6 style="text-shadow:0px 0px 10px #003399;">O conteúdo das lições está de acordo com a Base Nacional Curricular Comum - BNCC</h6>
+							<br><h6 style="text-shadow:0px 0px 10px #003399;">Recomendado para estudantes do 3º, 4º e 5º ano do ensino fundamental</h6> 
+							
+						</header>
+						<span class="image"><img src="{% static 'img/EthosST.gif' %}" alt="" /></span>
+					</div>
+					<a href="#one" class="goto-next scrolly">Next</a>
+				</section> -->
+
+			<!-- One -->
+				<section id="one" class="spotlight style1 bottom">
+					<span class="image fit main"><img src="{% static 'landing/images/pic02.jpg' %}" alt="" /></span>
+					<div class="content">
+						<div class="container">
+							<div class="row">
+								<div class="col-8 col-12-medium">
+									<h3>Guia completo com 18 lições para aprender boas maneiras</h3>
+									<p>O projeto atitudes foi construído nos 4 pilares da UNESCO para a educação do século XXI<br>
+										Conheça como nossas lições são divididas e abrangem todos os pilares</p>
+								</div>
+								<div class="col-4 col-12-medium">
+									<img src="{% static 'landing/images/Ethos.png' %}" width="70%" style="max-width:350px" alt="" />
+								</div>
+							</div>
+						</div>
+						<div class="container">
+							<div class="row">
+								<div class="col-3 col-12-medium">
+									<header style="text-align: center;">
+										<a onclick="showModal('conhecer');" style="text-shadow:0px 0px 10px #3399ff; width: 50%; min-width: 250px" class="button">Aprenda a CONHECER</a>
+									</header>
+								</div>
+								<div class="col-3 col-12-medium">
+									<header style="text-align: center;">
+										<a onclick="showModal('fazer');" style="text-shadow:0px 0px 10px #3399ff; width: 50%; min-width: 250px" class="button">Aprenda a FAZER</a>
+									</header>
+								</div>
+								<div class="col-3 col-12-medium">
+									<header style="text-align: center;">
+										<a onclick="showModal('ser');" style="text-shadow:0px 0px 10px #3399ff; width: 50%; min-width: 250px" class="button">Aprenda a SER</a>
+									</header>
+								</div>
+								<div class="col-3 col-12-medium">
+									<header style="text-align: center;">
+										<a onclick="showModal('conviver');" style="text-shadow:0px 0px 10px #3399ff; width: 50%; min-width: 250px" class="button">Aprenda a CONVIVER</a>
+									</header>
+								</div>
+							</div>
+						</div><br>
+						<div class="container">
+							<div class="row">
+								<div class="col-9 col-12-medium">
+								</div>
+								<div class="col-3 col-12-medium">
+									<header>
+										<a href="{% url 'livro1:newUser' 0 %}" style="text-shadow:0px 0px 10px #3399ff; background-color:#81c9df; width: 50%; min-width: 250px" class="button">Comece Agora Grátis</a>
+									</header>
+								</div>
+							</div>
+						</div>
+					</div>
+					<a href="#two" class="goto-next scrolly">Next</a>
+				</section><!--
+				<section id="one" class="spotlight style1 bottom">
+					<span class="image fit main"><img src="{% static 'landing/images/pic02.jpg' %}" alt="" /></span>
+					<div class="content">
+						<div class="container">
+							<div class="row">
+								<div class="col-4 col-12-medium">
+									<img src="{% static 'landing/images/Ethos.png' %}" width="70%" style="max-width:350px" alt="" />
+									<p style="text-align:center">Oi! Eu sou o Ethos, o herói dessa aventura!</p>
+								</div>
+								<div class="col-4 col-12-medium">
+									<header>
+										<h2>Nossa missão</h2>
+										<p>Propor uma jornada de aprendizado dos princípios éticos de forma divertida, contribuindo para a construção da autonomia 
+											intelectual e moral das crianças.</p>
+									</header>
+								</div>
+								<div class="col-4 col-12-medium">
+									<video width="720px" controls poster="{% static 'landing/images/coverVideo.jpg' %}">
+										<source src="{% static 'img/video/presentation.mp4' %}" type="video/mp4">
+										Parece que o seu navegador não tem suporte para vídeos.
+									</video> 
+									<a href="#five" class="button" style="text-shadow:0px 0px 10px #3399ff; background-color:#81c9df; min-width: 250px;">QUERO AGORA<a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<a href="#two" class="goto-next scrolly">Next</a>
+				</section> -->
+
+			<!-- Two -->
+				<section id="two" class="spotlight style2 right">
+					<span class="image fit main"><img src="{% static 'landing/images/pic03.jpg' %}" alt="" /></span>
+					<div class="content">
+						<header>
+							<h2>Nosso propósito</h2>
+							<p>Tornar indivíduos conscientes das suas atitudes.</p>
+							<p>Na jornada de cada lição o participante irá desenvolver importantes conhecimentos para a vida e será estimulado a escrever um livro 
+							com o apoio do conteúdo do <i>PROJETO ATITUDES</i>.</p>
+						</header>
+						<a href="{% url 'livro1:newUser' 0 %}" class="button" style="text-shadow:0px 0px 10px #3399ff; background-color:#81c9df; min-width: 250px;">Comece Agora Grátis<a>
+					</div>
+					<a href="#three" class="goto-next scrolly">Next</a>
+				</section>
+
+			<!-- Three -->
+				<section id="three" class="spotlight style3 left">
+					<span class="image fit main bottom"><img src="{% static 'landing/images/pic04.jpg' %}" alt="" /></span>
+					<div class="content">
+						<header>
+							<h2>Como será</h2>
+						</header>
+						<p style="font-size: 1em">
+							Uma educação gamificada, para tornar o aprendizado mais dinâmico, interativo, construtivo e de fácil assimilação para as crianças.<br><br>
+							A realização das lições geram recompensas para que as crianças sintam-se estimuladas ao vencer os desafios propostos.<br><br>
+							Aproximar a família dos conteúdos da formação pessoal por meio da tecnologia e dos jogos é também um modo de tornar o aprendizado mais atrativo.
+						</p>
+						<a href="{% url 'livro1:newUser' 0 %}" class="button" style="text-shadow:0px 0px 10px #3399ff; background-color:#81c9df; min-width: 250px;">Comece Agora Grátis<a>
+					</div>
+					<a href="#four" class="goto-next scrolly">Next</a>
+				</section>
+
+			<!-- Four -->
+				<section id="four" class="wrapper style1 special fade-up">
+					<div class="container">
+						<header class="major">
+							<h2>Recursos do Projeto Atitudes</h2>
+							<p style="text-align: center;">Nosso <i>livro educativo gamificado</i> possui vários recursos que o tornam amigável, eficiente e único</p>
+						</header>
+						<div class="box alt">
+							<div class="row gtr-uniform">
+								<section class="col-4 col-6-medium col-12-xsmall">
+								<img src="{% static 'landing/images/r4.jpg' %}" alt="" style="width:40%; max-width:150px; border-radius:50%"/>
+									<h3>Personalização</h3>
+									<p>A criança poderá escolher um avatar e suas <i>skins</i> para que o represente</p>
+								</section>
+								<section class="col-4 col-6-medium col-12-xsmall">
+								<img src="{% static 'landing/images/r3.jpg' %}" alt="" style="width:40%; max-width:150px; border-radius:50%"/>
+									<h3>Recompensas</h3>
+									<p>Ao completar as atividades, as crianças recebem créditos, pontos, troféus e figurinhas</p>
+								</section>
+								<section class="col-4 col-6-medium col-12-xsmall">
+								<img src="{% static 'landing/images/r2.jpg' %}" alt="" style="width:40%; max-width:150px; border-radius:50%"/>
+									<h3>Descobertas interessantes</h3>
+									<p>Nossas lições oferecem descobertas com recompensas para ensinar curiosidades</p>
+								</section>
+								<section class="col-4 col-6-medium col-12-xsmall">
+								<img src="{% static 'landing/images/r6.jpg' %}" alt="" style="width:40%; max-width:150px; border-radius:50%"/>
+									<h3>Você é o autor</h3>
+									<p>Todas as crianças irão desenvolver sua criatividade e escrever seu livro</p>
+								</section>
+								<section class="col-4 col-6-medium col-12-xsmall">
+								<img src="{% static 'landing/images/r1.jpg' %}" alt="" style="width:40%; max-width:150px; border-radius:50%"/>
+									<h3>Charadinhas escondidas</h3>
+									<p>Escondidas nas lições, as charadinhas são uma ótima forma de descontrair</p>
+								</section>
+								<section class="col-4 col-6-medium col-12-xsmall">
+								<img src="{% static 'landing/images/r5.jpg' %}" alt="" style="width:40%; max-width:150px; border-radius:50%"/>
+									<h3>Loja de figurinhas</h3>
+									<p>É possível resgatar muitas figurinhas diferentes para usar em seu livro</p>
+								</section>
+							</div>
+						</div>
+						<footer class="major">
+							<h3>Os livros escritos pelas crianças estarão disponíveis aqui, após a aprovação do livro e da autorização da família</h3>
+							<a href="{% url 'livro1:about' %}" class="button">Nossos autores</a>
+						    <a href="{% url 'livro1:informations' %}" class="button">Nossa história</a>
+						</footer><br>
+					</div>
+				</section>
+
+
+				<section class="spotlight style2 special fade"> 
+					<div style="overflow-y: hidden; height: 500px;">
+						<div class="row">
+							<div class="col-3 col-12-medium"><header style="text-align: center;">
+									<a href="#five" style="text-shadow:0px 0px 10px #3399ff; background-color:#81c9df; width: 50%; min-width: 250px" class="button">Aprenda a CONHECER</a>
+							</header></div>
+							<div class="col-3 col-12-medium"><header style="text-align: center;">
+									<a href="#five" style="text-shadow:0px 0px 10px #3399ff; width: 50%; min-width: 250px" class="button">Aprenda a FAZER</a>
+							</header></div>
+							<div class="col-3 col-12-medium"><header style="text-align: center;">
+									<a href="#five" style="text-shadow:0px 0px 10px #3399ff; width: 50%; min-width: 250px" class="button">Aprenda a SER</a>
+							</header></div>
+							<div class="col-3 col-12-medium"><header style="text-align: center;">
+									<a href="#five" style="text-shadow:0px 0px 10px #3399ff; width: 50%; min-width: 250px" class="button">Aprenda a CONVIVER</a>
+							</header></div>
+						</div>
+						<iframe src="{% url 'livro1:iframe' 0 %}" height="500px" width="90%" title="Iframe Example"></iframe>
+					</div>
+					<div style="overflow-y: hidden; height: 0px;">
+						<div class="row">
+							<div class="col-3 col-12-medium"><header style="text-align: center;">
+									<a href="#five" style="text-shadow:0px 0px 10px #3399ff; width: 50%; min-width: 250px" class="button">Aprenda a CONHECER</a>
+							</header></div>
+							<div class="col-3 col-12-medium"><header style="text-align: center;">
+									<a href="#five" style="text-shadow:0px 0px 10px #3399ff; background-color:#81c9df; width: 50%; min-width: 250px" class="button">Aprenda a FAZER</a>
+							</header></div>
+							<div class="col-3 col-12-medium"><header style="text-align: center;">
+									<a href="#five" style="text-shadow:0px 0px 10px #3399ff; width: 50%; min-width: 250px" class="button">Aprenda a SER</a>
+							</header></div>
+							<div class="col-3 col-12-medium"><header style="text-align: center;">
+									<a href="#five" style="text-shadow:0px 0px 10px #3399ff; width: 50%; min-width: 250px" class="button">Aprenda a CONVIVER</a>
+							</header></div>
+						</div>
+						<iframe src="{% url 'livro1:iframe' 1 %}" height="500px" width="90%" title="Iframe Example"></iframe>
+					</div>
+					<div style="overflow-y: hidden; height: 0px;">
+						<div class="row">
+							<div class="col-3 col-12-medium"><header style="text-align: center;">
+									<a href="#five" style="text-shadow:0px 0px 10px #3399ff; width: 50%; min-width: 250px" class="button">Aprenda a CONHECER</a>
+							</header></div>
+							<div class="col-3 col-12-medium"><header style="text-align: center;">
+									<a href="#five" style="text-shadow:0px 0px 10px #3399ff; width: 50%; min-width: 250px" class="button">Aprenda a FAZER</a>
+							</header></div>
+							<div class="col-3 col-12-medium"><header style="text-align: center;">
+									<a href="#five" style="text-shadow:0px 0px 10px #3399ff; background-color:#81c9df; width: 50%; min-width: 250px" class="button">Aprenda a SER</a>
+							</header></div>
+							<div class="col-3 col-12-medium"><header style="text-align: center;">
+									<a href="#five" style="text-shadow:0px 0px 10px #3399ff; width: 50%; min-width: 250px" class="button">Aprenda a CONVIVER</a>
+							</header></div>
+						</div>
+						<iframe src="{% url 'livro1:iframe' 2 %}" height="500px" width="90%" title="Iframe Example"></iframe>
+					</div>
+					<div style="overflow-y: hidden; height: 0px;">
+						<iframe src="{% url 'livro1:iframe' 3 %}" height="500px" width="90%" title="Iframe Example"></iframe>
+					</div>
+				</section>
+
+{% endblock %} 

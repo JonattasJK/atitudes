@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '3-4' 0 'familia' 5 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'cidade' 3 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.2.sort }}</strong>
+			  	<p><i>{{ itens.2.name }}:</i> {{ itens.2.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'cidade' 3 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+    <img src={% static '/img/16/lista1.png' %} alt="abc" width="100%">
+    <img src={% static '/img/16/lista2.png' %} alt="abc" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page">
+    	<a href="{% url 'livro1:lesson' 'cidade' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/Observando.gif' %} alt="Atividades" width="150px">
+			<div class="box"> <h3 class="box contrast white">Observando...</h3>
+				<p>Reflita um pouco sobre a sua cidade. Para que ela funcione bem, existem
+					várias regras que devem ser cumpridas. Por exemplo, quem anda a pé deve
+					atravessar a rua na faixa de pedestres. Essa atitude ajuda a organizar o trânsito e
+					evita acidentes.<br><br>
+					Observe a imagem a seguir e clique em três regras que estão sendo seguidas
+					corretamente.</p>
+			</div>
+		</nav>
+		{% if itens.7 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.7.score < 30 %} 
+						Você marcou <strong>{{itens.7.score}}</strong> pontos e a pontuação máxima é 30. Você pode tentar marcar os 30 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.7.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.7.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.7.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.7.score < 30 %}
+				{% if request.user.profile.credits > itens.7.credits %}
+					<a href="{% url 'livro1:questUndo' '16-2' itens.7.score 'cidade' 3 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.7.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.7.credits }} créditos e poderá receber até <strong>30,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny">Cliques:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="box happy">
+				<div class="img-map" style="width:100%">
+					<img src={% static '/img/16/faixa.png' %} alt="buss" width="100%">
+					<svg width="100%" height="100%">
+						<rect x="69%" y="40%" width="12%" height="17%" id="pessoa" rx="20" ry="50" onclick="selectPoint(this)" style="fill:blue; fill-opacity:7%;"/>
+						<rect x="45%" y="50%" width="20%" height="20%" id="carro" rx="20" ry="50" onclick="selectPoint(this)" style="fill:blue; fill-opacity:7%;"/>
+						<rect x="31%" y="43%" width="12%" height="12%" id="sinto" rx="20" ry="50" onclick="selectPoint(this)" style="fill:blue; fill-opacity:12%;"/>
+					</svg> 
+				</div>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','16-2','cidade',3,30);">Terminar</a>
+		{% endif %}
+		<nav class="box base-detail">
+			<h5 class="white">A faixa de pedestre é o lugar correto para o pedestre atravessar a rua. Os carros devem parar enquanto o sinal estiver vermelho e todos os 
+				passageiros devem usar cinto de segurança!</h5>
+		</nav><div class="line"></div>
+		<nav class="box base">
+			<h3 class="purple">Boas atitudes em todos os lugares</h3>
+			<p>Passeando pela cidade, encontramos diferentes lugares. Alguns são espaços para lazer, para compras, outros contam a história da cidade. Que tal
+				fazermos um passeio virtual? <br> Lembre-se de que todo cidadão tem o direito de aproveitar esses lugares e o dever de cuidar bem deles. <br>VAMOS LÁ!</p>
+			<h3 class="purple">1ª parada: praças, parque de diversões e zoológico</h3>
+			<img class="sticker-right" src={% static '/img/16/parque.png' %} alt="dog" width="40%">
+			<p><em class="box contrast white">1</em>Contribua para a organização da fila: não empurre, não entre na frente de outras pessoas e não reclame.</p>
+			<p><em class="box contrast white">2</em>Cuidado com os brinquedos: apesar de serem seguros, você deve obedecer sempre os auxiliares dos parques.</p>
+			<p><em class="box contrast white">3</em>Ao fazer um lanche, lembre-se de que o lixo não deve ser jogado no chão, nem mesmo o pequeno
+				palito do sorvete ou da maçã do amor. Nada vai para o chão, apenas os seus passos.</h3>
+			<p><em class="box contrast white">4</em>Não pise na grama. Preserve os jardins e os bens do parque.</p>
+			<img class="sticker-left" src={% static '/img/16/circo.png' %} alt="bike" width="50%">
+			<p><em class="box contrast white">5</em>Admire tudo, mas não leve nada para casa. Tudo deve ser mantido no lugar em que está para que todos possam 
+				<em class="blue">usufruir</em>.</p>
+			<p><em class="box contrast white">6</em>Não alimente os animais! Além de ser perigoso, os animais do zoológico recebem uma alimentação adequada à sua espécie.</p>
+			<p><em class="box contrast white">7</em>Mantenha distância dos animais: jamais ultrapasse as grades de proteção do parque.</p>
+	    </nav><div class="line"></div>
+		{% if itens.1 %}
+			<nav class="box sunny large" style="width:100%">
+				<img class="sticker-right" src={% static '/img/1/lembrese.gif' %} width="150px" height="150px">
+				<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+					<p>{{ itens.0.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/lembrese.gif' %} width="150px"></a>
+			</section>
+		{% endif %}<div class="line"></div>
+	    <nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/VcSabia.gif' %} width="150px">
+			<div class="box"> <h3 class="box base-detail white">Você sabia que...</h3>
+				<p>... o maior zoológico do mundo fica em Berlim (Alemanha) e abriga cerca de 12.600 animais divididos em mais de 1.400 espécies?</p>
+			</div>
+		</nav><div class="line"></div>
+		{% if itens.3 %}
+			<nav class="box alert large" style="width:100%">
+				<img class="sticker-right" src={% static '/img/1/lembrese.gif' %} width="150px" height="150px">
+				<img class="sticker-left" src={% static '/img/16/rua.png' %} width="50%">
+				<div class="box"> <h3 class="blue">{{ itens.2.name }}</h3>
+					<p>{{ itens.2.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal2');"><img src={% static '/img/1/lembrese.gif' %} width="150px"></a>
+			</section>
+		{% endif %}<div class="line"></div>
+		
+		{% if itens.7 != False %}
+			<a href="{% url 'livro1:lesson' 'cidade' 4 %}" class="large">
+				<button class="button next"><span>VAMOS LÁ!</span></button>
+			</a>
+	    {% endif %}
+    </article>
+  </section>
+
+{% endblock %}

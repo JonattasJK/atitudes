@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<!-- discoveryModal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.8.sort }}</strong>
+			  	<p><i>{{ itens.8.name }}:</i> {{ itens.8.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.8.id 'refeicoes' 5 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /discoveryModal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <h5>com licença, responder, por favor, gratidão, cumprimentar, silêncio, disciplina, auxiliar, obedecer, respeitar, desculpa, cuidar, organizar, ajudar, Comprometimento, tolerar.</h5>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'refeicoes' 4 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box">
+			<h3 class="purple">Como se servir em festas de aniversário</h3>
+			<h4> O aniversário é um momento para festejar com amigos queridos.
+				Aproveite a oportunidade e mostre que você tem boas maneiras em todas
+				as situações:</h4>
+			<p><em class="box contrast white">1</em>Ao chegar, cumprimente o aniversariante e a família dele.</p>
+			<p><em class="box contrast  white">2</em>Sempre que possível, leve uma lembrança ao aniversariante.</p>
+			<p><em class="box contrast  white">3</em>Evite brincar ou correr próximo à mesa de lanches.</p>
+			<p><em class="box contrast  white">4</em>Brinque com os amigos e divirta-se. Antes de sair, lembre-se de se
+				despedir do aniversariante e de seus familiares.</p>
+			<h5> Se os alimentos estiverem sobre a mesa, sirva-se de uma coisa por
+				vez. Isto quer dizer: coma um salgado ou um doce e só depois beba algo.</h5>
+			<img class="sticker-left" src={% static '/img/5/aniversario.png' %} alt="aniversario" width="100%">
+			<h3 class="purple">Como se servir em um buffet</h3>
+			<p><em class="box contrast white">1</em>Aguarde na fila segurando o prato ao lado do seu corpo.</p>
+			<p><em class="box contrast  white">2</em>Utilize os talheres para se servir.</p>
+			<p><em class="box contrast  white">3</em>Não encha muito o prato: em um buffet, você
+				pode se servir até três vezes.</p>
+			<img class="sticker-left" src={% static '/img/5/buffet.png' %} alt="buffet" width="100%">
+		</nav>
+		{% if itens.9 %}
+			<section class="box happy">
+				<div class="box"> <h3 class="blue">{{ itens.8.name }}</h3>
+					<p>{{ itens.8.text }}</p>
+				</div>
+				<img src={% static '/img/1/glossario.gif' %} alt="glossario" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/glossario.gif' %} alt="glossario" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+    	<a href="{% url 'livro1:chapter' 5 request.user.profile.id %}" class="btn completed">
+				Meu livro &ensp;<i class="fas fa-book-reader"></i></a>
+		<p></p>
+    </article>
+  </section>
+
+{% endblock %}

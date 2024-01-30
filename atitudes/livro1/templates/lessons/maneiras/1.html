@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p> O que a letra Z disse para a letra N? R: Quer uma ajuda para se levantar? kkkkk</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão <strong>Home</strong> irá voltar para a página inicial!</h5>
+		<h5>Você já está na terceira lição. Parabéns!</h5>
+		<h5><label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label> se você achar essa carinha por aí, pode clicar nela <label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label> </h5>
+		
+		<img src={% static '/img/1/Observando.gif' %} alt="Observando" width="150px">
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" id="page1">
+        <h2 class="yellow">Boas Maneiras e as<br><b class="orange">Palavras mágicas</b></h2>
+        <img src={% static '/img/2/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: Respeito e gentileza</h3>
+	    <button onclick="openPage('page2', 'page1');" class="button next"><span>VAMOS LÁ!</span></button>
+        <img class="sticker-right" src={% static '/img/2/muitosFalam.png' %} alt="amigos" width="100%">
+    </article>
+
+    <article class="page" id="page2">
+    	<button onclick="openPage('page1', 'page2');" class="button previous"><span>Voltar</span></button>
+    	<br>
+    	<nav class="item base-detail"><h2 class="white"><b>Palavras podem ser mágicas</b></h2></nav>
+		<nav class="box happy"><p>
+			Existem algumas palavras especiais, que são conhecidas em quase todo o
+			<img class="sticker-right" src={% static '/img/2/amigos.png' %} alt="amigos" width="50%">
+			mundo e faladas em várias línguas, como o inglês, o português, o francês, o
+			espanhol e outras. No Brasil e em outros países elas são chamadas de <strong class="orange">PALAVRAS MÁGICAS</strong>.
+			As palavras mágicas são empregadas em diversas situações do dia a dia.
+			Quando pedimos algo ou cumprimentamos alguém, por exemplo, devemos usá-las.</p>
+			
+			<p>Você sabe quais são essas palavras? Abaixo algumas dicas para descobrir.<br>
+			As palavras mágicas... <br>
+			<b class="pink">demonstram respeito</b> <br>
+			&ensp;<b class="green">mostram que você é educado e tem boas maneiras</b><br>
+			&ensp;&ensp;<b class="blue">são necessárias para viver em harmonia com todas as pessoas</b></p>
+		</nav>
+		<div class="line"></div>
+		<nav class="box sunny">
+			<h3 class="blue">Observando...</h3>
+			<img class="sticker-left" src={% static '/img/1/Observando.gif' %} alt="amigos" height="150px">
+			<p>Observe as duas situações nos quadrinhos abaixo e reflita
+				sobre a importância do uso de “palavras mágicas”</p>
+			<img class="sticker-left" src={% static '/img/2/tirinha.png' %} alt="amigos" width="100%">
+		</nav>
+    	<a href="{% url 'livro1:lesson' 'maneiras' 2 %}" class="large">
+        	<button class="button next"><span>VAMOS LÁ!</span></button>
+        </a>
+    </article>
+  </section>
+ 
+  <script>
+  	openPage('page1','page2');
+  </script>
+
+{% endblock %} 	

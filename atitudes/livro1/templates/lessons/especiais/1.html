@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão Home irá voltar para a página inicial!</h5>
+		<h5>Você já está na <em class="purple">lição 17</em>!</h5>
+		<img src={% static '/img/17/cego5.png' %} alt="Seta" width="100%">
+		<p>Respeitar e incluir pessoas com necessidades especiais é um dever de todos!</p>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+       <h2 class="green">Boas Maneiras e as  <br><b class="blue">pessoas com necessidades especiais</b></h2>
+        <img src={% static '/img/17/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: tolerância, aceitação e respeito</h3>
+        <nav class="box base">
+        	<img class="sticker-right" src={% static '/img/17/cadeirante2.png' %} alt="Livros" width="50%">
+			<h3 class="item base-detail white">A inclusão de pessoas com necessidades especiais</h3> 
+			<p>Exemplos de alunos com necessidades especiais são os deficientes auditivos, deficientes visuais e alunos com alguma deficiência de 
+				mobilidade, como os que andam em cadeiras de rodas. Para que estes alunos possam estudar nas mesmas escolas que as demais crianças,
+				as escolas devem estar preparadas para recebê-los: banheiros, estacionamentos, carteiras, computadores devem ser adaptados.<br><br>
+				Além das adaptações feitas pela escola para receber os alunos especiais da comunidade, é importante que você também saiba acolher
+				esses colegas com a atenção e respeito que merecem.</p>
+		</nav>
+		<div class="line"></div>
+		<nav class="box base-detail large">
+			<img class="sticker-left" src={% static '/img/1/VcSabia.gif' %} alt="VcSabia" width="150px">
+			<div class="box"> <h3 class="box base yellow">Você sabia que...</h3>
+				<p>...pessoas com deficiências físicas, mentais e sensoriais também participam dos Jogos Olímpicos? Os Jogos
+					Paraolímpicos, como são conhecidos, acontecem logo após os Jogos Olímpicos e dividem-se, em média, em 20 modalidades
+					como hipismo, natação, esgrima em cadeira de rodas e futebol para deficientes visuais.</p>
+			</div>
+		</nav>
+		<a href="{% url 'livro1:lesson' 'especiais' 2 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+	    <img src={% static '/img/17/rodape.png' %} alt="rodape" width="100%">
+    </article>
+  </section>
+{% endblock %} 	

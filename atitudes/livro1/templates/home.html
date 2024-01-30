@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<!-- Modal -->
+<div id="finishModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Projeto Atitudes</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/trueFinish.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/Ethos.gif' %} alt="sticker" width="200px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="green item" style="background-color:rgba(255, 255, 255, 0.5);">Parabéns!</strong>
+			  	<p>Você concluiu todas as lições.</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green">Você tem prêmios para resgatar</em><br>
+		  		<a href="{% url 'livro1:finish' %}" class="large">
+					<button class="button next"><span>VAMOS LÁ!</span></button>
+				</a>
+	  		</div>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+<!--class="btn completed"  <i class="fas fa-check">-->
+<aside class="side clean-detail" id="leftSide">
+    <a {% if stage >= 1 %}href="{% url 'livro1:lesson' 'abertura' 1 %}"{% endif %} class="btn {% if stage == 1 %} available {% elif stage > 1 %} completed {% endif %}">
+        <img src={% static '/img/lessons/01.png' %} alt="lesson 1" width="48px">
+        <div class="namespace">Guia prático passo a passo</div>&ensp;<i class="fas fa-book"></i></a>
+	<a {% if stage >= 2 %}href="{% url 'livro1:lesson' 'familia' 1 %}"{% endif %} class="btn {% if stage < 2 %} locked {% elif stage == 2 %} available {% elif stage > 2 %} completed {% endif %}">
+	    <img src={% static '/img/lessons/02.png' %} alt="lesson 1" width="48px">
+	    <div class="namespace">Boas Maneiras em família </div>&ensp;<i class="fas fa-book"></i></a>
+    {% if request.user.profile.active %}
+		<a {% if stage >= 3 %}href="{% url 'livro1:lesson' 'maneiras' 1 %}"{% endif %} class="btn {% if stage < 3 %} locked {% elif stage == 3 %} available {% elif stage > 3 %} completed {% endif %}">
+			<img src={% static '/img/lessons/03.png' %} alt="lesson 1" width="48px">
+			<div class="namespace">Boas Maneiras e as "Palavras mágicas"</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage >= 4 %}href="{% url 'livro1:lesson' 'acordar' 1 %}"{% endif %} class="btn {% if stage < 4 %} locked {% elif stage == 4 %} available {% elif stage > 4 %} completed {% endif %}">
+		    <img src={% static '/img/lessons/04.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras ao acordar </div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage >= 5 %}href="{% url 'livro1:lesson' 'refeicoes' 1 %}"{% endif %} class="btn {% if stage < 5 %} locked {% elif stage == 5 %} available {% elif stage > 5 %} completed {% endif %}">
+		    <img src={% static '/img/lessons/05.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras às refeições </div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage >= 6 %}href="{% url 'livro1:lesson' 'caminho' 1 %}"{% endif %} class="btn {% if stage < 6 %} locked {% elif stage == 6 %} available {% elif stage > 6 %} completed {% endif %}">
+		    <img src={% static '/img/lessons/06.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras a caminho da escola </div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage >= 7 %}href="{% url 'livro1:lesson' 'cumprimentos' 1 %}"{% endif %} class="btn {% if stage < 7 %} locked {% elif stage == 7 %} available {% elif stage > 7 %} completed {% endif %}">
+		    <img src={% static '/img/lessons/07.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras em cumprimentos e saudações </div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage >= 8 %}href="{% url 'livro1:lesson' 'colegas' 1 %}"{% endif %} class="btn {% if stage < 8 %} locked {% elif stage == 8 %} available {% elif stage > 8 %} completed {% endif %}">
+		    <img src={% static '/img/lessons/08.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras com seus colegas </div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage >= 9 %}href="{% url 'livro1:lesson' 'professor' 1 %}"{% endif %} class="btn {% if stage < 9 %} locked {% elif stage == 9 %} available {% elif stage > 9 %} completed {% endif %}">
+		    <img src={% static '/img/lessons/09.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras frente aos professores </div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage >= 10 %}href="{% url 'livro1:lesson' 'sala' 1 %}"{% endif %} class="btn {% if stage < 10 %} locked {% elif stage == 10 %} available {% elif stage > 10 %} completed {% endif %}">
+		    <img src={% static '/img/lessons/10.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras na sala de aula </div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage >= 11 %}href="{% url 'livro1:lesson' 'banheiro' 1 %}"{% endif %} class="btn {% if stage < 11 %} locked {% elif stage == 11 %} available {% elif stage > 11 %} completed {% endif %}">
+		    <img src={% static '/img/lessons/11.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras ao usar o banheiro </div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage >= 12 %}href="{% url 'livro1:lesson' 'livros' 1 %}"{% endif %} class="btn {% if stage < 12 %} locked {% elif stage == 12 %} available {% elif stage > 12 %} completed {% endif %}">
+		    <img src={% static '/img/lessons/12.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras e os livros </div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage >= 13 %}href="{% url 'livro1:lesson' 'biblioteca' 1 %}"{% endif %} class="btn {% if stage < 13 %} locked {% elif stage == 13 %} available {% elif stage > 13 %} completed {% endif %}">
+		    <img src={% static '/img/lessons/13.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras na biblioteca </div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage >= 14 %}href="{% url 'livro1:lesson' 'computadores' 1 %}"{% endif %} class="btn {% if stage < 14 %} locked {% elif stage == 14 %} available {% elif stage > 14 %} completed {% endif %}">
+		    <img src={% static '/img/lessons/14.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras no laboratório de informática </div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage >= 15 %}href="{% url 'livro1:lesson' 'teatro' 1 %}"{% endif %} class="btn {% if stage < 15 %} locked {% elif stage == 15 %} available {% elif stage > 15 %} completed {% endif %}">
+		    <img src={% static '/img/lessons/15.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras em eventos e apresentações </div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage >= 16 %}href="{% url 'livro1:lesson' 'cidade' 1 %}"{% endif %} class="btn {% if stage < 16 %} locked {% elif stage == 16 %} available {% elif stage > 16 %} completed {% endif %}">
+		    <img src={% static '/img/lessons/16.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras e a sua cidade </div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage >= 17 %}href="{% url 'livro1:lesson' 'especiais' 1 %}"{% endif %} class="btn {% if stage < 17 %} locked {% elif stage == 17 %} available {% elif stage > 17 %} completed {% endif %}">
+		    <img src={% static '/img/lessons/17.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras e as pessoas com necessidades especiais </div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage >= 18 %}href="{% url 'livro1:lesson' 'avo' 1 %}"{% endif %} class="btn {% if stage < 18 %} locked {% elif stage == 18 %} available {% elif stage > 18 %} completed {% endif %}">
+		    <img src={% static '/img/lessons/18.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras para com os idosos </div>&ensp;<i class="fas fa-book"></i></a>
+		<a  onclick="showModal('finishModal');" class="btn {% if stage < 19 %} locked {% elif stage == 19 %} available {% elif stage > 19 %} completed {% endif %} interactive">
+		    <i class="fas fa-award"></i>&ensp;<div class="namespace">Concluir</div>&ensp;<i class="fas fa-trophy"></i></i></a>
+    {% else %}
+        <a href="{% url 'livro1:payment' %}" class="button next"><span>Ativar minha conta</span></a>
+		<br><a class="green">Conheça todas as lições</a>
+		<a class="btn locked"><img src={% static '/img/lessons/03.png' %} alt="lesson 1" width="48px">
+			<div class="namespace">Boas Maneiras e as "Palavras mágicas"</div>&ensp;<i class="fas fa-book"></i></a>
+		<a class="btn locked"><img src={% static '/img/lessons/04.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras ao acordar </div>&ensp;<i class="fas fa-book"></i></a>
+		<a class="btn locked"><img src={% static '/img/lessons/05.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras às refeições </div>&ensp;<i class="fas fa-book"></i></a>
+		<a class="btn locked"><img src={% static '/img/lessons/06.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras a caminho da escola </div>&ensp;<i class="fas fa-book"></i></a>
+		<a class="btn locked"><img src={% static '/img/lessons/07.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras em cumprimentos e saudações </div>&ensp;<i class="fas fa-book"></i></a>
+		<a class="btn locked"><img src={% static '/img/lessons/08.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras com seus colegas </div>&ensp;<i class="fas fa-book"></i></a>
+		<a class="btn locked"><img src={% static '/img/lessons/09.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras frente aos professores </div>&ensp;<i class="fas fa-book"></i></a>
+		<a class="btn locked"><img src={% static '/img/lessons/10.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras na sala de aula </div>&ensp;<i class="fas fa-book"></i></a>
+		<a class="btn locked"><img src={% static '/img/lessons/11.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras ao usar o banheiro </div>&ensp;<i class="fas fa-book"></i></a>
+		<a class="btn locked"><img src={% static '/img/lessons/12.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras e os livros </div>&ensp;<i class="fas fa-book"></i></a>
+		<a class="btn locked"><img src={% static '/img/lessons/13.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras na biblioteca </div>&ensp;<i class="fas fa-book"></i></a>
+		<a class="btn locked"><img src={% static '/img/lessons/14.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras no laboratório de informática </div>&ensp;<i class="fas fa-book"></i></a>
+		<a class="btn locked"><img src={% static '/img/lessons/15.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras em eventos e apresentações </div>&ensp;<i class="fas fa-book"></i></a>
+		<a class="btn locked"><img src={% static '/img/lessons/16.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras e a sua cidade </div>&ensp;<i class="fas fa-book"></i></a>
+		<a class="btn locked"><img src={% static '/img/lessons/17.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras e as pessoas com necessidades especiais </div>&ensp;<i class="fas fa-book"></i></a>
+		<a class="btn locked"><img src={% static '/img/lessons/18.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Boas maneiras para com os idosos </div>&ensp;<i class="fas fa-book"></i></a>
+    {% endif %}
+  </aside>
+
+  <section class="page box clean">
+
+    <article class="page" id="page1">
+    	<h2 class="green">Seja bem-vindo!</h2>
+    	<h5>Que bom que você está aqui, {{request.user.first_name}}<br>
+			Este é o projeto atitudes gamificado!<br>
+			Estamos ansiosos para te ensinar e aprender com você.</h5>
+    	<na class="box alert" style="overflow: hidden !important;">
+    		<img class="sticker-left" src={% static '/img/Ethos.png' %} alt="Mãos à obra" width="200px">
+    		<div class="box"><p>Usar este sistema é bem fácil, e eu vou te mostrar.</p>
+    			<p>Na parte de cima você vê três palavras: <a onclick="openSide('leftSide','leftBtn')" href="#"><b class="red">Lição</b></a>,
+    			<a onclick="openMenu('menu')" href="#"><b class="blue">Menu</b></a> e <a onclick="openSide('rightSide','rightBtn')" href="#"><b class="green">Internauta</b>.</a>
+    			Essas palavras são botões, que te permitem navegar pelo site!<br>
+    			<strong>Olha que legal!</strong>
+    		</p></div>
+    	</na>
+    
+    	<h5>Bom, mas o que esses três botões fazem?</h5>
+    	<nav class="item base-detail page" style="overflow: hidden !important;">
+    	<strong class="box clean green">Lição</strong>&nbsp;<p>O botão <b class="purple">Lição</b> abre e fecha a lista de lições que fica ao lado esquerdo da página.</p>
+    	</nav><nav class="item base-detail page" style="overflow: hidden !important;">
+    	<strong class="box clean green">Menu</strong>&nbsp;<p>O botão <b class="purple">Menu</b> abre uma lista com os seguintes botões: home, biblioteca, perfil e sair.<br>
+    	    Clicando em <b class="blue">home</b> você volta para a página inicial.<br>
+            Com o Projeto Atitudes você escreve sua própria história, que estará disponível para acesso no botão <b class="blue">biblioteca</b>.<br>
+            No botão <b class="blue">perfil</b> você pode personalizar seu próprio avatar e editar suas informações pessoais.<br>
+            O botão <b class="red">sair</b> irá te desconectar do site. Mas não se preocupe, você pode voltar sempre que quiser. 
+    
+    	</nav><nav class="item base-detail page" style="overflow: hidden !important;">
+    	<strong class="box clean green">Internauta</strong>&nbsp;<p>O botão <b class="purple">internauta</b> abre uma versão resumida do perfil de usuário. </p>
+    	</nav>
+        <div class="page">
+            <img src={% static '/img/Ethos.gif' %} alt="Mãos à obra" width="200px">
+        </div>
+    	<section class="box happy" style="overflow: hidden !important;">
+    		<div class="box"><p>Saiba que o botão <span style="font-family: 'Fredericka the Great', cursive;">VAMOS LÁ!</span> te leva para a próxima página da lição.</p>
+    			<h2 class="pink">Uhuuuuul!</h2>
+                <em>Para começar, clique em </em>
+                <a href="{% url 'livro1:continues' %}" class="button next"><span>VAMOS LÁ</span></a>
+    		</div>
+    	</section>
+    </article>
+
+    <article class="page" id="page2">
+        <a href="{% url 'livro1:continues' %}" class="button next"><span>CONTINUAR</span></a>
+        <h3 class="green">Continue de onde parou!</h3>
+        <nav class="box sunny">
+            <img class="sticker-left" src={% static request.user.profile.avatar.active %} alt="Usuári0" width="20%">
+            <p>Esse é o seu avatar! <br>Você pode personalizar ele clicando <a class="green" href="{% url 'livro1:changeAvatar' request.user.profile.id %}">AQUI</a></p>
+        </nav>
+        <h2 class="orange">Navegue pelo Projeto Atitudes</h2>
+    	<nav class="item base-detail page" style="overflow: hidden !important;">
+            <strong class="box clean green">Lição</strong>&nbsp;<p>Use o botão <b class="purple">Lição</b> para ver a lista das lições disponíveis ou para ver dicas e informações
+            quando já estiver dentro de uma lição.</p>
+    	</nav><nav class="item base-detail page" style="overflow: hidden !important;">
+    	    <strong class="box clean green">Internauta</strong>&nbsp;<p>O botão <b class="purple">internauta</b> mostra um resumo do seu perfil de usuário. Veja seu avatar,
+    	    seus creditos e sua pontuação.</p>
+    	</nav><nav class="item base-detail page" style="overflow: hidden !important;">
+    	    <strong class="box clean green">Menu</strong>&nbsp;<p>O botão <b class="purple">Menu</b> abre uma lista com os seguintes botões: home, biblioteca, perfil e sair.<br>
+    	    Clicando em <b class="blue">home</b> você volta para a página inicial.<br>
+            Com o Projeto Atitudes você escreve sua própria história, que estará disponível para acesso no botão <b class="blue">biblioteca</b>.<br>
+            No botão <b class="blue">perfil</b> você pode personalizar seu próprio avatar e editar suas informações pessoais.<br>
+            O botão <b class="red">sair</b> irá te desconectar do site. Mas não se preocupe, você pode voltar sempre que quiser. 
+    	</nav>
+    	
+	    <button onclick="openPage('page1','page2');" class="button next"><span>Voltar para a página inicial</span></button>
+    </article>
+
+    <article class="page" id="page3">
+        <h2 class="yellow">Missão Cumprida!</h2>
+        {% if stage == 19 %}
+            <p>Você concluiu todas as lições, você pode concluir o seu livro e completar a sua jornada no Projeto Atitudes</p>
+            <a onclick="showModal('finishModal');" class="button next"><span>Concluir!</span></a>
+        {% endif %}
+        <nav class="box happy">
+            <img class="sticker-left" src={% static request.user.profile.avatar.active %} alt="Usuári0" width="20%">
+            <p>{{request.user.username}}, você tem {{request.user.profile.credits}} créditos para gastar!</p>
+        </nav>
+        <h5>Você pode gastar seus créditos comprando figurinhas para personalizar seu livro, personalizando seu avatar ou comprando pacotes de figurinha para o whatsapp e telegram</h5>
+        <div class="page">
+            <img src={% static '/img/Ethos.png' %} alt="Mãos à obra" width="30%">
+        </div>
+        <h2 class="orange">Parabéns por chegar até aqui!</h2>
+        
+        <nav class="item sunny">
+            <p>Você reuniu {{request.user.profile.stars}} medalhas!</a></p>
+            <img class="sticker-right" src={% static '/img/star.gif' %} alt="medalhas" width="150px" height="80px">
+        </nav>
+        <div class="line"></div>
+        <nav class="item sunny">
+            <p>Você reuniu {{request.user.profile.likes}} troféus!</a></p>
+            <img class="sticker-right" src={% static '/img/joia.gif' %} alt="trofeu" width="152px" height="81px">
+        </nav>
+    	
+	    <button onclick="openPage('page1','page3');" class="button next"><span>Voltar para a página inicial</span></button>
+    </article>
+  </section>
+  
+  <script>
+    {% if stage == 1 %}
+  	    openPage('page1','page2');
+  	{% elif stage > 18 %}
+  	    openPage('page3','page2');
+  	{% else %}
+  	    openPage('page2','page1');
+  	{% endif %}
+  </script>
+  
+{% endblock %} 	

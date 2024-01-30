@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'abertura' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/stickers/14.png' %} alt="sticker" width="120px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '1-1' 0 'abertura' 2 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <a href="{% url 'livro1:lesson' 'abertura' 1 %}" class="btn completed">
+        Voltar &ensp;<i class="fas fa-book"></i></a>
+    <p class="box base">
+		<h5>A primeira parte do exercício é a descrição</h5>
+		<h5>A segunda parte é a sua atividade!</h5>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" style="height:100%">
+        <a href="{% url 'livro1:lesson' 'abertura' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box base">
+			<img class="sticker-right" src={% static '/img/1/maosAObra.gif' %} alt="Mãos à obra" height="120px" width="180px">
+			<div class="box"> <h3 class="red">Mãos à obra!</h3>
+				<p><i class="green">As dez mais...</i><br> Durante o ano vamos trabalhar com diversos temas e, para uma
+					boa compreensão de todos eles, é necessário entender claramente o conceito
+					de algumas palavras e conhecer muito bem seu significado.
+				</p>
+				</p>	As relações “<i class="green">As dez mais</i>” tornaram-se tão populares que todo mundo as consulta. Seja nas
+					colunas sociais, seja nas páginas de cultura, esporte, ou de economia nos
+					jornais. 
+				</p>
+			</div>
+		</nav><p></p>
+		{% if itens.2 != False %}
+			<nav class="box happy">
+				<img class="sticker-right" src={% static '/img/1/maosAObra.gif' %} alt="Mãos à obra" height="120px" width="150px">
+				<h5>
+					Você já aprendeu sobre as 10 mais e ganhou<br>
+					10 pontos, 10 créditos e 1 troféu joinha.
+					Além disso, algumas lições dão figurinhas pra você usar no futuro.
+				</h5>
+			</nav><p> Aprender sobre as 10 mais é, provavelmente, a missão mais fácil que você encontrará no Projeto Atitudes.<br>Mas tenho certeza que você irá muito bem em todas as missões</p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.2.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.2.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			<nav class="box happy">
+				<img class="sticker-right" src={% static '/img/stickers/14.png' %} alt="sticker" width="120px" class="sticker">
+				<p>Você ganhou a seguinte figurinha: <br>
+					Sempre que você concluir uma missão, fique atento na janela de parabenização. Lá você poderá ver se ganhou alguma figurinha.
+				</p>
+			</nav>
+			<p></p>
+			<!-- Continuação da lição -->
+				<nav class="box base">
+					<div class="box">
+						</p>No final de cada lição você poderá escrever em seu livro o que mais gostou de aprender. <br>
+							Aos poucos, você vai construir seu prório livro. <br>
+							Já pensou? <br>
+							Assim você vai ser um grande <b class="blue">sucesso</b> !<br>
+							Quando concluir todas as lições, seu livro poderá ser impresso e divulgado no site do Projeto Atitudes, na página Nossos Autores.<br>
+							Então vamos lá? <br>
+							Mãos à obra! <br>
+						</p>
+					</div>
+				</nav><p></p>
+				{% if itens.1 %}
+					<nav class="box happy">
+						<img class="sticker-right" src={% static '/img/1/glossario.gif' %} alt="Glossario" width="150px">
+						<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+							<p>{{ itens.0.text }}</p>
+						</div>
+					</nav><br>
+				{% else %}
+					<section class="box">
+						<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/glossario.gif' %} alt="Glossario" width="150px"></a>
+					</section><p></p>
+				{% endif %}
+				<a href="{% url 'livro1:chapter' 1 request.user.profile.id %}" class="btn completed">
+					Meu livro &ensp;<i class="fas fa-book-reader"></i></a>
+				<h5>As 10 mais do Projeto Atitudes</h5>
+			<!-- ==================== -->
+		{% else %}
+			<p>Estas são as 10 mais do Projeto Atitudes e a sua missão é lembrar o significado delas, você acha que consegue?</p>
+			<h5>Você pode encontrá-las aqui sempre que quiser.</h5>
+		{% endif %}
+		<nav class="item happy"><nav class="box">
+			<strong>1 - Cidadania</strong>
+			<p>São todas as qualidades ou condições que fazem de uma
+				pessoa um cidadão. Sendo todos os direitos e deveres do cidadão na
+				sociedade.</p>
+		</nav></nav>
+		<nav class="item sunny"><nav class="box">
+			<strong>2 - Solidariedade</strong>
+			<p>É o ato de ser solidário. Buscar ajudar ou confortar
+				alguém em um momento de dificuldade.</p>
+		</nav></nav>
+		<nav class="item contrast"><nav class="box">
+			<strong>3 - Respeito</strong>
+			<p>É o sentimento que faz uma pessoa tratar as outras com
+				atenção, com educação. Ser respeitoso.</p>
+		</nav></nav>
+		<nav class="item base-detail"><nav class="box">
+			<strong>4 - Responsabilidade</strong>
+			<p>É o ato de responder pelo seu próprio
+				comportamento ou ações.</p>
+		</nav></nav>
+		<nav class="item shine"><nav class="box">
+			<strong>5 - Compromisso</strong>
+			<p>Dever assumido com outra pessoa. O ato de
+				comprometimento entre duas ou mais pessoas.</p>
+		</nav></nav>
+		<nav class="item contrast"><nav class="box">
+			<strong>6 - Amizade</strong>
+			<p>Ação de expressar afeto, cordialidade e simpatia. Ser
+				amável e educado com as pessoas.</p>
+		</nav></nav>
+		<nav class="item base"><nav class="box">
+			<strong>7 - Valores</strong>
+			<p>São um conjunto de qualidades que nos distinguem como seres humanos. São exemplos dessas qualidades: a verdade, 
+				as ações corretas, a paz, o amor e a não violência.</p>
+		</nav></nav>
+		<nav class="item alert"><nav class="box">
+			<strong>8 - Cuidado</strong>
+			<p>Agir com atenção. Realizar algo com capricho e zelo. Ser
+				atencioso com as pessoas.</p>
+		</nav></nav>
+		<nav class="item sunny"><nav class="box">
+			<strong>9 - Tolerância</strong>
+			<p>Ato de aceitar ou tolerar formas de pensar, agir e sentir
+				diferentes das nossas.</p>
+		</nav></nav>
+		<nav class="item base"><nav class="box">
+			<strong>10 - Disciplina</strong>
+			<p>É a obediência ao conjunto das regras e normas estabelecidas. Cumprimento de responsabilidades específicas de cada pessoa.</p>
+		</nav></nav>
+		{% if itens.2 == False %}
+			
+			<nav class="flex">
+				<div class="item sunny">Acertos:&ensp;<strong id="hits" class="red">1</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">10</strong></div>
+			</nav>
+			<p class="yellow">Acertos e pontuação são os blocos onde você pode ver seu desempenho em cada missão.<br>
+				A sua missão atual é lembrar o significado das 10 mais. Está pronto para isso?</p>
+
+			<a class="button" onclick="questFinish('questModal','1-1','abertura',2,10);">Sim, eu vou lembrar!</a><p></p>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

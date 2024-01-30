@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<!-- Modal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Por que a plantinha não pode ir no hospital de noite? Porque de noite só tem médico de plantão KKKKKKKKKK</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+	<img src={% static '/img/16/casa.png' %} alt="Livro" width="100%">
+	<h4>Dentre os lugares da cidade, o nosso lugar seguro geralmente é a nossa casa!
+	<label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label></h4>
+	
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" style="height:100%">
+        <a href="{% url 'livro1:lesson' 'cidade' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box">
+			<h5 class="green">Leia no quadro a seguir alguns dos direitos e deveres dos cidadãos na sociedade.</h5>
+			<img class="sticker-left" src={% static '/img/16/lista1.png' %} alt="lendo" width="50%">
+			<img class="sticker-right" src={% static '/img/16/lista2.png' %} alt="lendo" width="50%">
+			<h5 class="green">Para que todos aproveitem seus direitos, os deveres devem ser cumpridos. É para isso que existem as regras.</h5>
+			<h3 class="purple">Regras para viver bem</h3>
+			<p>Na escola existem certas normas e regras que ensinam as atitudes que devem ser seguidas. É assim também na vida em sociedade. <br>
+				As regras servem para organizar a vida em sociedade e nos ajudam a viver em harmonia, respeitando os direitos de todos. <br>
+				Mesmo assim, algumas pessoas se esquecem ou não percebem que estão agindo de forma incorreta. Isso pode acontecer
+				pela falta de costume ou pelo hábito.</p>
+			<h3 class="purple">Boas atitudes ao passear pela cidade</h3>
+			<p>Para ver de perto as regras e as atitudes que fazem parte da vida em sociedade, vamos fazer um passeio pela cidade. <br>
+				É importante que você observe, durante este passeio, o comportamento das pessoas em relação às regras sociais e as boas maneiras.</p>
+			<h3 class="purple">Se você vai fazer o passeio a pé...</h3>
+			<img class="sticker-right" src={% static '/img/16/dog.png' %} alt="dog" width="50%">
+			<p><em class="box contrast white">1</em>Mantenha a rua limpa! Não jogue papéis ou quaisquer outros objetos no chão ou em locais
+				impróprios. Lugar de lixo é no lixo.</p>
+			<p><em class="box contrast white">2</em>Se levar o cachorro para o passeio e ele fizer as necessidades na rua, você deve juntar e colocar no lixo.
+				Para isso, leve sempre uma sacola plástica e uma pá para recolher a sujeira do seu animalzinho.</p>
+			<p><em class="box contrast white">3</em>Olhe sempre para os dois lados antes de atravessar a rua e só atravesse na faixa de pedestres.</p>
+			<h3 class="purple">Se você resolveu ir de bicicleta...</h3>
+			<img class="sticker-left" src={% static '/img/16/bike.png' %} alt="bike" width="50%">
+			<p><em class="box contrast white">1</em>Evite andar de bicicleta nas calçadas. O correto é andar do lado direito da rua, junto ao meio-fio.</p>
+			<p><em class="box contrast white">2</em>Preste muita atenção na sinalização. A bicicleta deve seguir as mesmas regras de trânsito que os carros,
+				como por exemplo parar no sinal vermelho e seguir no verde.</p>
+			<p><em class="box contrast white">3</em>Use equipamentos de proteção, como capacete e joelheiras. Em caso de queda você estará protegido.</p>
+			<h3 class="purple">Se você vai fazer o passeio de carro...</h3>
+			<img class="sticker-right" src={% static '/img/16/sinal.png' %} alt="sinal" width="50%">
+			<p><em class="box contrast white">1</em>Acomode-se no banco traseiro e observe a cidade. Não coloque partes de seu corpo para fora do veículo pois é
+				perigoso e você poderá sofrer um acidente.</p>
+			<p><em class="box contrast white">2</em>Quando estiver no carro, use sempre o cinto de segurança.</p>
+			<p><em class="box contrast white">3</em>O lixo produzido durante o passeio não deve ser jogado pela janela. Além de sujar a cidade, poderá causar acidentes.</h3>
+			<img class="sticker-left" src={% static '/img/16/onibus.png' %} alt="dog" width="50%">
+			<p><em class="box contrast white">1</em>Ao entrar no ônibus, cumprimente sempre o motorista e o cobrador com as “palavras mágicas”.</p>
+			<p><em class="box contrast white">2</em>Sempre que estiver sentado, você deverá ceder seu lugar às pessoas mais velhas,
+				isso demonstra respeito e cidadania de sua parte.</p>
+			<p><em class="box contrast white">3</em>Assim como no carro, não coloque partes de seu corpo para fora do veículo.</p>
+			<p><em class="box contrast white">4</em>Evite comer dentro do ônibus.</p>
+	    </nav>
+		<a href="{% url 'livro1:lesson' 'cidade' 3 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+
+{% endblock %}

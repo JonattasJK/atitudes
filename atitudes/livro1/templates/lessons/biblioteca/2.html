@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '10-3' 0 'sala' 4 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+	<img src={% static '/img/12/aberto.png' %} alt="Livro" width="100%">
+	<h4 class="page">Ler é uma ótima forma <br>de conhecer o mundo.</h4>
+  	<img src={% static '/img/12/fechado.png' %} alt="Livro" width="100%">
+	
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" style="height:100%">
+        <a href="{% url 'livro1:lesson' 'biblioteca' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box base large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividades" width="150px">
+			<div class="box"> <h3 class="box yellow">Atividade</h3>
+				<h4>Com base nas regras aprendidas nesta lição, responda às seguintes questões:</h4>
+			</div>
+		</nav>
+		{% if itens.4 != False %}
+			<div class="line"></div>
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.4.score < 40 %} 
+						Você marcou <strong>{{itens.4.score}}</strong> pontos e a pontuação máxima é 40. Você pode tentar marcar os 40 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.4.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.4.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.4.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.4.score < 40 %}
+				{% if request.user.profile.credits > itens.4.credits %}
+					<a href="{% url 'livro1:questUndo' '13-1' itens.4.score 'biblioteca' 2 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.4.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.4.credits }} créditos e poderá receber até <strong>40,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<div class="line"></div>
+			<a href="{% url 'livro1:lesson' 'biblioteca' 3 %}" class="large">
+				<button class="button next"><span>VAMOS LÁ!</span></button>
+			</a>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny">Acertos:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="item base">
+				<h5 class="jigsaw1 jigsaw-a">
+					Biblioteca é lugar de silêncio! Uma boa leitura exige concentração e por isso é fundamental que você faça:
+					<span class="r"></span>
+				</h5>
+				<h5 class="jigsaw2">
+	 				<i id="f1Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="f1Score" value="10">
+					<select name="f1" id="f1" style="background-color: #0284cf;" onchange="selectAnswer('f1Smile','f1Score','f1')">
+						<option value="0" > -- Opção -- </option>
+						<option value="False" >Barulho</option>
+						<option value="False" >Bagunça</option>
+						<option value="False" >Ginástica</option>
+						<option value="True" >Silêncio</option>
+						<option value="False" >Brincadeiras</option>
+					</select>
+					<span class="l"></span>
+				</h5>
+			</nav>
+			<nav>
+				<p>Por que não podemos comer na biblioteca?</p>
+				<label class="item sunny">
+					<input type="radio" name="quest2" id="r1" onclick="selectWrong(this)">
+					Porque os adultos não deixam.			
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="quest2" onclick="selectAnsware(this,['r1','r3'])">
+					Porque pode estragar os livros.			
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="quest2" id="r3" onclick="selectWrong(this)">
+					Porque vou ter que dividir.			
+				</label>
+			</nav>
+			<nav class="item base">
+				<h5 class="jigsaw1 jigsaw-b">
+					Você pode guardar os livros na estante?
+					<span class="r"></span>
+				</h5>
+				<h5 class="jigsaw2">
+	 				<i id="f2Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="f2Score" value="10">
+					<select name="f2" id="f2" style="background-color: #0284cf;" onchange="selectAnswer('f2Smile','f2Score','f2')">
+						<option value="0" > -- Opção -- </option>
+						<option value="False" >Sim</option>
+						<option value="True" >Não</option>
+					</select>
+					<span class="l"></span>
+				</h5>
+			</nav>
+			<nav>
+				<p>Por que? Justifique sua resposta</p>
+				<label class="item sunny">
+					<input type="radio" name="quest2" onclick="selectWrong(this)" id="r4">
+					Porque a gente tem que ajudar.			
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="quest2" onclick="selectWrong(this)" id="r5">
+					Porque não é o meu papel.			
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="quest2" onclick="selectWrong(this)" id="r6">
+					Porque eu sei onde eu peguei.			
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="quest2" onclick="selectAnsware(this,['r4','r5','r6'])">
+					Porque eu posso acabar errando.			
+				</label>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','13-1','biblioteca',2,40);">Terminar</a>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

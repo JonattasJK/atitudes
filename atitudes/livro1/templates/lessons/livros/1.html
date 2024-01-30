@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'livros' 1 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+<!-- jokeModal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Qual o cereal favorito do vampiro?? Aveia kkkkk</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+<!-- /jokeModal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão Home irá voltar para a página inicial!</h5>
+		<h5>Você está na lição 12!</h5>
+		<img src={% static '/img/12/baleia.png' %} alt="Baleia" width="100%">
+		<p>Dentro de alguns livros você pode encontrar mundos inteiros para serem explorados :)</p>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+       <h2 class="green">Boas Maneiras e os <br><b class="orange">livros</b></h2>
+        <img src={% static '/img/12/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: cuidado, conhecimento e silêncio</h3>
+        <nav class="box base">
+        	<img class="sticker-right" src={% static '/img/12/prateleira.png' %} alt="Livros" width="50%">
+			<h3 class="item contrast white">A educação com os livros</h3> 
+			<p>Os livros são um importante meio de comunicação, que auxiliam na sua formação e na construção do seu
+				conhecimento. Além disso, os livros trazem grandes histórias, verdadeiras ou <i class="blue">ficcionais</i>, com as quais
+				você pode se divertir a qualquer hora e em qualquer lugar. Por isso, é muito importante que você saiba
+				cuidar dos livros.
+			</p>
+		</nav>
+		{% if itens.1 %}
+			<section class="box happy">
+				<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+					<p>{{ itens.0.text }}</p>
+				</div>
+				<img src={% static '/img/1/glossario.gif' %} alt="Glossario" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/glossario.gif' %} alt="Glossario" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+        <label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label>
+	    <a href="{% url 'livro1:lesson' 'livros' 2 %}" class="large">
+        	<button class="button next"><span>VAMOS LÁ!</span></button>
+        </a>
+        <img src={% static '/img/12/rodape.png' %} alt="amigos" width="100%">
+    </article>
+  </section>
+
+{% endblock %} 	

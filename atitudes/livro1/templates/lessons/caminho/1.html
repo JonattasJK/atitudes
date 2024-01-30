@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Você sabe qual e o contrário de volátil? Vem cá sobrinho. kkkkkkkkkkkk desculpa por essa kkkk.</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/stickers/11.png' %} alt="sticker" width="120px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '6-1' 0 'caminho' 1 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão Home irá voltar para a página inicial!</h5>
+		<h5>Parabéns!!! Você chegou à sexta lição!</h5>
+		<img src={% static '/img/6/tchau.png' %} alt="tchau" width="100%">
+		<em>Bora aprender! </em>
+		<label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+       <h2 class="blue">Boas Maneiras a<br><b class="pink">caminho da escola</b></h2>
+        <img src={% static '/img/6/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: cuidado e comportamento</h3>
+        <nav class="box sunny">
+			<h3 class="item contrast white">O cuidado com a segurança</h3>
+			<img class="sticker-left" src={% static '/img/6/transporte.png' %} alt="transporte" width="30%">
+			<p>No caminho para a escola, você passa pelo trânsito da cidade e participa dele.
+				O trânsito de veículos e pedestres é organizado por leis que foram elaboradas
+				para dar segurança à sociedade. Por isso, comportar-se de maneira
+				adequada e seguir as regras de trânsito significa cuidar da segurança de todos.
+				Todos os cidadãos devem praticar as leis de trânsito diariamente, sejam crianças, jovens ou
+				adultos, sejam pedestres ou motoristas.</p>
+		</nav>
+		<div class="line"></div>
+		<nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividades" width="150px">
+			<div class="box"> <h3 class="box yellow">Atividade</h3>
+				<h4>Como você vai à escola?</h4>
+			</div>
+		</nav>
+		{% if itens.6 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.6.score < 10 %} 
+						Você marcou <strong>{{itens.6.score}}</strong> pontos e a pontuação máxima é 10. Você pode tentar marcar os 10 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.6.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.6.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.6.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.6.score < 10 %}
+				{% if request.user.profile.credits > itens.6.credits %}
+					<a href="{% url 'livro1:questUndo' '6-1' itens.6.score 'caminho' 1 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.6.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.6.credits }} créditos e poderá receber até <strong>10,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<a href="{% url 'livro1:lesson' 'caminho' 2 %}" class="large">
+		    	<button class="button next"><span>VAMOS LÁ!</span></button>
+		    </a>
+		{% else %}
+		<nav class="flex">
+			<div class="item sunny">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+			</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+		</nav>
+		<nav class="page large happy">
+			<i id="f1Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+			<input type="hidden" id="f1Score" value="10">
+			<select name="f1" id="f1" onchange="selectAnswer('f1Smile','f1Score','f1')">
+				<option value="" >Escolha</option>
+				<option value="true" >transporte escolar</option>
+				<option value="true" >transporte público</option>
+				<option value="true" >carro com os pais</option>
+				<option value="true" >moto com os pais</option>
+				<option value="true" >a pé</option>
+				<option value="true" >de barco</option>
+				<option value="true" >outro</option>
+			</select>
+		</nav>
+		<a class="button" onclick="questFinish('questModal','6-1','caminho',1,10);">Enviar resposta</a><p></p>
+		{% endif %}
+        <img src={% static '/img/6/rodape.png' %} alt="amigos" width="100%">
+    </article>
+  </section>
+
+{% endblock %} 	

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+			<img src={% static '/img/12/livros.png' %} alt="Papel" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" >
+    	<a href="{% url 'livro1:lesson' 'livros' 3 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/maosAObra.gif' %} alt="maosAObra" width="150px">
+			<div class="box"> <h3 class="base">Mãos à obra!</h3>
+				<p>Para que você tenha marcadores de página sempre à mão, vamos ajudá-lo a elaborar alguns. A seguir, você vai encontrar modelos de marcadores. 
+				Escolha a cor e pinte. Use a criatividade. Então, mãos à obra!</p>
+			</div>
+			<div class="page">
+				<img class="sticker-left" src={% static '/img/12/baleia.png' %} alt="Encanamento" width="70%">
+			</div>
+		</nav>
+		<a href="#" class="large">
+	    	<a href="{% url 'livro1:color' %}" class="button"><span>**Criar marcador**</span></a>
+	    </a>
+		<h3 class="purple">Você já leu vários livros, mas sabe como é escrever um?</h3>
+		<em> As dicas a seguir podem ajudar. Aproveite-as para o livro que você está escrevendo sobre as boas atitudes, com tudo o que aprendeu por aqui.</em>
+		<nav class="item base"> • Para ser um bom escritor é preciso ler bastante. A leitura melhora a escrita e nos traz mais conteúdo. Quem lê mais,
+			tem mais ideias.</nav>
+		<nav class="item happy">	• Gostar da língua portuguesa é importante, afinal é a matéria-prima de um livro. Para escrever, você vai lidar com
+			ela o tempo todo.</nav>
+		<nav class="item sunny"> • Troque ideias com a família e os amigos sobre o assunto o qual pretende escrever. Eles podem dar boas contribuições.</nav>
+		<nav class="item shine"> • Faça anotações sempre que lembrar de algo interessante; elas podem se transformar em partes do seu livro.
+			Guarde-as numa pasta ou transcreva para um arquivo no computador.</nav>
+		<nav class="item base"> • Quando começar a escrever, procure um local tranquilo em que possa se concentrar para pensar em seu livro.</nav>
+		<nav class="item happy"> • Faça um roteiro com os assuntos e temas que você deseja abordar ou, se quiser contar uma história, faça anotações
+			sobre os personagens e o enredo.</nav>
+		<nav class="item sunny"> • Sempre consulte o dicionário. Ele vai te ajudar não só quando tiver dúvidas, mas caso precise de sinônimos para
+			as palavras ou se quiser conhecê-las melhor. O dicionário deve ser o companheiro de toda escrita.</nav>
+		<nav class="item shine"> • É interessante mostrar o texto a outras pessoas, para trocar opiniões e saber o que elas estão achando. Assim você
+			pode começar a perceber como os futuros leitores vão reagir ao livro que você escreveu.</nav>
+		<nav class="item base"> • Hora do título. Pense em algo que chame a atenção dos leitores e provoque a curiosidade.</nav>
+		<nav class="item happy"> • A capa deve, é claro, combinar com o livro e dizer algo sobre ele, mas de forma interessante. Lembre-se de que
+			ela é o primeiro contato do leitor com o livro.</nav>
+		<nav class="box sunny large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="atividades" width="100px">
+			<div class="box"> <h3 class="base">Atividade</h3>
+				<p>Anteriormente você encontrou dicas para escrever o seu livro. Uma delas é sobre a capa. Imagine como você gostaria que fosse a capa do seu livro 
+					e aproveite os materiais a seguir para criá-la.</p>
+			</div>
+		</nav>
+		<a href="#" class="large">
+	    	<a href="{% url 'livro1:color' %}" class="button"><span>**Criar Capa**</span></a>
+	    </a><p></p>
+    	<a href="{% url 'livro1:chapter' 12 request.user.profile.id %}" class="btn completed">
+				Meu livro &ensp;<i class="fas fa-book-reader"></i></a>
+    </article>
+  </section>
+
+{% endblock %}

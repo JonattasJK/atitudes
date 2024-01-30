@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'biblioteca' 4 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez oooutraaa descobertaA!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.2.sort }}</strong>
+			  	<p><i>{{ itens.2.name }}:</i> {{ itens.2.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'biblioteca' 4 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+			<img src={% static '/img/12/livros.png' %} alt="Papel" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" >
+    	<a href="{% url 'livro1:lesson' 'biblioteca' 3 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box happy">
+			<img class="sticker-right" src={% static '/img/1/maosAObra.gif' %} alt="Mãos à obra" width="250px">
+			<div class="box"> <h3 class="red">Mãos à obra!</h3>
+				<p>Vamos ajudar os demais usuários a se comportar adequadamente na biblioteca? Que tal fazer um panfleto com as boas
+					maneiras? Então, mãos à obra!</p>
+				<h5>1. Acessando a página de desenho, você poderá selecionar o panfleto que deseja pintar.<br>
+					2. Depois basta soltar a criatividade!<br>
+					3. Por fim, você poderá salvar no seu dispositivo<br></h5>
+			</div>
+		</nav><div class="line"></div>
+		<a href="#" class="large">
+	    	<a href="{% url 'livro1:color' %}" class="button"><span>**Criar panfleto**</span></a>
+	    </a><p></p>
+	    {% if itens.1 %}
+			<nav class="box alert">
+				<img class="sticker-right" src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" width="150px">
+				<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+					<p>{{ itens.0.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" width="150px"></a>
+			</section>
+		{% endif %}
+		<div class="line"></div>
+		{% if itens.3 %}
+			<nav class="box contrast" style="width:100%">
+				<img class="sticker-right" src={% static '/img/1/glossario.gif' %} alt="Lembre-se" width="150px" height="150px">
+				<div class="box"> <h3 class="blue">{{ itens.2.name }}</h3>
+					<p>{{ itens.2.text|linebreaks }}</p>
+				</div>
+			</nav>
+			<div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal2');"><img src={% static '/img/1/glossario.gif' %} alt="Lembre-se" width="150px"></a>
+			</section>
+		{% endif %}<div class="line"></div>
+		<nav class="box sunny">
+			<h3 class="green">“E os meus direitos!?”</h3>
+			<p>Agora que você já conhece as regras de utilização da biblioteca, conheça também alguns dos seus direitos: </p>
+			<h5>- Realizar o empréstimo de livros para que realize sua leitura;<br>
+				- Receber auxílio de um atendente para localizar os livros de que necessita; <br>
+				- Efetuar pesquisas nas dependências da biblioteca; <br>
+				- Encontrar a biblioteca limpa e organizada.</h5>
+		</nav><div class="line"></div>
+    	<a href="{% url 'livro1:chapter' 13 request.user.profile.id %}" class="btn completed">
+				Meu livro &ensp;<i class="fas fa-book-reader"></i></a>
+    </article>
+  </section>
+
+{% endblock %}

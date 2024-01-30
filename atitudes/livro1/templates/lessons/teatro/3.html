@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  		</div>
+	  		<form action="#" method="post" class="element box">
+	  			{% csrf_token %}
+				<input type="hidden" name="text" id="text" value="10">
+				<input type="submit" value="Resgatar meu prêmio">
+		  	</form>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+    <img src={% static '/img/15/mascara.png' %} alt="abc" width="100%">
+    <h5>Existem muitos tipos de apresentações. Provavelmente você irá gostar de alguma!</h5>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" id="page1">
+    	<a href="{% url 'livro1:lesson' 'teatro' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <nav class="box sunny large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividades" width="100px">
+			<div class="box"> <h3 class="box base-detail white">Atividade</h3>
+				<h4>As apresentações artísticas e culturais fazem parte da programação da escola.</h4>
+			</div>
+		</nav>
+		{% if itens.11 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.11.score < 50 %} 
+						Você marcou <strong>{{itens.11.score}}</strong>. É possível mudar a sua resposta caso você queira.
+					{% else %}
+						Você marcou <strong>{{itens.11.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.11.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.11.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.11.score < 60 %}
+				{% if request.user.profile.credits > itens.11.credits %}
+					<a href="{% url 'livro1:questUndo' '15-2' itens.11.score 'teatro' 3 %}" class="large">
+						<button class="button previous next"><span>Responder novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.11.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Responder novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.11.credits }} créditos.</h5>
+				</nav>
+			{% endif %}
+			<div class="line"></div>
+			<nav class="box base">
+				{% for word in itens.12 %}
+					{% if word == '|' %}
+						<br>
+					{% else %}
+						{{word}}
+					{% endif %}
+				{% endfor %}
+			</nav>
+			<button onclick="openPage('page2', 'page1');" class="button next"><span>VAMOS LÁ!</span></button>
+		{% else %}
+			<nav class="flex">
+				<div class="item happy">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item happy"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav id="quest1">
+				<p id="quests">Você se recorda de alguma apresentação de que você participou?</p>
+				<label class="item sunny">
+					<input type="radio" name="quest1" id="q1s" onclick="selectAnsware(this,['q1n']);document.getElementById('qyes').style.display='block'" value="Sim">Sim</label>
+				<label class="item sunny">
+					<input type="radio" name="quest1" id="q1n" onclick="selectAnsware(this,['q1s']);answareText('questModal','15-2');"value="Nunca participei">Nunca participei</label>
+			</nav>
+			<section class="page box" id="qyes" style="display:none">
+				 <nav id="quest2">
+					<p id="quests">Que tipo de apresentação era?</p>
+					<label class="item sunny">
+						<input type="radio" name="quest2" id="q2t" onclick="selectAnsware(this,['q2d','q2m'])" value="Teatro">Teatro</label>
+					<label class="item sunny">
+						<input type="radio" name="quest2" id="q2d" onclick="selectAnsware(this,['q2t','q2m'])" value="Dança">Dança</label>
+					<label class="item sunny">
+						<input type="radio" name="quest2" id="q2m" onclick="selectAnsware(this,['q2d','q2t'])" value="Apresentação Musical">Apresentação Musical</label>
+				</nav>
+				<nav id="quest3">
+					<p id="quests">Como foi essa experiência?</p>
+					<label class="item sunny">
+						<input type="radio" name="quest3" id="q3f" onclick="selectAnsware(this,['q3l','q3n'])" value="Fiquei nervoso">Fiquei nervoso</label>
+					<label class="item sunny">
+						<input type="radio" name="quest3" id="q3l" onclick="selectAnsware(this,['q3f','q3n'])" value="Legal, foi divertido">Legal, foi divertido</label>
+					<label class="item sunny">
+						<input type="radio" name="quest3" id="q3n" onclick="selectAnsware(this,['q3f','q3l'])" value="Não gostei">Não gostei</label>
+				</nav>
+				<nav id="quest4">
+					<p id="quests">Ao final da apresentação, você foi aplaudido?</p>
+					<label class="item sunny">
+						<input type="radio" name="quest4" id="q4s" onclick="selectAnsware(this,['q4n'])" value="Sim">Sim</label>
+					<label class="item sunny">
+						<input type="radio" name="quest4" id="q4n" onclick="selectAnsware(this,['q4s'])" value="Não">Não</label>
+				</nav>
+				<nav id="quest5">
+					<p id="quests">Como se sentiu?</p>
+					<label class="item sunny">
+						<input type="radio" name="quest5" id="q5f" onclick="selectAnsware(this,['q5e','q5n','q5l'])" value="Feliz">Feliz</label>
+					<label class="item sunny">
+						<input type="radio" name="quest5" id="q5e" onclick="selectAnsware(this,['q5f','q5n','q5l'])" value="Envergonhado">Envergonhado</label>
+					<label class="item sunny">
+						<input type="radio" name="quest5" id="q5n" onclick="selectAnsware(this,['q5e','q5f','q5l'])" value="Animado">Animado</label>
+					<label class="item sunny">
+						<input type="radio" name="quest5" id="q5l" onclick="selectAnsware(this,['q5e','q5n','q5f'])" value="Aliviado">Aliviado</label>
+				</nav>
+			</section>
+			<a class="button" onclick="answareText('questModal','15-2');">Terminar</a><p></p>
+		{% endif %}
+    </article>
+
+    <article class="page" id="page2">
+    <button onclick="openPage('page1', 'page2');" class="button previous"><span>Voltar</span></button>
+        <h2 class="green">Boas maneiras durante os espetáculos</h2>
+        <nav class="box">
+			<h5 class="yellow">Ao assistir a um espetáculo artístico ou cultural é importante demonstrar boas maneiras. Para que você faça bonito durante os
+				espetáculos, separamos algumas dicas de comportamento:</h5>
+			<img class="sticker-left" src={% static '/img/15/plateia1.png' %} alt="oi" width="40%">
+			<p><em class="box contrast white">1</em> Durante o espetáculo devemos fazer o máximo de silêncio possível: 
+				conversar com o colega ao lado ou falar ao telefone são atitudes proibidas.</p>
+			<p><em class="box contrast white">2</em> Ao chegar ao teatro, procure o seu assento e sente-se imediatamente. Se o seu assento estiver
+				na fileira do meio e outras pessoas já estiverem sentadas em torno dele, fique de frente para as pessoas e peça licença
+				para cada uma delas até que consiga chegar ao seu lugar.</p>
+			<img class="sticker-right" src={% static '/img/15/show.png' %} alt="oi" width="40%">
+			<p><em class="box contrast white">3</em> Os aplausos devem ser deixados para o final da apresentação. Evite qualquer manifestação durante a apresentação.</p>
+			<p><em class="box contrast white">4</em> Durante a apresentação você não deve levantar-se ou sair do lugar em que está sentado.</p>
+			<p><em class="box contrast white">5</em> Caso você não tenha apreciado a apresentação, seja educado: não assobie, grite ou vaie os atores.</p>
+			<img class="sticker-left" src={% static '/img/15/proibido.png' %} alt="oi" width="40%">
+			<p><em class="box contrast white">6</em> No teatro não são permitidos lanches, portanto, guarde os doces, refrigerantes e outras
+				guloseimas em sua bolsa ou mochila.</p>
+			<p><em class="box contrast white">7</em> Ao assistir a um espetáculo no qual os artistas são seus colegas de escola ou amigos, lembre-se
+				de cumprimentá-los ao final da apresentação e elogiá-los pelo trabalho.</p>
+			<img class="sticker-right" src={% static '/img/15/show2.png' %} alt="oi" width="40%">
+			<p><em class="box contrast white">8</em> Ao final da apresentação, levante-se para aplaudir os artistas. Essa é uma atitude que demonstra
+				respeito e que faz com que os artistas se sintam recompensados.</p>
+			<p><em class="box contrast white">9</em> Após o encerramento do espetáculo, mantenha a calma e aguarde até que as pessoas das poltronas próximas se
+				levantem. Se você estiver sentado próximo ao corredor, levante-se devagar e dirija-se até a saída. Não se esqueça das 
+				“palavras mágicas” (por favor, com licença e obrigado).</p>
+	    </nav>
+    	<a href="{% url 'livro1:lesson' 'teatro' 4 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+
+ 
+  <script>
+  	openPage('page1','page2');
+  </script>
+
+{% endblock %}

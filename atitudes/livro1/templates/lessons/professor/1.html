@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'professor' 1 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão Home irá voltar para a página inicial!</h5>
+		<h5>Nossa! Você já está na lição 9. Meus parabéns :)</h5>
+		<img src={% static '/img/9/maca.png' %} alt="Placa" width="100%">
+		<p>A maçã é uma figura importante no mundo da ciência, você sabia? Foi graças a uma maçã que Isaac Newton avançou em seus
+			estudos e publicou algo que conhecemos hoje como GRAVIDADE.</p>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+       <h2 class="orange">Boas Maneiras <br><b class="green">frente aos professores</b></h2>
+        <img src={% static '/img/9/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: respeito, compromisso e colaboração</h3>
+        <nav class="box base">
+			<h3 class="item base-detail white">Atitudes na relação aluno-professor</h3> 
+			<p>Na lição anterior, aprendemos sobre o respeito e sua importância. 
+			Aprendemos que devemos respeitar a tudo e a todos que estão a 
+			nossa volta: a família, a escola, os amigos, a cidade
+			e também o meio ambiente.<br><br>
+			Nesta lição, daremos uma atenção especial àqueles que dedicam suas 
+			vidas a nos ensinar: os professores!</p>
+		</nav>
+		<div class="line"></div>
+		{% if itens.1 %}
+			<section class="box happy">
+				<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+					<p>{{ itens.0.text }}</p>
+				</div>
+				<img src={% static '/img/1/lembrese.gif' %} alt="lembre-se" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/lembrese.gif' %} alt="lembrese" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+	    <a href="{% url 'livro1:lesson' 'professor' 2 %}" class="large">
+        	<button class="button next"><span>VAMOS LÁ!</span></button>
+        </a>
+        <img src={% static '/img/9/rodape.png' %} alt="amigos" width="100%">
+    </article>
+  </section>
+
+{% endblock %} 	

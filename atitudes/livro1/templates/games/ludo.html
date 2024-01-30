@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+	<aside class="side clean-detail" id="leftSide">
+		<a href="{% url 'livro1:home' %}" class="btn completed">
+			Home &ensp;<i class="fas fa-home"></i></a>
+		<a href="{% url 'livro1:library' request.user.profile.id%}" class="btn completed">
+			Biblioteca &ensp;<i class="fas fa-atlas"></i></a>
+		<h2 class="green">É hora de reciclar!</h2>
+	</aside>
+
+	<article class="main clean">
+		<em class="yellow">Ludo </em> <em class="green">Reciclar</em>
+		<iframe id="colorir" src="https://colorir.projetoatitudes.com/12022021ludo/recicle.html" title="Ludo reciclar" style="border:none;"></iframe>
+		<h2 class="orange">Uhuuuuul!</h2>
+		<p>Esse é um joguinho sobre reciclagem, você pode vencer o seu adversário reciclando mais do que ele?</p>
+
+	</article>
+{% endblock %} 	

@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- jokeModal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Qual é o policial que se olhou no espelho? O policial civil hahahaha</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+<!-- /jokeModal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão Home irá voltar para a página inicial!</h5>
+		<h5>Opa! Você já está na <em class="pink">lição 13</em>. Meus parabéns! :D</h5>
+		<img src={% static '/img/12/livros.png' %} alt="Baleia" width="100%">
+		<p>Dentro de alguns livros você pode encontrar mundos inteiros para serem explorados 
+        	<label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label></p>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" id="page1">
+       <h2 class="green">Boas Maneiras na <br><b class="blue">biblioteca</b></h2>
+        <img src={% static '/img/13/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: interesse e silêncio</h3>
+        <nav class="box base">
+        	<img class="sticker-right" src={% static '/img/13/mesa.png' %} alt="Livros" width="50%">
+			<h3 class="item contrast white">Lugar de estudo e silêncio</h3> 
+			<p>Agora que você aprendeu as boas maneiras com os livros, vamos conhecer a biblioteca e as boas maneiras na biblioteca.</p>
+		</nav>
+		<div class="line"></div>
+		<nav class="box happy">
+			<img class="sticker-left" src={% static '/img/1/VcSabia.gif' %} alt="VcSabia" width="150px">
+			<div class="box"> <h3 class="blue">Você sabia que...</h3>
+				<p>...a palavra “biblioteca” tem sua origem nos termos gregos
+					biblion (livro) e theka (caixa), significando o lugar ou móvel
+					onde se guardam livros.</p>
+			</div>
+		</nav><div class="line"></div>
+		<nav>
+        	<p><img class="sticker-right" src={% static '/img/13/card.png' %} alt="Livros" width="50%">
+			A biblioteca escolar pode ser utilizada por alunos, professores e
+			profissionais da escola. Para realizar empréstimos de livros, a
+			maioria das bibliotecas exige a apresentação da Carteirinha de
+			Estudante ou da Carteirinha da Biblioteca, é ela que identificará 
+			você e os livros que emprestar para suas pesquisas, estudos e entretenimento!</p>
+		</nav>
+		<div class="line"></div>
+	    <button onclick="openPage('page2', 'page1');" class="button next"><span>VAMOS LÁ!</span></button>
+        <img src={% static '/img/13/rodape.png' %} alt="amigos" width="100%">
+    </article>
+    
+    <article class="page" id="page2">
+	    <button onclick="openPage('page1', 'page2');" class="button previous"><span>Voltar</span></button>
+        <nav class="box">
+			<h3 class="purple">Regras para utilização da biblioteca</h3>
+			<h5 class="green">A biblioteca é um espaço destinado aos estudantes e à comunidade.<br>
+				Para o bom funcionamento da biblioteca é necessário o cumprimento de algumas regras 
+				que ajudarão a manter a ordem, o silêncio e a organização. Por isso é importante
+				que você conheça e respeite essas regras:</h5>
+			<p><em class="box contrast white">1</em>Mochilas e objetos pessoais devem ser deixados na recepção da biblioteca.</p>
+			<img class="sticker-right" src={% static '/img/13/estante.png' %} alt="lendo" width="50%">
+			<p><em class="box contrast white">2</em>Para retirar um livro da estante, segure-o pelo meio. Ao puxá-lo pela lombada (parte externa do
+				livro que tem por função manter as páginas unidas), vai estragar.</p>
+			<p><em class="box contrast white">3</em>Durante a sua permanência na biblioteca utilize apenas lápis. As canetas podem danificar os livros.</p>
+			<p><em class="box contrast white">4</em>Nunca risque ou escreva nos livros da biblioteca. Anotações devem ser feitas em um caderno
+				ou em folhas para rascunho. Caso seja necessário, faça uma cópia das páginas de que precisa.</p>
+			<img class="sticker-right" src={% static '/img/13/estante2.png' %} alt="lendo" width="50%">
+			<p><em class="box contrast white">5</em>Dentro da biblioteca não se deve consumir alimentos ou bebidas pois podemos derrubá-los
+				sobre os livros, estragando-os.</p>
+			<p><em class="box contrast white">6</em>Os funcionários da biblioteca devem ser tratados com respeito. Lembre-se
+				sempre de utilizar as “palavras mágicas”.</p>
+			<p><em class="box contrast white">7</em>Não tente guardar os livros que utilizou. Por mais que você queira ajudar, cabe à bibliotecária
+				ou atendente organizar os livros de forma correta.</p>
+			<img class="sticker-left" src={% static '/img/13/lendo.png' %} alt="lendo" width="50%">
+			<p><em class="box contrast white">8</em>Os livros emprestados devem ser devolvidos sempre no prazo estipulado. Lembre-se de que
+				os livros são de todos, e outras pessoas podem estar esperando pelo livro que está com você.</p>
+			<p><em class="box contrast white">9</em>Ao entrar na biblioteca, o celular deverá ser desligado. Tenha em mente que o toque do celular
+				e o simples gesto de falar ao telefone pode romper a concentração dos demais usuários.</p>
+			<p><em class="box contrast white">10</em>Biblioteca é lugar de silêncio! Uma boa leitura exige concentração e por isso é fundamental que você faça silêncio.</p>
+	    </nav>
+	    <a href="{% url 'livro1:lesson' 'biblioteca' 2 %}" class="large">
+        	<button class="button next"><span>VAMOS LÁ!</span></button>
+        </a>
+    </article>
+  </section>
+
+
+  <script>
+  	openPage('page1','page2');
+  </script>
+{% endblock %} 	

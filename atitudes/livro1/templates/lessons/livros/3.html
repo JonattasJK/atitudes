@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '10-3' 0 'sala' 4 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+    <img src={% static '/img/12/abc2.png' %} alt="abc" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'livros' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box base-detail large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividade" width="150px">
+			<div class="box"> <h3 class="base">Atividade</h3>
+				<p>O que você acha que não está certo nas cenas a seguir? Clique na imagem.
+					Depois escolha a forma correta de manusear os livros.</p>
+			</div>
+		</nav>
+		{% if itens.4 != False %}
+			<div class="line"></div>
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.4.score < 30 %} 
+						Você marcou <strong>{{itens.4.score}}</strong> pontos e a pontuação máxima é 30. Você pode tentar marcar os 30 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.4.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.4.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.4.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.4.score < 30 %}
+				{% if request.user.profile.credits > itens.4.credits %}
+					<a href="{% url 'livro1:questUndo' '12-1' itens.4.score 'livros' 3 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.4.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.4.credits }} créditos e poderá receber até <strong>30,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<div class="line"></div>
+			<nav class="box happy large">
+				<img class="sticker-left" src={% static '/img/1/Observando.gif' %} alt="Observando" width="150px">
+				<div class="box"> <h3 class="base">Observando</h3>
+					<p>Agora que você já sabe cuidar bem dos livros, que tal conhecer um pouco mais as partes que os compõem?</p>
+				</div>
+				<img src={% static '/img/12/partes.png' %} alt="Observando" width="100%">
+			</nav>
+			<div class="line"></div>
+			{% if itens.5 != False %}
+				<nav class="box base">
+					<h5>
+						Você já completou esse desafio e conquistou a sua recompensa <br>
+						{% if itens.5.score < 30 %} 
+							Você marcou <strong>{{itens.5.score}}</strong> pontos e a pontuação máxima é 30. Você pode tentar marcar os 30 pontos se quiser
+						{% else %}
+							Você marcou <strong>{{itens.5.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+						{% endif %}
+					</h5>
+				</nav><p></p>
+				<em>Recompensa obtida:</em>
+				<nav class="flex">
+					<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.5.score }}</strong></div>&emsp;
+					<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.5.credits }}</strong></div>&emsp;
+					<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+				</nav>
+				{% if itens.5.score < 30 %}
+					{% if request.user.profile.credits > itens.5.credits %}
+						<a href="{% url 'livro1:questUndo' '12-2' itens.5.score 'livros' 3 %}" class="large">
+							<button class="button previous next"><span>Tentar novamente</span></button>	
+						</a>
+					{% else %}
+						<button onclick="alert('Ops... Você não tem {{itens.5.credits}} créditos disponíveis para tentar novamente')" 
+							class="button previous next"><span>Tentar novamente</span></button>
+					{% endif %}
+					<nav class="item alert">
+						<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+							Você irá gastar {{ itens.5.credits }} créditos e poderá receber até <strong>30,00</strong> créditos de volta.</h5>
+					</nav>
+				{% endif %}
+				<p></p>
+			{% else %}
+				<nav class="box alert large">
+					<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividade" width="150px">
+					<div class="box"> <h3 class="base">Atividade</h3>
+						<p>Nos espaços indicados abaixo, selecione três frases sobre boas maneiras com os livros.</p>
+					</div>
+				</nav>
+				<nav class="flex">
+					<div class="item base">Respostas:&ensp;<strong id="hits" class="green">0</strong>
+					</div>&emsp;<div class="item base"> Pontuação:&ensp;<strong id="totalScore" class="green">0</strong></div>
+				</nav>
+				<div class="large page">
+					<i id="f3Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+					<input type="hidden" id="f3Score" value="10">
+				</div>
+				<div class="large page">
+					<select name="f3" id="f3" onchange="selectAnswer('f3Smile','f3Score','f3')">
+						<option value="" >__Primeira frase__</option>
+						<option value="True" >Não se apoie sobre os livros. A posição correta para os estudos é sentado.</option>
+						<option value="False" >Se apoie sobre os livros. A posição correta para os estudos é deitado.</option>
+						<option value="False" >Deite sobre os livros para estudar por mais tempo.</option>
+					</select>
+				</div>
+				<div class="large page">
+					<select name="f2" id="f2" onchange="selectAnswer('f3Smile','f3Score','f2')">
+						<option value="" >__Segunda frase__</option>
+						<option value="False" >Se estragar um livro não tem problema, basta trocá-lo.</option>
+						<option value="False" >Você pode ler o livro enquanto come ou toma alguma coisa.</option>
+						<option value="True" >Não espirre sobre os livros, pois a saliva pode estragá-los.</option>
+					</select>
+				</div>
+				<div class="large page">
+					<select name="f1" id="f1" onchange="selectAnswer('f3Smile','f3Score','f1')">
+						<option value="" >__Terceira frase__</option>
+						<option value="False">Dobre a ponta da página para saber onde parou de ler.</option>
+						<option value="True">Não use clipes ou outros objetos para marcar as páginas do livro.</option>
+						<option value="False">Use clipes para separar a página onde parou a leitura.</option>
+					</select>
+				</div>
+				<a class="button" onclick="questFinish('questModal','12-2','livros',3,30);">Terminar</a>
+			{% endif %}
+		{% else %}
+			<nav class="flex">
+				<div class="item base">Respostas:&ensp;<strong id="hits" class="green">0</strong>
+				</div>&emsp;<div class="item base"> Pontuação:&ensp;<strong id="totalScore" class="green">0</strong></div>
+			</nav>
+			<nav class="item base">
+				<img class="interactive" src={% static '/img/12/comendo.png' %} alt="Observando" width="33%" height="80%" onclick="delItem(this)">
+				<img class="interactive" src={% static '/img/12/levando.png' %} alt="Observando" width="33%" height="80%" id="notDel" onclick="delItem(this)">
+				<img class="interactive" src={% static '/img/12/jogando.png' %} alt="Observando" width="33%" height="80%" onclick="delItem(this)">
+			</nav>
+			<label for="f1" class="item large sunny">
+				<input type="radio" id="f1" name="R" value="True" onclick="selectAnsware(this,['f2','f3'])">
+				<div><p>Devemos manusear o livro com cuidado e delicadamente para evitarmos que o livro se rasgue ou amasse.</p></div>
+			</label>
+			<label for="f2" class="item large happy">
+				<input type="radio" id="f2" name="R" value="False" onclick="selectWrong(this)">
+				<div><p>Podemos deixar o livro em qualquer lugar.</p></div>
+			</label>
+			<label for="f3" class="item large base">
+				<input type="radio" id="f3" name="R" value="False" onclick="selectWrong(this)">
+				<div><p>Podemos riscar, rabiscar e colocar clipes no livro.</p></div>
+			</label>
+			<a class="button" onclick="questFinish('questModal','12-1','livros',3,30);">Terminar</a>
+		{% endif %}
+		
+		{% if itens.4 != False and itens.5 != False %}
+			<nav class="box sunny large">
+				<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividade" width="100px">
+				<div class="box"> <h3 class="base">Atividade</h3>
+					<p>Nas frases abaixo, assinale <b class="green">V</b> para verdadeiro e <b class="red">F</b> para falso:</p>
+				</div>
+			</nav>
+			{% if itens.6 != False %}
+				<nav class="box base">
+					<h5>
+						Você já completou esse desafio e conquistou a sua recompensa <br>
+						{% if itens.6.score < 40 %} 
+							Você marcou <strong>{{itens.6.score}}</strong> pontos e a pontuação máxima é 40. Você pode tentar marcar os 40 pontos se quiser
+						{% else %}
+							Você marcou <strong>{{itens.6.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+						{% endif %}
+					</h5>
+				</nav><p></p>
+				<em>Recompensa obtida:</em>
+				<nav class="flex">
+					<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.6.score }}</strong></div>&emsp;
+					<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.6.credits }}</strong></div>&emsp;
+					<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+				</nav>
+				{% if itens.6.score < 40 %}
+					{% if request.user.profile.credits > itens.6.credits %}
+						<a href="{% url 'livro1:questUndo' '12-3' itens.6.score 'livros' 3 %}" class="large">
+							<button class="button previous next"><span>Tentar novamente</span></button>	
+						</a>
+					{% else %}
+						<button onclick="alert('Ops... Você não tem {{itens.6.credits}} créditos disponíveis para tentar novamente')" 
+							class="button previous next"><span>Tentar novamente</span></button>
+					{% endif %}
+					<nav class="item alert">
+						<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+							Você irá gastar {{ itens.6.credits }} créditos e poderá receber até <strong>40,00</strong> créditos de volta.</h5>
+					</nav>
+				{% endif %}
+				<p></p>
+				<a href="{% url 'livro1:lesson' 'livros' 4 %}" class="large">
+					<button class="button next"><span>VAMOS LÁ!</span></button>
+				</a>
+			{% else %}
+			<nav class="flex">
+				<div class="item base">Respostas:&ensp;<strong id="hits" class="green">0</strong>
+				</div>&emsp;<div class="item base"> Pontuação:&ensp;<strong id="totalScore" class="green">0</strong></div>
+			</nav>
+			<nav class="box sunny large">
+				<div class="box">
+					<div class="item base">
+						<p style="width:70%">A melhor forma de marcar as páginas de um livro é utilizando clipes.</p>
+						<label for="true1" class="box base-detail flex">
+							<input type="radio" id="true1" name="item1" onclick="selectWrong(this)">
+							<div><p>V</p></div>
+						</label>
+						<label for="false1" class="box base-detail flex">
+							<input type="radio" id="false1" name="item1" onclick="selectAnsware(this,['false1'])">
+							<div><p>F</p></div>
+						</label>
+					</div>
+					<div class="item base">
+						<p style="width:70%">Podemos usar o livro sobre a cabeça para se proteger da chuva.</p>
+						<label for="true2" class="box base-detail flex">
+							<input type="radio" id="true2" name="item2" onclick="selectWrong(this)">
+							<div><p>V</p></div>
+						</label>
+						<label for="false2" class="box base-detail flex">
+							<input type="radio" id="false2" name="item2" onclick="selectAnsware(this,['true2'])">
+							<div><p>F</p></div>
+						</label>
+					</div>
+					<div class="item base">
+						<p style="width:70%">Quando precisamos fazer alguma anotação, o correto é escrever diretamente no livro.</p>
+						<label for="true3" class="box base-detail flex">
+							<input type="radio" id="true3" name="item3" onclick="selectWrong(this)">
+							<div><p>V</p></div>
+						</label>
+						<label for="false3" class="box base-detail flex">
+							<input type="radio" id="false3" name="item3" onclick="selectAnsware(this,['true3'])">
+							<div><p>F</p></div>
+						</label>
+					</div>
+					<div class="item base">
+						<p style="width:70%">Antes de manusear o livro, devemos lavar bem as mãos para não o sujar.</p>
+						<label for="true4" class="box base-detail flex">
+							<input type="radio" id="true4" name="item4" onclick="selectAnsware(this,['false4'])">
+							<div><p>V</p></div>
+						</label>
+						<label for="false4" class="box base-detail flex">
+							<input type="radio" id="false4" name="item4" onclick="selectWrong(this)">
+							<div><p>F</p></div>
+						</label>
+					</div>
+				</div>
+			</nav>
+			<br>
+			<a class="button" onclick="questFinish('questModal','12-3','livros',3,40);">Terminar</a>
+			{% endif %}
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

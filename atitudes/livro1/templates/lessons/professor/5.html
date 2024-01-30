@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px" class="sticker">
+		  	<img src={% static '/img/stickers/13.png' %} alt="sticker" width="120px" >
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  		</div>
+	  		<form action="#" method="post" class="element box">
+	  			{% csrf_token %}
+				<input type="hidden" name="text" id="text" value="10">
+				<input type="submit" value="Resgatar meu prêmio">
+		  	</form>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <img src={% static '/img/9/nerd.png' %} alt="Professora" width="100%">
+    <h5>O conhecimento é poder!</h5>
+    <p></p>
+    <img src={% static '/img/9/quadroBranco.png' %} alt="Professora" width="100%">
+    <h5>Uma vez os quadros das escolas eram verdes, mas agora é mais comum encontrar esses quadros brancos. Além disso, logo as escolas poderão ter quadros digitais.</h5>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'professor' 4 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <h3 class="purple">A relação aluno-professor: construindo uma nova escola</h3>
+	    <p>Assim como toda a relação entre duas ou mais pessoas, o relacionamento aluno-professor deve envolver muito respeito.<br>
+	    	Precisamos construir uma nova escola: um lugar onde aprendemos mais do que os conteúdos de matemática, história ou geografia.
+	    	Um lugar onde aprendemos a viver e conviver com os outros, onde aprendemos a ter respeito, a ser tolerantes e
+	    	solidários. Um lugar onde aprendemos a nos tornar cidadãos!</p>
+	    <img src={% static '/img/9/presente.png' %} alt="Professora" width="100%">
+    	<p>Com a colaboração de todos, o professor encarrega-se de comandar grandes transformações em sala de aula! 
+			Mas para que transformações verdadeiras aconteçam, é necessário que você o auxilie, respeitando-o e valorizando-o
+			como ele merece, afinal grandes orquestras precisam de grandes regentes.</p>
+	    <img src={% static '/img/9/mundo.png' %} alt="Professora" width="100%">
+	    <nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividade" width="150px">
+			<div class="box"> <h3 class="sunny">Atividade</h3>
+				<h4>Abaixo, escreva uma poesia dedicada ao seu professor.</h4>
+			</div>
+		</nav>
+		{% if itens.5 != False %}
+			<div class="line"></div>
+			<nav class="box base">
+				<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Mãos à obra" width="150px">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa<br>
+					{% if itens.5.score < 100 %} 
+						Você marcou <strong>{{itens.5.score}}</strong> pontos e a pontuação máxima é 100. Você pode tentar marcar os 100 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.5.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.5.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.5.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.5.score < 100 %}
+				{% if request.user.profile.credits > itens.5.credits %}
+					<a href="{% url 'livro1:questUndo' '9-4' itens.5.score 'professor' 5 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.5.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.5.credits }} créditos e poderá receber até <strong>100,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p>Sua poesia:<br>
+				<em class="purple">{{ itens.6 }}</em></p>
+			<a href="{% url 'livro1:lesson' 'professor' 6 %}" class="large">
+				<button class="button next"><span>VAMOS LÁ!</span></button>
+			</a>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny hide">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="box happy large">
+				<div class="box"><p></p><textarea id="ftext" placeholder="Escreva aqui" rows="4" oninput="textSize(this,100)"></textarea><p></p></div>
+			</nav>
+			<a class="button" onclick="answareText('questModal','9-4');">Terminar</a><p></p>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

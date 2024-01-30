@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.4.sort }}</strong>
+			  	<p><i>{{ itens.4.name }}:</i> {{ itens.4.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.4.id 'caminho' 3 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '6-2' 0 'caminho' 3 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <h4 class="green">Não se esqueça que lugar de lixo é na lixeira. É sério!</h4>
+    <img src={% static '/img/5/lixo.png' %} alt="sol" width="100%">
+    <h4 class="green"></h4>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" id="page1">
+    	<a href="{% url 'livro1:lesson' 'caminho' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		{% if itens.5 %}
+			<section class="box base">
+				<div class="box"> 
+					<p>{{ itens.4.text|linebreaks	 }}</p>
+				</div>
+				<img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		<nav class="box sunny">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividade" width="100px">
+			<h3 class="box contrast white">Atividade</h3>
+			<h4>As placas de trânsito têm como objetivo mostrar e avisar aos pedestres e
+				motoristas quais são as atitudes que devemos tomar quando estamos próximos a
+				elas.<br><br>
+				Clique na placa e no significado correspondente a imagem da placa.<br></h4>
+		</nav> 
+		<div class="line"></div>
+		{% if itens.7 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.7.score < 60 %} 
+						Você marcou <strong>{{itens.7.score}}</strong> pontos e a pontuação máxima é 60. Você pode tentar marcar os 60 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.7.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.7.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.7.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.7.score < 60 %}
+				{% if request.user.profile.credits > itens.7.credits %}
+					<a href="{% url 'livro1:questUndo' '6-2' itens.7.score 'caminho' 3 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.7.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.7.credits }} créditos e poderá receber até <strong>60,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<nav class="box happy">
+				<img class="sticker-left" src={% static '/img/1/Observando.gif' %} alt="Observando" width="120px">
+				<h3 class="box contrast white">Observando...</h3>
+				<h4>Observe a imagem abaixo e clique nas crianças que
+					estão agindo corretamente.</h4>
+			</nav>
+			<div class="line"></div>
+			{% if itens.8 != False %}
+				<nav class="box base">
+					<h5>
+						Você já completou esse desafio e conquistou a sua recompensa<br>
+						{% if itens.8.score < 20 %} 
+							Você marcou <strong>{{itens.8.score}}</strong> pontos e a pontuação máxima é 20. Você pode tentar marcar os 20 pontos se quiser
+						{% else %}
+							Você marcou <strong>{{itens.8.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+						{% endif %}
+					</h5>
+				</nav><p></p>
+				<em>Recompensa obtida:</em>
+				<nav class="flex">
+					<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.8.score }}</strong></div>&emsp;
+					<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.8.credits }}</strong></div>&emsp;
+					<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+				</nav>
+				{% if itens.8.score < 20 %}
+					{% if request.user.profile.credits > itens.8.credits %}
+						<a href="{% url 'livro1:questUndo' '6-3' itens.8.score 'caminho' 3 %}" class="large">
+							<button class="button previous next"><span>Tentar novamente</span></button>	
+						</a>
+					{% else %}
+						<button onclick="alert('Ops... Você não tem {{itens.8.credits}} créditos disponíveis para tentar novamente')" 
+							class="button previous next"><span>Tentar novamente</span></button>
+					{% endif %}
+					<nav class="item alert">
+						<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+							Você irá gastar {{ itens.8.credits }} créditos e poderá receber até <strong>20,00</strong> créditos de volta.</h5>
+					</nav>
+				{% endif %}
+				<p></p>
+				<button onclick="openPage('page2', 'page1');" class="button next"><span>VAMOS LÁ!</span></button>
+			{% else%}
+				<nav class="flex">
+					<div class="item sunny">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+					</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+				</nav>
+				<nav class="box sunny">
+					<div class="img-map" style="width:100%">
+						<img src={% static '/img/6/onibus.png' %} alt="buss" width="100%">
+						<svg width="100%" height="100%">
+							<rect x="15%" y="30%" width="13%" height="26%" id="menino" rx="20" ry="50" onclick="selectPoint(this)"/>
+							<rect x="29%" y="31%" width="12%" height="24%" id="menina" rx="20" ry="50" onclick="selectPoint(this)"/>
+						</svg> 
+					</div>
+				</nav>
+				<a class="button" onclick="questFinish('questModal','6-3','caminho',3,20);">Terminar</a><p></p>
+			{% endif %}
+		{% else %}
+			<nav class="flex">
+				<div class="item happy">Acertos:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item happy"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="box sunny">
+				<nav class="item page">
+					<nav class="item happy large img-container">
+						<a class="hide" onclick="questFinish('questModal','6-2','caminho',3,60);" id="finishBtn">Terminar</a>
+						<img src={% static '/img/6/placa1.png' %} class="img-item interactive" onclick="selectItem(this)" id="pProibido">
+						<img src={% static '/img/6/placa2.png' %} class="img-item interactive" onclick="selectItem(this)" id="pFaixa">
+						<img src={% static '/img/6/placa3.png' %} class="img-item interactive" onclick="selectItem(this)" id="pFaixaEscola">
+						<img src={% static '/img/6/placa4.png' %} class="img-item interactive" onclick="selectItem(this)" id="pEscolar">
+						<img src={% static '/img/6/placa5.png' %} class="img-item interactive" onclick="selectItem(this)" id="pKids">
+						<img src={% static '/img/6/placa6.png' %} class="img-item interactive" onclick="selectItem(this)" id="pBike">
+						<input type="hidden" id="selected" value="">
+					</nav>
+					<nav class="column page" style="width:85%" id="options">
+						<a class="btn completed interactive" onclick="useItem(this,'pBike')">Trânsito de ciclistas</a>
+						<a class="btn completed interactive" onclick="useItem(this,'pFaixa')">Passagem sinalizada de pedestres</a>
+						<a class="btn completed interactive" onclick="useItem(this,'pEscolar')">Área escolar</a>
+						<a class="btn completed interactive" onclick="useItem(this,'pFaixaEscola')">Passagem sinalizada de escolares</a>
+						<a class="btn completed interactive" onclick="useItem(this,'pKids')">Cuidado, crianças</a>
+						<a class="btn completed interactive" onclick="useItem(this,'pProibido')">Proibido trânsito de pedestre.</a>
+					</nav>
+					<img src={% static '/img/6/faixa.png' %} alt="Errado" width="75%" style="opacity: 0.5;" id="imgGame">
+				</nav>
+			</nav>
+		{% endif %}
+		
+    </article>
+	<article class="page" id="page2">
+		<button onclick="openPage('page1', 'page2');" class="button previous"><span>Voltar</span></button>
+		<h5 class="a">
+			Se você utiliza um serviço de transporte escolar, peça aos seus pais ou
+			responsáveis para ler as dicas a seguir. Elas são muito importantes na hora
+			de contratar um serviço de transporte.</h5>
+		<nav class="box sunny">
+			<h3 class="purple">Leitura com os pais</h3>
+			<img class="sticker-right" src={% static '/img/6/tchau.png' %} alt="Placa" width="50%">
+			<p class="a">
+				Os cuidados com o transporte escolar dos filhos vão além das
+				condições do veículo e da documentação pessoal do motorista. O
+				ideal é que os pais façam um contrato com o prestador de serviço
+				para ter certeza do que está sendo oferecido. Quanto mais informações 
+				os pais tiverem antes de assinar o contrato, melhor. Por isso,
+				é importante: procurar referências na escola e com outros pais, no
+				sindicato dos motoristas ou no DETRAN; obter o endereço e telefone
+				do motorista; verificar as condições de higiene e conforto do veículo
+				e a existência e o número de cintos de segurança.</p>
+		</nav>
+		<p></p>
+		<a href="{% url 'livro1:chapter' 6 request.user.profile.id %}" class="btn completed">
+			Meu livro &ensp;<i class="fas fa-book-reader"></i></a>
+	</article>
+  </section>
+
+
+  <script>
+  	openPage('page1','page2');
+  </script>
+
+{% endblock %}

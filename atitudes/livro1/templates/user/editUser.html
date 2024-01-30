@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<aside class="side clean-detail" id="leftSide">
+    <a class="btn completed" href="{% url 'livro1:userInfo' request.user.profile.id %}"><i class="fas fa-user-astronaut"></i>&ensp;Perfil</a>
+  	<h4>As lições voltarão a aparecer ao terminar de editar o seu perfil de usuário</h4>
+</aside>
+<article class="main clean">
+  <form action="#" method="post">
+	<article class="item sunny">
+	  {% csrf_token %}
+	  <div class="box">
+	  	{% if form.errors %}
+			{{form.non_field_errors}}
+		{% endif %}
+			<h4>Você pode preencher apenas os campos que deseja mudar e deixar os outros em branco :D</h4>
+	  	
+	  </div>
+	</article>&emsp;
+		<article class="item happy">
+		  <div class="box large">
+			<label for="fname">Nome de usuário:</label><br>
+			<input type="text" id="fname" name="username" value="{{ form.username.value|default_if_none:"" }}" placeholder="Antigo nome de usuário: {{ user.username }}">
+		  </div>
+		</article>
+		<article class="item happy">
+		  <div class="box large">
+			<label for="ffirst_name">Primeiro Nome:</label><br>
+			<input type="text" id="ffirst_name" name="first_name" value="{{ form.first_name.value|default_if_none:"" }}" placeholder="Antigo nome: {{ user.first_name }}">
+		  </div>
+		</article>
+		<article class="item happy">
+		  <div class="box large">
+			<label for="flast_name">Sobrenome:</label><br>
+			<input type="text" id="flast_name" name="last_name" value="{{ form.last_name.value|default_if_none:"" }}" placeholder="Antigo sobrenome: {{ user.last_name }}">
+		  </div>
+		</article>
+		<article class="item happy">
+		  <div class="box large">
+			<label for="femail">E-mail:</label><br>
+			<input type="text" id="femail" name="email" value="{{ form.email.value|default_if_none:"" }}" placeholder="Antigo E-mail:: {{ user.email }}">
+		  </div>
+		</article>
+	<input type="submit" value="Salvar usuário">
+  </form>
+</article>
+
+{% endblock %} 

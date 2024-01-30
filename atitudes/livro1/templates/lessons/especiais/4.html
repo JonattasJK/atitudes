@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Por que o pinheiro não se perde na floresta? Porque ele tem uma pinha (um mapinha) heeuheueeh</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '3-4' 0 'familia' 5 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+	
+	<img src={% static '/img/17/pazeamor.png' %} alt="Placa" width="100%">
+	<p><label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label></p>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" >
+    	<a href="{% url 'livro1:lesson' 'especiais' 3 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="atividades" width="150px">
+			<div class="box"> <h3 class="box contrast white">Atividade</h3>
+				<p>As imagens abaixo ilustram nosso personagem Marcelo agindo de forma
+					incorreta ao ajudar os portadores de deficiência. Escolha as atitudes corretas,
+					mostrando para Marcelo como uma criança que respeita às diferenças deve agir.
+				</p>
+			</div>
+		</nav>
+		<div class="line"></div>
+		{% if itens.12 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.12.score < 30 %} 
+						Você marcou <strong>{{itens.12.score}}</strong> pontos e a pontuação máxima é 30. Você pode tentar marcar os 30 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.12.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.12.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.12.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.12.score < 30 %}
+				{% if request.user.profile.credits > itens.12.credits %}
+					<a href="{% url 'livro1:questUndo' '17-2' itens.12.score 'especiais' 4 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.12.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.12.credits }} créditos e poderá receber até <strong>30,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<a href="{% url 'livro1:chapter' 17 request.user.profile.id %}" class="btn completed">
+				Meu livro &ensp;<i class="fas fa-book-reader"></i></a>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny">Acertos:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="page">
+				<img src={% static '/img/17/cego2.png' %} alt="cego2" width="50%">
+				<label class="item sunny">
+					<input type="radio" name="quest3" onclick="selectAnsware(this,['r1'])">
+					Você deve dobrar o braço e colocar a mão do deficiente visual sobre seu cotovelo para que ele possa guiar-se pelo movimento do seu corpo.		
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="quest3" onclick="selectWrong(this)" id="r1">
+					Você deve segurar na mão do deficiente visual e guiá-lo para local desejado.			
+				</label>
+			</nav>
+			<nav class="page">
+				<img src={% static '/img/17/cadeirante4.png' %} alt="cadeirante4" width="50%">
+				<label class="item sunny">
+					<input type="radio" name="quest3" onclick="selectWrong(this)" id="r2">
+					Você pode correr empurrando a cadeira de rodas de seu colega, pois os dois
+					vão se divertir. Mas tenha cuidado.			
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="quest3" onclick="selectAnsware(this,['r2'])">
+					Você deve ter cuidado ao empurrar uma pessoa em cadeira de rodas. Não é
+					recomendado correr empurrando a cadeira de rodas, pois o menor obstáculo
+					poderá causar um acidente.			
+				</label>
+			</nav>
+			<nav class="page">
+				<img src={% static '/img/17/cego3.png' %} alt="cego3" width="50%">
+				<label class="item sunny">
+					<input type="radio" name="quest3" onclick="selectAnsware(this,['r3'])">
+					Ao dirigir-se a uma pessoa surda, toque levemente em seu braço ou olhe
+					diretamente para ela e certifique-se de que ela também esteja olhando.
+					Fazendo com que a pessoa participe da conversa.		
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="quest3" onclick="selectWrong(this)" id="r3">
+					Ao dirigir-se a uma pessoa surda, você deve falar normalmente sem tocar em
+					seu braço. Logo a pessoa surda vai perceber que está participando da
+					conversa e responderá.			
+				</label>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','17-2','especiais',4,30);">Terminar</a>
+	    {% endif %}
+    </article>
+  </section>
+
+{% endblock %}

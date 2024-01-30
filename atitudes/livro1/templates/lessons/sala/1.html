@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+
+
+<!-- jokeModal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Por que a velhinha não usa relógio? Porque ela é uma sem hora hahahaha</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+<!-- /jokeModal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão Home irá voltar para a página inicial!</h5>
+		<h5>Lição número 10! VAMOS LÁ!</h5>
+		<img src={% static '/img/10/estudando.png' %} alt="Placa" width="100%">
+		<p>Sua postura na sala de aula pode definir o seu futuro! Todos nós temos sonhos, mas apenas quem se esforça consegue realizá-los 
+			<label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label></p>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+       <h2 class="purple">Boas Maneiras <br><b class="blue">na sala de aula</b></h2>
+        <img src={% static '/img/10/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: comportamento e dedicação</h3>
+        <nav class="box base">
+			<h3 class="item contrast white">Espaço de estudo e de convivência</h3> 
+			<p>A sala de aula é o principal local de estudo da escola e o
+				mais apropriado. É lá que passamos algumas horas de nosso dia e
+				convivemos com professores e colegas. Também é na sala de aula
+				que aprendemos, fazemos amigos e crescemos junto com eles. Por
+				isso, é um lugar que precisa ser respeitado.</p>
+		</nav>
+	    <a href="{% url 'livro1:lesson' 'sala' 2 %}" class="large">
+        	<button class="button next"><span>VAMOS LÁ!</span></button>
+        </a>
+        <img src={% static '/img/10/rodape.png' %} alt="amigos" width="100%">
+    </article>
+  </section>
+
+{% endblock %} 	

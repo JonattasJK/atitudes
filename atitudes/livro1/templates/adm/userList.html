@@ -1,0 +1,53 @@
+{% extends "adm/base.html" %}
+{% load static %}
+
+{% block body %}
+
+  <article class="main clean">
+    <nav class="item base page"><h3>
+		{% if school %}
+			{{ school.name }}
+		{% else %}
+			Independente
+		{% endif %}
+    </h3></nav>
+    <h5>Para ver os usuários de uma determinada escola, selecione-a e então clique em "Procurar usuários"</h5>
+    <select name="f6" id="f6" onchange="alterBtn(this);">
+    	<option value="0" >--Sem escola--</option>
+		{% if schools %}{% for scl in schools%}
+			<option value="{{scl.id}}" >{{scl.name}}</option>
+		{% endfor %}{% endif %}
+	</select>
+    <a class="button" href="{% url 'livro1:userList' 0 %}" id="getUsers">Procurar usuários</a>
+	<nav class="box page">
+		<div class="item base-detail">
+			<em>Usuário - Status - Pontuação - Hierarquia - Responsável</em>
+		</div>
+		{% if users %}<br>{% for user in users %}
+			<div class="item base">
+				<div class="box base-detail">
+					<a href="{% url 'livro1:userInfo' user.id %}" class="btn {%if user.level >= 2 %} completed {% else %} available {% endif %}">
+					{{ user.user.username }}&ensp;{% if user.level >= 2 %}<i class="fas fa-user">{% else %}<i class="fas fa-user-tie">{% endif %}</i></a>
+				</div>
+				<em> - </em>
+				<div class="page">{% if user.active %}<i class="fas fa-thumbs-up green"></i>{% else %}<i class="fas fa-thumbs-down orange"></i>{% endif %}</div>
+				<em> - </em>
+				<div>{{ user.score }}</div>
+				<em> - </em>
+				<div>{% if user.level == 3 %}<em>Professor</em>{% elif user.level == 2 %}<em>Diretor</em>{% elif user.level == 1 %}
+					<em class="green">ADM</em>{%else%}<em class="yellow">Desenvolvedor</em>{% endif %}</div>
+				<em> - </em>
+				<tddiv>{% if user.answerable %}{{ user.answerable.user.username }}{% else %}<a class="orange"> indefinido </a>{% endif %}</div>
+			</div>
+		{% endfor %}{% endif %}
+	</nav>
+  </article>
+  
+  <script>
+  	function alterBtn(school){
+  		 var btn = document.getElementById('getUsers');
+  		 btn.href = "/adm/UserList/"+school.value+"/"
+  	}
+  </script>
+
+{% endblock %} 

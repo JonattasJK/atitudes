@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '4-6' 0 'acordar' 5 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+<!-- Modal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Qual é a fruta mais companheira? A uva parça HUEHUEHU</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <h5>Clique nos pontinhos para descobrir a palavra mágica</h5>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'acordar' 4 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		Qual é a palavra mágica que devemos falar para as pessoas que
+		estiverem em casa no momento em que acordamos? Ligue os pontos e
+		descubra. <label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label>
+		{% if itens.10 != False %}
+			<div class="line"></div>
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.10.score < 51 %} 
+						Você marcou <strong>{{itens.10.score}}</strong> pontos e a pontuação máxima é 51. Você pode tentar marcar os 51 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.10.score}}</strong> pontos, a pontuação máxima! Meus parabéns!
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.10.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.10.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.10.score < 51 %}
+				{% if request.user.profile.credits > itens.10.credits %}
+					<a href="{% url 'livro1:questUndo' '4-6' itens.10.score 'acordar' 5 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.10.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.10.credits }} créditos e poderá receber até <strong>51,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<a href="{% url 'livro1:lesson' 'acordar' 6 %}" class="large">
+				<button class="button next"><span>VAMOS LÁ!</span></button>
+			</a>
+		{% else %}
+			<nav class="flex">
+				<div class="item happy">Acertos:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item happy"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<input type="hidden" id="b" value="l0">
+			<input type="hidden" id="o" value="o0">
+			<input type="hidden" id="m" value="m0">
+			<input type="hidden" id="d" value="d0">
+			<input type="hidden" id="i" value="i0">
+			<input type="hidden" id="a" value="a0">
+			<nav class="box">
+				<div class="img-map" style="width:100%">
+					<img class="sticker-right" src={% static '/img/4/pontinhos.png' %} alt="Ligar pontinhos" width="100%">
+					<svg width="100%" height="100%">
+						<circle cx="17%" cy="29.5%" r="0.5%" onclick="selectDrawPoint(this); document.getElementById('b').value = 'l1';" style="z-index: 1;"/>
+						<line x1="17%" y1="29.5%" x2="22.1%" y2="26.3%" id="l1"/>
+						<circle cx="22.1%" cy="26.3%" r="1%" onclick="drawLine(this,['l1','l2'],'b')" style="z-index: 2;"/>
+						<line x1="22.1%" y1="26.3%" x2="27.9%" y2="26.2%" id="l2"/>
+						<circle cx="27.9%" cy="26.2%" r="1%" onclick="drawLine(this,['l2','l3'],'b')" style="z-index: 3;"/>
+						<line x1="27.9%" y1="26.2%" x2="30.5%" y2="27.5%" id="l3"/>
+						<circle cx="30.5%" cy="27.5%" r="1%" onclick="drawLine(this,['l3','l4'],'b')" style="z-index: 4;"/>
+						<line x1="30.5%" y1="27.5%" x2="32.7%" y2="31%" id="l4"/>
+						<circle cx="32.7%" cy="31%" r="1%" onclick="drawLine(this,['l4','l5'],'b')" style="z-index: 5;"/>
+						<line x1="32.7%" y1="31%" x2="32.5%" y2="34%" id="l5"/>
+						<circle cx="32.5%" cy="34%" r="1%" onclick="drawLine(this,['l5','l6'],'b')" style="z-index: 6;"/>
+						<line x1="32.5%" y1="34%" x2="30.3%" y2="37%" id="l6"/>
+						<circle cx="30.3%" cy="37%" r="1%" onclick="drawLine(this,['l6','l7'],'b')" style="z-index: 7;"/>
+						<line x1="30.3%" y1="37%" x2="32.5%" y2="37%" id="l7"/>
+						<circle cx="32.5%" cy="37%" r="1%" onclick="drawLine(this,['l7','l8'],'b')" style="z-index: 8;"/>
+						<line x1="32.5%" y1="37%" x2="35.3%" y2="38.5%" id="l8"/>
+						<circle cx="35.3%" cy="38.5%" r="1%" onclick="drawLine(this,['l8','l9'],'b')" style="z-index: 9;"/>
+						<line x1="35.3%" y1="38.5%" x2="36.9%" y2="40.9%" id="l9"/>
+						<circle cx="36.9%" cy="40.9%" r="1%" onclick="drawLine(this,['l9','l10'],'b')" style="z-index: 10;"/>
+						<line x1="36.9%" y1="40.9%" x2="37.1%" y2="45.4%" id="l10"/>
+						<circle cx="37.1%" cy="45.4%" r="1%" onclick="drawLine(this,['l10','l11'],'b')" style="z-index: 11;"/>
+						<line x1="37.1%" y1="45.4%" x2="35%" y2="48.8%" id="l11"/>
+						<circle cx="35%" cy="48.8%" r="1%" onclick="drawLine(this,['l11','l12'],'b')" style="z-index: 12;"/>
+						<line x1="35%" y1="48.8%" x2="29.9%" y2="52.3%" id="l12"/>
+						<circle cx="29.9%" cy="52.3%" r="1%" onclick="drawLine(this,['l12','l13'],'b')" style="z-index: 13;"/>
+						<line x1="29.9%" y1="52.3%" x2="26.2%" y2="53%" id="l13"/>
+						<circle cx="26.2%" cy="53%" r="1%" onclick="drawLine(this,['l13','l14'],'b')" style="z-index: 14;"/>
+						<line x1="26.2%" y1="53%" x2="16.2%" y2="30.3%" id="l14"/>
+						<circle cx="16.2%" cy="30.3%" r="0.5%" onclick="drawLine(this,['l14','l15'],'b')" style="z-index: 15;"/>
+											
+						<circle cx="41.6%" cy="39.4%" r="0.5%" onclick="selectDrawPoint(this); document.getElementById('o').value = 'o1';" style="z-index: 1;"/>
+						<line x1="41.6%" y1="39.4%" x2="39.9%" y2="34.1%" id="o1"/>
+						<circle cx="39.9%" cy="34.1%" r="1%" onclick="drawLine(this,['o1','o2'],'o')" style="z-index: 2;"/>
+						<line x1="39.9%" y1="34.1%" x2="40%" y2="28.4%" id="o2"/>
+						<circle cx="40%" cy="28.4%" r="1%" onclick="drawLine(this,['o2','o3'],'o')" style="z-index: 3;"/>
+						<line x1="40%" y1="28.4%" x2="42.2%" y2="23.8%" id="o3"/>
+						<circle cx="42.2%" cy="23.8%" r="1%" onclick="drawLine(this,['o3','o4'],'o')" style="z-index: 4;"/>
+						<line x1="42.2%" y1="23.8%" x2="45.5%" y2="21.3%" id="o4"/>
+						<circle cx="45.5%" cy="21.3%" r="1%" onclick="drawLine(this,['o4','o5'],'o')" style="z-index: 5;"/>
+						<line x1="45.5%" y1="21.3%" x2="49.5%" y2="21%" id="o5"/>
+						<circle cx="49.5%" cy="21%" r="1%" onclick="drawLine(this,['o5','o6'],'o')" style="z-index: 6;"/>
+						<line x1="49.5%" y1="21%" x2="52.7%" y2="22%" id="o6"/>
+						<circle cx="52.7%" cy="22%" r="1%" onclick="drawLine(this,['o6','o7'],'o')" style="z-index: 7;"/>
+						<line x1="52.7%" y1="22%" x2="55.3%" y2="23.8%" id="o7"/>
+						<circle cx="55.3%" cy="23.8%" r="1%" onclick="drawLine(this,['o7','o8'],'o')" style="z-index: 8;"/>
+						<line x1="55.3%" y1="23.8%" x2="58.3%" y2="28.3%" id="o8"/>
+						<circle cx="58.3%" cy="28.3%" r="1%" onclick="drawLine(this,['o8','o9'],'o')" style="z-index: 9;"/>
+						<line x1="58.3%" y1="28.3%" x2="59.2%" y2="32.9%" id="o9"/>
+						<circle cx="59.2%" cy="32.9%" r="1%" onclick="drawLine(this,['o9','o10'],'o')" style="z-index: 10;"/>
+						<line x1="59.2%" y1="32.9%" x2="58.3%" y2="37.7%" id="o10"/>
+						<circle cx="58.3%" cy="37.7%" r="1%" onclick="drawLine(this,['o10','o11'],'o')" style="z-index: 11;"/>
+						<line x1="58.3%" y1="37.7%" x2="56.3%" y2="40.7%" id="o11"/>
+						<circle cx="56.3%" cy="40.7%" r="1%" onclick="drawLine(this,['o11','o12'],'o')" style="z-index: 12;"/>
+						<line x1="56.3%" y1="40.7%" x2="52.4%" y2="43.5%" id="o12"/>
+						<circle cx="52.4%" cy="43.5%" r="1%" onclick="drawLine(this,['o12','o13'],'o')" style="z-index: 13;"/>
+						<line x1="52.4%" y1="43.5%" x2="47.5%" y2="43.3%" id="o13"/>
+						<circle cx="47.5%" cy="43.3%" r="1%" onclick="drawLine(this,['o13','o14'],'o')" style="z-index: 14;"/>
+						<line x1="47.5%" y1="43.3%" x2="42.5%" y2="40.1%" id="o14"/>
+						<circle cx="42.5%" cy="40.1%" r="0.5%" onclick="drawLine(this,['o14','o15'],'o')" style="z-index: 15;"/>
+						
+						<circle cx="62.5%" cy="40.6%" r="0.5%" onclick="selectDrawPoint(this); document.getElementById('m').value = 'm1';" style="z-index: 1;"/>
+						<line x1="62.5%" y1="40.6%" x2="62.1%" y2="20.5%" id="m1"/>
+						<circle cx="62.1%" cy="20.5%" r="1%" onclick="drawLine(this,['m1','m2'],'m')" style="z-index: 2;"/>
+						<line x1="62.1%" y1="20.5%" x2="70.1%" y2="31.5%" id="m2"/>
+						<circle cx="70.1%" cy="31.5%" r="1%" onclick="drawLine(this,['m2','m3'],'m')" style="z-index: 3;"/>
+						<line x1="70.1%" y1="31.5%" x2="71.1%" y2="18.9%" id="m3"/>
+						<circle cx="71.1%" cy="18.9%" r="1%" onclick="drawLine(this,['m3','m4'],'m')" style="z-index: 4;"/>
+						<line x1="71.1%" y1="18.9%" x2="81.2%" y2="36%" id="m4"/>
+						<circle cx="81.2%" cy="36%" r="1%" onclick="drawLine(this,['m4','m5'],'m')" style="z-index: 5;"/>
+						
+						<circle cx="41.3%" cy="77.9%" r="0.5%" onclick="selectDrawPoint(this); document.getElementById('d').value = 'd1';" style="z-index: 1;"/>
+						<line x1="41.3%" y1="77.9%" x2="38%" y2="56.5%" id="d1"/>
+						<circle cx="38%" cy="56.5%" r="1%" onclick="drawLine(this,['d1','d2'],'d')" style="z-index: 1;"/>
+						<line x1="38%" y1="56.5%" x2="43%" y2="54.2%" id="d2"/>
+						<circle cx="43%" cy="54.2%" r="1%" onclick="drawLine(this,['d2','d3'],'d')" style="z-index: 1;"/>
+						<line x1="43%" y1="54.2%" x2="47.2%" y2="54.5%" id="d3"/>
+						<circle cx="47.2%" cy="54.5%" r="1%" onclick="drawLine(this,['d3','d4'],'d')" style="z-index: 1;"/>
+						<line x1="47.2%" y1="54.5%" x2="52%" y2="57.5%" id="d4"/>
+						<circle cx="52%" cy="57.5%" r="1%" onclick="drawLine(this,['d4','d5'],'d')" style="z-index: 1;"/>
+						<line x1="52%" y1="57.5%" x2="55%" y2="62.5%" id="d5"/>
+						<circle cx="55%" cy="62.5%" r="1%" onclick="drawLine(this,['d5','d6'],'d')" style="z-index: 1;"/>
+						<line x1="55%" y1="62.5%" x2="55.3%" y2="66.8%" id="d6"/>
+						<circle cx="55.3%" cy="66.8%" r="1%" onclick="drawLine(this,['d6','d7'],'d')" style="z-index: 1;"/>
+						<line x1="55.3%" y1="66.8%" x2="54.4%" y2="70.3%" id="d7"/>
+						<circle cx="54.4%" cy="70.3%" r="1%" onclick="drawLine(this,['d7','d8'],'d')" style="z-index: 1;"/>
+						<line x1="54.4%" y1="70.3%" x2="52.1%" y2="73.3%" id="d8"/>
+						<circle cx="52.1%" cy="73.3%" r="1%" onclick="drawLine(this,['d8','d9'],'d')" style="z-index: 1;"/>
+						<line x1="52.1%" y1="73.3%" x2="48.3%" y2="75.8%" id="d9"/>
+						<circle cx="48.3%" cy="75.8%" r="1%" onclick="drawLine(this,['d9','d10'],'d')" style="z-index: 1;"/>
+						<line x1="48.3%" y1="75.8%" x2="42.6%" y2="77.6%" id="d10"/>
+						<circle cx="42.6%" cy="77.6%" r="0.5%" onclick="drawLine(this,['d10','d11'],'d')" style="z-index: 1;"/>
+						
+						<circle cx="61.6%" cy="51.5%" r="0.5%" onclick="selectDrawPoint(this); document.getElementById('i').value = 'i1';" style="z-index: 1;"/>
+						<line x1="61.6%" y1="51.5%" x2="61.7%" y2="75.1%" id="i1"/>
+						<circle cx="61.7%" cy="75.1%" r="1%" onclick="drawLine(this,['i1','i2'],'i')" style="z-index: 1;"/>
+						
+						<circle cx="67%" cy="74.8%" r="0.5%" onclick="selectDrawPoint(this); document.getElementById('a').value = 'a1';" style="z-index: 1;"/>
+						<line x1="67%" y1="74%" x2="70.9%" y2="51.1%" id="a1"/>
+						<circle cx="70.9%" cy="51.1%" r="1%" onclick="drawLine(this,['a1','a2'],'a')" style="z-index: 1;"/>
+						<line x1="70.9%" y1="51.1%" x2="80.2%" y2="73.2%" id="a2"/>
+						<circle cx="80.2%" cy="73.2%" r="1%" onclick="drawLine(this,['a2','a3'],'a')" style="z-index: 1;"/>
+					</svg>  
+				</div>
+			</nav>
+			<a class="button" onclick="questFinishSimple('questModal','4-6','acordar',5,51);">Terminar</a>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

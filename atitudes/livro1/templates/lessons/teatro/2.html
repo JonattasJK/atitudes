@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.2.sort }}</strong>
+			  	<p><i>{{ itens.2.name }}:</i> {{ itens.2.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'teatro' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.4.sort }}</strong>
+			  	<p><i>{{ itens.4.name }}:</i> {{ itens.4.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.4.id 'teatro' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+	<img class="sticker-right" src={% static '/img/15/palcoItaliano.png' %} alt="palco1" width="100%">
+	<h4>Palco Italiano - Teatro Bradesco.</h4>
+	<img class="sticker-right" src={% static '/img/15/palcoElizabetano.png' %} alt="palco1" width="100%">
+	<h4>Palco Elisabetano - Globe Theatre.</h4>
+	<img class="sticker-right" src={% static '/img/15/palcoArena.png' %} alt="palco1" width="100%">
+	<h4>Palco de Arena - Teatro de Arena de Ribeirão Preto.</h4>
+	
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" style="height:100%">
+        <a href="{% url 'livro1:lesson' 'teatro' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box">
+			<h5 class="green">Basicamente, o local destinado à apresentações (auditório, teatro, anfiteatro) é dividido em dois segmentos: a plateia e o palco.</h5>
+			<h3 class="purple">Plateia</h3>
+			<p>A plateia é o espaço destinado aos espectadores, para que possam assistir às apresentações. A forma e o tamanho da plateia podem variar conforme o espaço.</p>
+			<h3 class="purple">Palco</h3>
+			<img class="sticker-left" src={% static '/img/15/declamar.png' %} alt="declamando" width="30%">
+			<p>O palco é o espaço destinado às representações, em geral construído de madeira, e que pode ser fixo, giratório ou transportável, bem como tomar várias formas
+				e localizações em função da plateia, que pode situar-se à frente dele ou circundá-lo por dois ou mais lados. Existem, basicamente, três tipos de palco:</p>
+			<img class="sticker-right" src={% static '/img/15/palco1.png' %} alt="palco1" width="30%">
+			<p><em class="box contrast white">Palco italiano: </em>Palco, normalmente situado acima da plateia, em que os espectadores assistem à apresentação
+				de formal frontal. Apresenta uma cortina que é fechada para mudança de cenário, de tempo ou no final da apresentação. Normalmente, o espaço entre a
+				plateia e o palco é maior que o do palco de arena.</p>
+			<img class="sticker-left" src={% static '/img/15/palco2.png' %} alt="palco2" width="30%">
+			<p><em class="box contrast white">Palco elisabetano: </em>Palco que pode situar-se acima ou ao nível da plateia. Seu espaço normalmente é fechado,
+				retangular, com uma grande ampliação. Palco de <em class="blue">proscênio</em> (em formato retangular ou circular). A proscênio plateia o circunda por três
+				lados. Pode ser retangular, plateia circular ou mista.</p>
+			<img class="sticker-right" src={% static '/img/15/palco3.png' %} alt="lendo" width="30%">
+			<p><em class="box contrast white">Palco de arena: </em>Palco que pode ou não ser coberto, situado abaixo da plateia, que o envolve totalmente. 
+				Pode apresentar formato circular, semicircular, quadrado, triangular ou ovalado.</p>
+			{% if itens.3 %}
+				<nav class="box shine" style="width:100%">
+					<img class="sticker-left" src={% static '/img/1/glossario.gif' %} width="150px" height="150px">
+					<div class="box"> <h3 class="blue">{{ itens.2.name }}</h3>
+						<p>{{ itens.2.text|linebreaks }}</p>
+					</div>
+				</nav>
+			{% else %}
+				<section class="box">
+					<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/glossario.gif' %} width="150px"></a>
+				</section>
+			{% endif %}<div class="line"></div>
+			<h3 class="purple">Apresentações artísticas na escola</h3>
+			<img class="sticker-left" src={% static '/img/15/plateia2.png' %} alt="lendo" width="40%">
+			<p>Durante o ano escolar, as escolas costumam organizar eventos e festas. É o caso das festas juninas, que fazem parte da cultura de quase todos
+			os estados do Brasil. Elas têm esse nome porque normalmente acontecem no mês de junho. <br><br>
+			As festas juninas trazem diversão a todos, com danças e comidas
+			típicas, como doces, pipoca, pinhão e muito mais. Em momentos assim sabemos se as pessoas são verdadeiramente educadas. Quem é educado, é educado o
+			tempo todo, especialmente na hora de se divertir. <br><br>
+			Leia a seguir as atitudes para colaborar e ajudar nas festas organizadas pela escola:</p>
+			<p><em class="box contrast white">1</em>Oferecer ajuda e colaborar nas atividades programadas.</p>
+			<p><em class="box contrast white">2</em>Participar dos preparativos: fazer bandeirinhas, encher balões e enfeitar a escola.</p>
+			<p><em class="box contrast white">3</em>Fazer parte da festa e respeitar a diversão dos outros.</p>
+			<p>A vida em sociedade traz muita diversidade e isso é bom para todos. Imagine se todos gostassem só de rock ou só de pagode? Se todos tivessem
+				o mesmo gosto, não teríamos tantos ritmos interessantes. <br><br>
+				Pense sobre isso ao participar das festas da escola. Se você não gosta de dançar, respeite quem gosta e divirta-se! Só não vale ficar nos
+				cantos fofocando e rindo de quem está participando da festa. Lembre-se que a falta de respeito nunca é uma boa atitude.</p>
+	    </nav>
+		<div class="line"></div>
+		{% if itens.5 %}
+			<nav class="box sunny large" style="width:100%">
+				<img class="sticker-right" src={% static '/img/1/lembrese.gif' %} width="150px" height="150px">
+				<div class="box"> <h3 class="blue">{{ itens.4.name }}</h3>
+					<p>{{ itens.4.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal2');"><img src={% static '/img/1/lembrese.gif' %} width="150px"></a>
+			</section>
+		{% endif %}<div class="line"></div>
+		<a href="{% url 'livro1:lesson' 'teatro' 3 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+
+{% endblock %}

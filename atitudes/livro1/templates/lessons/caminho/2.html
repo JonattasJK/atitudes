@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- discoveryModal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'caminho' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.2.sort }}</strong>
+			  	<p><i>{{ itens.2.name }}:</i> {{ itens.2.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'caminho' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /discoveryModal -->
+
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Sempre olhe para os dois lados antes de atravessar a rua!</h5>
+	  	<img class="sticker-left" src={% static '/img/6/faixa.png' %} alt="Talheres" width="300px">
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+        <a href="{% url 'livro1:lesson' 'caminho' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <p>Durante o caminho até a escola, as boas maneiras devem estar presentes. 
+	    	Cumprimentar o motorista do transporte escolar, seguir as normas de 
+	    	segurança e atravessar a rua na faixa de pedestres, por exemplo,
+	    	são atitudes de pessoas que têm boas maneiras. Além de tornar o trajeto
+	    	mais agradável, o exercício das boas maneiras a caminho da escola 
+	    	preserva a sua vida, pois torna o trajeto mais seguro. Por isso é
+	    	importante que você conheça e execute algumas regrinhas.</p>
+	    <div class="line"></div>
+	    <nav class="box">
+			<h3 class="purple">Se você utiliza transporte escolar</h3>
+			<img src={% static '/img/6/faixa.png' %} alt="Faixa de pedestre" width="100%">
+			<p><em class="box contrast white">1</em>Ao entrar no ônibus, não corra. Não se preocupe em sentar
+				rapidamente, pois o motorista irá aguardar até que você esteja sentado para movimentar o ônibus.</p>
+			<p><em class="box contrast white">2</em>Ao sentar ao lado de um colega, cumprimente-o, mesmo que
+				você não o conheça. Esse pode ser um bom momento para fazer novas amizades.</p>
+			<p><em class="box contrast white">3</em>Assim que você estiver sentado, coloque o cinto de segurança.</p>
+			<p><em class="box contrast white">4</em>Não <em class="green">vandalize</em> o ônibus: riscar ou cortar o assento, jogar lixo
+				no chão e colocar os pés sobre os bancos são atitudes de pessoas que não respeitam o patrimônio coletivo.</p>
+			{% if itens.1 %}
+				<section class="box happy">
+					<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+						<p>{{ itens.0.text }}</p>
+					</div>
+					<img src={% static '/img/1/glossario.gif' %} alt="Glossario" height="150px" width="150px">
+				</section><div class="line"></div>
+			{% else %}
+				<section class="box notSqueeze">
+					<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/glossario.gif' %} alt="Glossario" width="150px"></a>
+				</section>
+			{% endif %}
+			<p><em class="box contrast white">5</em>Durante o trajeto, você não deve ingerir líquidos ou alimentos: lembre-se de que o
+				ônibus está em movimento e qualquer irregularidade na pista poderá causar uma <em class="green">oscilação</em>.</p>
+			{% if itens.3 %}
+				<section class="box sunny">
+					<div class="box"> <h3 class="blue">{{ itens.2.name }}</h3>
+						<p>{{ itens.2.text }}</p>
+					</div>
+					<img src={% static '/img/1/glossario.gif' %} alt="Glossario" height="150px" width="150px">
+				</section><div class="line"></div>
+			{% else %}
+				<section class="box">
+					<a class="button" onclick="showModal('discoveryModal2');"><img src={% static '/img/1/glossario.gif' %} alt="Glossario" width="150px"></a>
+				</section>
+			{% endif %}	
+			<p><em class="box contrast white">6</em>Nunca permaneça em pé enquanto o ônibus estiver em movimento. Quando chegar a
+				sua vez de descer, aguarde até que o ônibus esteja completamente parado para retirar o cinto de segurança.</p>
+			<p><em class="box contrast white">7</em>Ao sair do ônibus, despeça-se de seus amigos e colegas.</p>
+			<p><em class="box contrast white">8</em>Ao se despedir do motorista, agradeça-o.</p>
+			<p><em class="box contrast white">9</em>Olhe para os dois lados antes de descer do ônibus.</p>
+		</nav>
+		<nav class="box">
+			<h3 class="purple">Se você vai à escola a pé</h3>
+			<img src={% static '/img/6/trajeto.png' %} alt="Faixa de pedestre" width="100%">
+			<p><em class="box contrast white">1</em>Olhe bem para os dois lados antes de atravessar a rua e atravesse somente na faixa de pedestres.</p>
+			<p><em class="box contrast white">2</em>Se você precisar atravessar a rua e não encontrar uma faixa de pedestres próxima, procure 
+				atravessar num local mais tranquilo, de menor movimentação de carros e afaste-se o máximo possível das esquinas.</p>
+			<p><em class="box contrast white">3</em>Não jogue lixo ou qualquer outro objeto no chão.</p>
+			<p><em class="box contrast white">4</em>Se você vai à escola acompanhado de um ou mais colegas, evite
+				correr ou fazer brincadeiras que possam distraí-los. Na rua,
+				mesmo na calçada, qualquer distração pode resultar em acidentes.</p>
+			<p><em class="box contrast white">5</em>Durante o trajeto, cumprimente as pessoas que você encontra
+				com maior frequência, como o atendente da padaria, o vizinho
+				que está aguardando o ônibus, etc.</p>
+		</nav>
+		<a href="{% url 'livro1:lesson' 'caminho' 3 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  
+  </section>
+
+{% endblock %}

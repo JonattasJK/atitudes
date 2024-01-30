@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'colegas' 4 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+    <img src={% static '/img/4/estrelas.png' %} alt="Estrelas" width="100%">
+    <h5>O desafio do dicionário irá começar na próxima página, quando você clicar em <strong>Vamos Lá</strong></h5>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'colegas' 3 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <h3 class="purple">Boas maneiras e os colegas x bullying</h3>
+	    <p>Vimos até aqui que o respeito é uma atitude muito importante, que deve estar
+	    	sempre presente em nosso cotidiano, seja em nossa relação com a cidade, 
+	    	com a família, seja em nossa relação com amigos e colegas.<br><br>
+	    	Existem, no entanto, atitudes que demonstram desrespeito pelos colegas como 
+	    	xingar, humilhar, agredir, intimidar, roubar e excluir. A este desrespeito 
+	    	praticado por colegas e entre colegas, chamamos bullying.</p>
+		{% if itens.1 %}
+			<section class="box base">
+				<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+					<p>{{ itens.0.text }}</p>
+				</div>
+				<img src={% static '/img/1/glossario.gif' %} alt="Glossario" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/glossario.gif' %} alt="Glossario" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		<nav class="box base-detail">
+			<img class="sticker-right" src={% static '/img/1/maosAObra.gif' %} alt="Mãos à obra!" width="200px">
+			<div class="box"> <h3 class="box happy	">Mãos à obra!</h3>
+				<h4>O desafio do dicionário:</h4>
+				<p> Clique no dicionário e busque o significado das palavras da próxima página. 
+				    Depois de cada pesquisa, monte o quebra-cabeça
+					encaixando a palavra com o seu significado. Então, mãos à obra!</p>
+			</div>
+		</nav>
+		<div class="line"></div>
+		
+    	<a href="{% url 'livro1:lesson' 'colegas' 5 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+
+{% endblock %}

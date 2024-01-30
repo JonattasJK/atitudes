@@ -1,0 +1,104 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ADM - Atitudes</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+	<script src="{% static 'js/functions.js' %}"></script>
+	<link rel="Atitudes icon" href="{%  static '/img/atitude.ico' %}">
+	
+</head>
+<body class="base">
+
+<!-- Header -->
+<header>
+  <img src={% static '/img/title1.png' %} alt="Atitudes">
+  <!-- Navigation Bar -->
+  <nav class="navbar base-detail">
+    <a class="menu-link" href="{% url 'livro1:home' %}"><i class="fas fa-hand-point-left"></i> Início</a>
+	
+	<span class="menu-link" id="rightBtn" onclick="openSide('rightSide','rightBtn')">
+		<div class="menu-icon-container">
+			<div class="bar1"></div>
+			<div class="bar2"></div>
+			<div class="bar3"></div>
+		</div>
+	{{request.user.username}}</span>
+  </nav>
+</header>
+
+<!-- The flexible grid (content) -->
+<main class="back-img">
+  <aside class="side clean-detail" id="leftSide">
+      x
+  </aside>
+
+	<article class="main clean">
+		<h2 class="green">Processamento da sua aquisição</h2>
+		
+		<nav class="box base">
+		    <br>
+			<img class="sticker-left" src={% static '/img/Ethos.png' %} alt="Mãos à obra" width="300px">
+			{% if status == "approved" %}
+				<div class="box"> <h3 class="box contrast white">Pagamento Aprovado</h3>
+					<p class="green">Uhuuul!<br> Seu pagamento foi aprovado com sucesso!</p>
+					<p>Em breve sua conta será ativada e você terá acesso a todos os recursos do Projeto Atitudes</p>
+					<p>Para qualquer dúvida, fale conosco pelos canais disponibilizados na página de suporte</p>
+				</div>
+			{% elif status == "pending" or status == "in_process" %}
+				<div class="box"> <h3 class="box contrast white">Pagamento Pendente</h3>
+					<p class="yellow">Seu pagamento está pendente.<br> Estamos aguardando a conclusão do pagamento.</p>
+					<p>Em breve, após o pagamento ser aprovado, sua conta será ativada e você terá acesso a todos os recursos do Projeto Atitudes</p>
+					<p>Para qualquer dúvida, fale conosco pelos canais disponibilizados na página de suporte</p>
+				</div>
+			{% else %}
+				<div class="box"> <h3 class="box contrast white">Pagamento Recusado</h3>
+					<p class="red">Opss...<br>Parece que algo deu errado.</p>
+					<p>Infelizmente não recebemos o seu pagamento, mas não se preocupe, você pode tentar novamente.</p>
+					<p>Para qualquer dúvida, fale conosco pelos canais disponibilizados na página de suporte</p>
+				</div>
+			{% endif %}
+			<p>&nbsp</p>
+		</nav>
+	</article>
+  
+  <aside class="side clean-detail" id="rightSide">
+	<div class="item column base-detail"> 
+        <h3>{% if request.user.profile.stage >= 20 %}<i class="fas fa-crown yellow"></i> &ensp;{% endif %}{{ request.user.username }} </h3>
+    </div>
+    <nav class="frame">
+    	<img id="background" src={% static request.user.profile.avatar.background %} alt="fundo" width="100%">
+    	<img class="avatar" src={% static request.user.profile.avatar.active %} alt="Usuári0" width="100%">
+    </nav>
+    <div class="item base-detail"> 
+        <p>Pontuação: <strong>{{ request.user.profile.score }}</strong></p>
+    </div>
+    <div class="item base-detail"> 
+        <p>Créditos: <strong>{{ request.user.profile.credits }}</strong></p>
+    </div>
+    <div class="item base column"> 
+    	{% if request.user.profile.active %}
+    	    Premium Ativado!
+    	{% endif %}
+  </aside>
+</main>
+
+<!-- Footer -->
+<footer class="base-detail">
+  {% if request.user.profile.related_school %}
+	<nav class="item sunny"><i class="fas fa-university"></i><a>{{ request.user.profile.related_school.name }}</a></nav>
+	<nav class="item sunny"><i class="fas fa-key"></i><a>Acessos disponíveis: {{ request.user.profile.related_school.accession}}</a></nav>
+  {% else %}
+	<a class="white">Você não está vinculado a nenhuma escola</a>
+  {% endif %}
+</footer>
+	<script>
+		if (window.innerWidth > 999) {
+    	    openSide('rightSide', 'rightBtn');
+        }
+	</script>
+</body>
+</html>

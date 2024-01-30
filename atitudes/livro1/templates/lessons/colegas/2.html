@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+
+<!-- Modal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Qual é o site do cavalo? www.cavalo.com.com.com.com.com</p>
+	  			<h5 class="green">Ponto com ponto com ponto com ponto com ponto com ponto com</h5>
+	  		</div>
+	</nav>
+  </div>
+</div>
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '8-1' 0 'colegas' 2 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h4>Não esqueça de responder a atividade!</h4>
+	  	<img src={% static '/img/7/oi.png' %} alt="Menino Fala" width="300px">
+		<h5>Seja honesto nas suas respostas, você não irá ganhar menos pontos por clicar na carinha triste ou na feliz
+		<label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label></h5>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" style="height:100%">
+        <a href="{% url 'livro1:lesson' 'colegas' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box base large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Mãos à obra" width="150px">
+			<div class="box"> <h3 class="red">Atividade</h3>
+				<h4>Avalie a sua relação com amigos e colegas e responda as questões propostas.</h4>
+				<p>Use as carinhas para representar sua resposta</p>
+			</div>
+		</nav>
+		{% if itens.2 != False %}
+			<div class="line"></div>
+			<nav class="box happy">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.2.score < 40 %} 
+						Você marcou <strong>{{itens.2.score}}</strong> pontos e a pontuação máxima é 40. Você pode tentar marcar os 40 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.2.score}}</strong> pontos, a pontuação máxima! Meus parabéns!
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.2.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.2.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.2.score < 40 %}
+				{% if request.user.profile.credits > itens.2.credits %}
+					<a href="{% url 'livro1:questUndo' '8-1' itens.2.score 'colegas' 2 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.2.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.2.credits }} créditos e poderá receber até <strong>40,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<div class="line"></div>
+			<nav class="box base-detail page large">
+				<p>Como você trata seus colegas?</p>
+				<div>
+					<label id="a1" class="emoji" onclick="selectAnsware(this,['a2','a3','a4','a5'])"><i class="fas fa-laugh-beam yellow"></i></label>
+					<label id="a2" class="emoji" onclick="selectAnsware(this,['a1','a3','a4','a5'])"><i class="fas fa-grin-alt yellow"></i></label>
+					<label id="a3" class="emoji" onclick="selectAnsware(this,['a2','a1','a4','a5'])"><i class="fas fa-smile yellow"></i></label>
+					<label id="a4" class="emoji" onclick="selectAnsware(this,['a2','a3','a1','a5'])"><i class="fas fa-meh yellow"></i></label>
+					<label id="a5" class="emoji" onclick="selectAnsware(this,['a2','a3','a4','a1'])"><i class="fas fa-frown-beam yellow"></i></label>
+				</div>
+			</nav>
+			<div class="line"></div>
+			<nav class="box base-detail page large">
+				<p>Como os seus colegas tratam você?</p>
+				<div>
+					<label id="b1" class="emoji" onclick="selectAnsware(this,['b2','b3','b4','b5'])"><i class="fas fa-laugh-beam yellow"></i></label>
+					<label id="b2" class="emoji" onclick="selectAnsware(this,['b1','b3','b4','b5'])"><i class="fas fa-grin-alt yellow"></i></label>
+					<label id="b3" class="emoji" onclick="selectAnsware(this,['b2','b1','b4','b5'])"><i class="fas fa-smile yellow"></i></label>
+					<label id="b4" class="emoji" onclick="selectAnsware(this,['b2','b3','b1','b5'])"><i class="fas fa-meh yellow"></i></label>
+					<label id="b5" class="emoji" onclick="selectAnsware(this,['b2','b3','b4','b1'])"><i class="fas fa-frown-beam yellow"></i></label>
+				</div>
+			</nav>
+			<div class="line"></div>
+			<nav class="box base-detail page large">
+				<p>Como você e sua turma de amigos tratam os demais colegas da turma?</p>
+				<div>
+					<label id="c1" class="emoji" onclick="selectAnsware(this,['c2','c3','c4','c5'])"><i class="fas fa-laugh-beam yellow"></i></label>
+					<label id="c2" class="emoji" onclick="selectAnsware(this,['c1','c3','c4','c5'])"><i class="fas fa-grin-alt yellow"></i></label>
+					<label id="c3" class="emoji" onclick="selectAnsware(this,['c2','c1','c4','c5'])"><i class="fas fa-smile yellow"></i></label>
+					<label id="c4" class="emoji" onclick="selectAnsware(this,['c2','c3','c1','c5'])"><i class="fas fa-meh yellow"></i></label>
+					<label id="c5" class="emoji" onclick="selectAnsware(this,['c2','c3','c4','c1'])"><i class="fas fa-frown-beam yellow"></i></label>
+				</div>
+			</nav>
+			<div class="line"></div>
+			<nav class="box base-detail page large">
+				<p>Quando um novo colega chega à turma, como você se relaciona com ele?</p>
+				<div>
+					<label id="d1" class="emoji" onclick="selectAnsware(this,['d2','d3','d4','d5'])"><i class="fas fa-laugh-beam yellow"></i></label>
+					<label id="d2" class="emoji" onclick="selectAnsware(this,['d1','d3','d4','d5'])"><i class="fas fa-grin-alt yellow"></i></label>
+					<label id="d3" class="emoji" onclick="selectAnsware(this,['d2','d1','d4','d5'])"><i class="fas fa-smile yellow"></i></label>
+					<label id="d4" class="emoji" onclick="selectAnsware(this,['d2','d3','d1','d5'])"><i class="fas fa-meh yellow"></i></label>
+					<label id="d5" class="emoji" onclick="selectAnsware(this,['d2','d3','d4','d1'])"><i class="fas fa-frown-beam yellow"></i></label>
+				</div>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','8-1','colegas',2,40);">Terminar</a>
+		{% endif %}
+		<div class="line"></div>
+		<h5 class="green">Agora, com um familiar, leia o texto abaixo e reflita sobre as considerações do autor sobre o tema “Brincadeiras x Limites”.</h5>
+		<h3 class="red">Fique fora dessa!</h3>
+		<p>As gracinhas que rolam na escola também podem chatear os colegas.
+			São coisas como puxões no cabelo, empurrões, tapinhas e cutucadas que,
+			quando dirigidos sempre à mesma pessoa, se transformam em marcação e
+			perturbam qualquer um.<br><br>
+			Para descobrir se uma brincadeira é legal e não vai chatear ninguém,
+			basta você se perguntar se gostaria de ser tratado da mesma maneira.<br>
+			Simples, não é?<br><br>
+			Sempre que algum colega da escola ou mesmo amigo da
+			sua rua for alvo de gozações maldosas, experimente fazer a 
+			mesma pergunta para quem estiver perturbando. E não vale dizer que
+			você entra na brincadeira só para que não sobre para o seu lado.
+			Existe uma porção de outros jeitos de brincar com a turma sem que
+			isso ofenda ou magoe alguém. É só não confundir alegria com falta de respeito.<br>
+			<div style="text-align:right; width:100%;"><em class="green">Cláudio Fragata</em></div></p>
+		<a href="{% url 'livro1:lesson' 'colegas' 3 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+
+{% endblock %}

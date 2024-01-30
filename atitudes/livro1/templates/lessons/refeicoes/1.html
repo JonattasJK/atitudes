@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão Home irá voltar para a página inicial!</h5>
+		<h5>Parabéns!!! Você chegou à quinta lição!</h5>
+		<img src={% static '/img/5/mesa.png' %} alt="mesa" width="100%">
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+       <h2 class="green">Boas Maneiras às<br><b class="red">refeições</b></h2>
+        <img src={% static '/img/5/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: cortesia e gentileza</h3>
+        <nav class="box base">
+			<img class="sticker-right" src={% static '/img/5/jantar.png' %} alt="jantar" width="50%">
+			<h3 class="item base-detail">Hora de comer é hora de respeito!</h3> 
+			<p>Quando pequenos, recebemos auxílio de outras pessoas para nos alimentarmos.
+				Nessa fase de aprendizado, as crianças podem até comer com as mãos,
+				derrubar a comida do prato e ainda contar com a ajuda da mãe ou de outro familiar.
+				É neste momento tão importante que iniciamos nosso aprendizado sobre as
+				boas maneiras durante as refeições.
+				Aos poucos, vamos aprendendo a segurar os talheres e outras
+				regrinhas que devem nos acompanhar sempre!</p>
+		</nav>
+	    <a href="{% url 'livro1:lesson' 'refeicoes' 2 %}" class="large">
+        	<button class="button next"><span>VAMOS LÁ!</span></button>
+        </a>
+        <img src={% static '/img/5/rodape.png' %} alt="amigos" width="100%">
+    </article>
+  </section>
+
+{% endblock %} 	

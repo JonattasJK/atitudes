@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- jokeModal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Quem é o rei dos queijos? o REIQUEIJÃO KKKKKKKK</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+<!-- /jokeModal -->
+<!-- discoveryModal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'refeicoes' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.2.sort }}</strong>
+			  	<p><i>{{ itens.2.name }}:</i> {{ itens.2.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'refeicoes' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /discoveryModal -->
+
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Não esqueça de clicar nos botões de <strong>Lembre-se</strong> e de <strong>Glossário</strong> :)</h5>
+	  	<img class="sticker-left" src={% static '/img/5/talheres.png' %} alt="Talheres" width="300px">
+		<label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" id="page1">
+        <a href="{% url 'livro1:lesson' 'refeicoes' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <div class="line"></div>
+		{% if itens.1 %}
+			<section class="box base">
+				<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+					<p>{{ itens.0.text }}</p>
+				</div>
+				<img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		
+		<nav class="box">
+			<img class="sticker-right" src={% static '/img/5/papa.png' %} alt="Mãe dando comida" width="50%">
+			<p>O momento das refeições
+				é muito importante e geralmente compartilhado com a
+				família ou com os amigos. Por isso, devemos sempre nos 
+				lembrar das boas maneiras.</p>
+		</nav>
+		<nav class="box happy">
+			<img class="sticker-left" src={% static '/img/1/VcSabia.gif' %} alt="Você sabia" width="150px">
+			<h3 class="box contrast white">Você sabia que...</h3>
+			<h4>...ao longo da vida o ser humano consome, em média, 100 toneladas de
+				alimentos, o que equivale ao peso de 12 elefantes?</h4>
+		</nav>
+		<nav class="box">
+			<img class="sticker-right" src={% static '/img/5/lavar.png' %} alt="Lavar as mãos" width="30%">
+			<h3 class="purple">Regras básicas para qualquer refeição:</h3>
+			<p><em class="box contrast white">1</em>Lave bem as mãos antes das refeições.</p>
+			<p><em class="box contrast  white">2</em>Não fale com a boca cheia.</p>
+			<img class="sticker-right" src={% static '/img/5/beber.png' %} alt="beber" width="20%">
+			<p><em class="box contrast  white">3</em>Evite comer e beber ao mesmo tempo. O correto é
+				mastigar bem o alimento e só ingerir líquido ao final
+				da refeição. Se você estiver com muita sede, pode
+				ingerir pequenas quantidades de líquido entre uma
+				mastigação e outra. Lembre-se de comer pausadamente.</p>
+			<p><em class="box contrast  white">4</em>Sirva uma quantidade de comida adequada. Coma
+				somente o suficiente e só repita se estiver com muita fome. Evite o
+				<img class="sticker-right" src={% static '/img/5/prato.png' %} alt="prato" width="40%">
+				desperdício: não coloque no prato mais do que você pode comer.</p><br>
+			<h3 class="purple">Café da manhã</h3>
+			<img class="sticker-left" src={% static '/img/5/mesa.png' %} alt="Café da manhã" width="30%">
+			<p>O café da manhã é a refeição mais
+				importante do dia. Devemos ter o hábito de comer ao acordar!
+				Tente acordar mais cedo e
+				se acostume a comer pela manhã.
+				Pão, leite e frutas são boas opções.</p>
+		</nav>
+		{% if itens.3 %}
+			<section class="box base">
+				<div class="box"> <h3 class="blue">{{ itens.2.name }}</h3>
+					<p>{{ itens.2.text|linebreaks }}</p>
+				</div>
+				<img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal2');"><img src={% static '/img/1/lembrese.gif' %} alt="lembre-se" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		<button onclick="openPage('page2', 'page1');" class="button next"><span>VAMOS LÁ!</span></button>
+		
+    </article>
+
+    <article class="page" id="page2">
+		<button onclick="openPage('page1', 'page2');" class="button next"><span>Voltar</span></button>
+		<nav class="box">
+			<img class="sticker-left" src={% static '/img/5/lanche.png' %} alt="Lavar as mãos" width="30%">
+			<h3 class="purple">Hora do Lanche: em casa ou na escola</h3>
+			<p><em class="box contrast white">1</em>Se você faz lanchinhos rápidos em casa
+				(uma fruta ou um iogurte, por exemplo), lembre-se de jogar as cascas
+				de frutas e embalagens no lixo.</p>
+			<p><em class="box contrast  white">2</em>Na escola, não fique pedindo o lanche dos
+				amigos. Se pedir de vez em quando tudo
+				bem, mas não faça isso todos os dias.</p>
+			<p><em class="box contrast  white">3</em>Se você compra seu lanche na cantina:
+				fique na fila sem empurrar os colegas e espere sua vez. Peça seu lanche 
+				ao atendente e não se esqueça de utilizar as palavras mágicas.</p>
+			<img class="sticker-right" src={% static '/img/5/pegar.png' %} alt="beber" width="50%">
+			<p><em class="box contrast  white">4</em>Caso sua escola ofereça o lanche: não desperdice, pegue apenas a quantidade que irá consumir.</p><br>
+			<h3 class="purple">Durante o almoço na escola</h3>
+			<p><em class="box contrast white">1</em>Respeite a fila! Não empurre os colegas, espere sua vez e seja
+			educado para com os atendentes. Essas atitudes deixam o almoço na escola mais tranquilo e agradável.</p>
+			<img class="sticker-left" src={% static '/img/5/lixo.png' %} alt="Lavar as mãos" width="30%">
+			<p><em class="box contrast  white">2</em>Caso você não goste de algum alimento que lhe foi servido durante o
+			almoço na escola, não faça escândalos nem cuspa fora. Seja discreto: levante e jogue o alimento no 
+			lixo ou simplesmente separe-o num cantinho do prato. O ideal é disfarçar e engolir.</p>
+			<p><em class="box contrast  white">3</em>Durante o almoço, se você sentir vontade de espirrar ou tossir,
+			coloque o braço em frente a boca. Caso você soluce (ou arrote) sem querer, peça “desculpas” em voz baixa.</p>
+    	<a href="{% url 'livro1:lesson' 'refeicoes' 3 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+    
+    
+  <script>
+  	openPage('page1','page2');
+  </script>
+  
+  </section>
+
+{% endblock %}

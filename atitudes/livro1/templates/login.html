@@ -1,0 +1,66 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Atitudes - Login</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+	<script src="{% static 'js/functions.js' %}"></script>
+	<link rel="Atitudes icon" href="{%  static '/img/atitude.ico' %}">
+    <script src="https://thunkable.github.io/webviewer-extension/thunkableWebviewerExtension.js" type="text/javascript"></script>
+</head>
+<body class="base">
+
+<!-- Header -->
+<header>
+  <img src={% static '/img/title1.png' %} alt="Atitudes">
+  <!-- Navigation Bar -->
+  <nav class="navbar base-detail">
+  	
+    <a style="color: white; padding: 14px 20px; text-decoration: none; text-align: center; font-weight: 900;"> Seja bem vindo ao Projeto Atitudes!</a>
+    <!-- <a id="voltar" class="menu-link" href="{% url 'livro1:index' %}"><i class="fas fa-backspace"></i>Voltar</a> -->
+    
+  </nav>
+</header>
+
+<!-- The flexible grid (content) -->
+<main class="back-img">
+
+    <article class="main clean">
+        <h2 class="green">Acessar</h2>
+        <form action="#" method="post">
+            {% csrf_token %} 
+            {% if form.errors %}
+                <p class="alert" id="messageDisplay">Por favor, verifique o <strong>nome de usuário</strong> e/ou <strong>senha</strong> informados</p>
+            {% endif %}
+            <div class="login">
+                <input type="text" name="username" id="id_username" value="{{ form.username.value|default_if_none:"" }}" placeholder="Nome de login" />
+                <input type="password" name="password" id="id_password" value="{{ form.password.value|default_if_none:"" }}" placeholder="Senha" />
+                <input class="primary" type="submit" value="Entrar" />
+            </div>
+        </form>
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <a class="button" style="font-family: 'Londrina Solid', cursive; font-size:18px; width:auto" href="{% url 'livro1:newUser' 0 %}">Criar uma conta</a>
+        </div>
+        <br><br><br>
+    </article>
+</main>
+
+<!-- Footer -->
+<footer class="base-detail">
+ <a class="white">Obs: A verificação de acesso diferencia letras maiúsculas de minúsculas tanto para o nome de usuário quanto para a senha.</a>
+</footer>
+
+<script>
+    
+    document.getElementById('voltar').onclick = function() {
+      ThunkableWebviewerExtension.postMessage('index');
+    }
+  
+</script>
+
+</body>
+</html>
+

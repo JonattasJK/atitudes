@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<aside class="side clean-detail" id="leftSide">
+    <a class="btn completed" href="{% url 'livro1:userInfo' request.user.profile.id %}"><i class="fas fa-user-astronaut"></i>&ensp;Perfil</a>
+  	<h4>As lições voltarão a aparecer ao terminar de editar o seu perfil de usuário</h4>
+</aside>
+
+<article class="main clean">
+  <form action="#" method="post">
+	<article class="item happy">
+	  {% csrf_token %}
+	  <div class="box">
+	  	{% if form.errors %}
+			{{form.non_field_errors}}
+		{% endif %}
+			<h4>Preencha apenas os campos que deseja alterar. Pode deixar os outros em branco</h4>
+	  </div>
+	</article>&emsp;
+		{% if profile.related_school %}
+			 <article class="item sunny">
+				<div class="box large">	
+					<label for="fclass_year">Em qual ano de estudo você está?</label><br>
+					<select name="class_year" id="fclass_year" >
+						<option value="" >Atual: {{ profile.student.class_year}}º ano</option>
+						<option value="1" >1º ano</option>
+						<option value="2" >2º ano</option>
+						<option value="3" >3º ano</option>
+						<option value="4" >4º ano</option>
+						<option value="5" >5º ano</option>
+						<option value="6" >6º ano</option>
+						<option value="7" >7º ano</option>
+						<option value="8" >8º ano</option>
+						<option value="9" >9º ano</option>
+					</select>
+			  	</div>
+			 </article>
+			 <article class="item sunny">
+				<div class="box large">	
+					<label for="fclass_number">Qual é a sua turma?</label><br>
+					<input type="text" id="fclass_number" name="class_number" value="{{ form.class_number.value|default_if_none:"" }}" placeholder="Atual: {{ profile.student.class_number }}">
+			  	</div>
+			 </article>
+		{% else %}	 
+			 <article class="item sunny">
+				<div class="box large">	
+					<label for="fsponsor_name">Qual o nome da pessoa responsável por você?</label><br>
+					<input type="text" id="fsponsor_name" name="sponsor_name" value="{{ form.sponsor_name.value|default_if_none:"" }}" placeholder="Atual: {{ profile.sponsor.name }}">
+			  	</div>
+			 </article>
+			 <article class="item sunny">
+				<div class="box large">	
+					<label for="fsponsor_relationship">Qual é a relação da pessoa responsável com você?</label><br>
+					<select name="sponsor_relationship" id="fsponsor_relationship" >
+						<option value="" >Atual: {{ profile.sponsor.relationship }}</option>
+						<option value="Mãe" >Mãe</option>
+						<option value="Pai" >Pai</option>
+						<option value="Tio/Tia" >Tio/Tia</option>
+						<option value="Avô/Avó" >Avô/Avó</option>
+						<option value="Outro" >Outro</option>
+					</select>
+			  	</div>
+			 </article>
+			 <article class="item sunny">
+				<div class="box large">	
+					<label for="fsponsor_email">Qual o e-mail da pessoa responsável por você?</label><br>
+					<input type="text" id="fsponsor_email" name="sponsor_email" value="{{ form.sponsor_email.value|default_if_none:"" }}" placeholder="Atual: {{ profile.sponsor.email }}">
+			  	</div>
+			 </article>
+		{% endif %}
+	<input type="submit" value="Salvar usuário">
+  </form>
+</article>
+
+{% endblock %} 

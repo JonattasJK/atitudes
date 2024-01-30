@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- jokeModal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Qual é o peixe que pulou do prédio? Atum! aaaaaatuum kkkkk</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+<!-- /jokeModal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão Home irá voltar para a página inicial!</h5>
+		<h5>Parabéns!!! Você está na sétima lição!</h5>
+		<img src={% static '/img/7/oi.png' %} alt="oi" width="100%">
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+       <h2 class="blue">Boas Maneiras em <br><b class="pink">cumprimentos e saudações</b></h2>
+        <img src={% static '/img/7/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: convivência e cordialidade</h3>
+        <nav class="box base">
+			<h3 class="item happy orange">Apresentar as pessoas com
+quem convivemos</h3>
+			<img class="sticker-left" src={% static '/img/7/bomdia.png' %} alt="transporte" width="50%">
+			<p>O cumprimento é uma forma de saudação entre duas pessoas, geralmente demonstrado por meio de alguns gestos ou
+				palavras. <br> Para se relacionar bem com a família e os amigos você precisa aprender uma das principais
+				atitudes de boas maneiras: os cumprimentos e as apresentações.
+				<label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label>
+			</p>
+		</nav>
+		<div class="line"></div>
+	    <a href="{% url 'livro1:lesson' 'cumprimentos' 2 %}" class="large">
+        	<button class="button next"><span>VAMOS LÁ!</span></button>
+        </a>
+        <img src={% static '/img/7/rodape.png' %} alt="amigos" width="100%">
+    </article>
+  </section>
+
+{% endblock %} 	

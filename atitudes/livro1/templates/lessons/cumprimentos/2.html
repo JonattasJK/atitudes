@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- discoveryModal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'cumprimentos' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.2.sort }}</strong>
+			  	<p><i>{{ itens.2.name }}:</i> {{ itens.2.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'cumprimentos' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /discoveryModal -->
+
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Não se esqueça de cumprimentar as pessoas. Isso é educado e bonito!</h5>
+	  	<img class="sticker-left" src={% static '/img/7/chapeu.png' %} alt="Cumrpimentando com o chapéu" width="100%">
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+        <a href="{% url 'livro1:lesson' 'cumprimentos' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <nav class="box">
+	    	<img class="sticker-right" src={% static '/img/7/ola.png' %} alt="Olá!" width="20%">
+			<p>Para apresentar as pessoas, existem algumas
+				regrinhas. Leia com atenção o texto abaixo e
+				descubra como agir em diferentes situações.</p>
+			<div class="line"></div>
+		</nav>
+	    <nav class="box">
+			<h3 class="purple">Apresentar um adulto a outro adulto</h3>
+	    	<img class="sticker-left" src={% static '/img/7/apresentacao.png' %} alt="Apresentação!" width="50%">
+			<p>Pessoas mais velhas devem ser chamadas de “senhor” ou “senhora” antes do nome.<br>
+				Ao apresentar professores a outros adultos, diga “professor” ou “professora” antes do nome.<br>
+				A apresentação deve começar com o nome do professor ou da professora. Exemplo:<br>
+				<em class="green">– Professora Elizabete, este é meu pai Carlos!</em></p>
+		</nav>
+	    <nav class="box">
+			<h3 class="purple">Apresentar um amigo a outro</h3>
+	    	<img class="sticker-right" src={% static '/img/7/turma1.png' %} alt="Apresentação!" width="50%">
+			<p>Ao apresentar um amigo a outro, diga os nomes e fale algo sobre cada um deles:<br>
+				<em class="green">– Henrique, este é meu amigo João, do futebol. João, o Henrique participa do projeto de música da escola.</em><br>
+				Nesta situação, os amigos apresentados devem se dar as mãos.</p>
+		</nav>
+	    <nav class="box">
+			<h3 class="purple">Apresentar um amigo para três ou quatro pessoas</h3>
+	    	<img class="sticker-left" src={% static '/img/7/turma2.png' %} alt="Apresentação!" width="50%">
+			<p>Ao apresentar um amigo a um pequeno grupo de até quatro pessoas, diga os nomes de todos e o que fazem.<br>
+				O amigo apresentado deve cumprimentar cada um com um aperto de mão. Se você for apresentado a três ou quatro pessoas,
+				lembre-se de que o aperto de mão deve ser firme e forte e de que você deve olhar nos olhos das pessoas a quem está sendo apresentado.</p>
+		</nav>
+		{% if itens.1 %}
+			<section class="box happy">
+				<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+					<p>{{ itens.0.text }}</p>
+				</div>
+				<img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box notSqueeze">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" width="150px"></a>
+			</section>
+		{% endif %}
+	    <nav class="box">
+			<h3 class="purple">Apresentar um grupo de pessoas mais velhas</h3>
+	    	<img class="sticker-right" src={% static '/img/7/1.png' %} alt="Apresentação!" width="50%">
+			<p>Nestes casos, o homem deve ser apresentado à mulher. Exemplo:<br>
+				<em class="green">– Olá, tio César, esta é minha tia Ana, de Londrina.</em><br>
+				Sempre apresente os mais jovens aos mais velhos, na ordem da pessoa
+				menos importante para a mais importante. Exemplo:<br>
+				<em class="green">– Este é meu aluno João, sr. Prefeito.</em></p>
+		</nav>
+	    <nav class="box">
+			<h3 class="purple">Apresentar-se</h3>
+	    	<img class="sticker-left" src={% static '/img/7/boanoite.png' %} alt="Apresentação!" width="50%">
+			<p>Quando não há ninguém que possa apresentá-lo, a solução é fazer uma autoapresentação. Leia a seguir dois exemplos:<br>
+				<em class="green">– Oi, tudo bem? Meu nome é Felipe. E o seu? <br>
+				– Olá, meu nome é Isabela, estudo pintura aqui na escola, tudo bem?</em></p>
+		</nav>
+	    <nav class="box">
+	    	<img class="sticker-right" src={% static '/img/7/bb.png' %} alt="Apresentação!" width="20%">
+			<p>Desde bebês, nossos pais nos ensinam a dar “tchauzinho”... <br>
+				Você se lembra disso? Agora que você cresceu, não esqueça esta atitude! Despeça-se sempre!</p>
+		</nav>
+		{% if itens.3 %}
+			<section class="box happy">
+				<div class="box"> <h3 class="blue">{{ itens.2.name }}</h3>
+					<p>{{ itens.2.text }}</p>
+				</div>
+				<img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box notSqueeze">
+				<a class="button" onclick="showModal('discoveryModal2');"><img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" width="150px"></a>
+			</section>
+		{% endif %}
+		<a href="{% url 'livro1:lesson' 'cumprimentos' 3 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  
+  </section>
+
+{% endblock %}

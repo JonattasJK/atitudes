@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '8-2' 0 'colegas' 3 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+<pre></pre><pre>
+ /\_/\
+( o.o )
+ > ^ <
+          __
+     (___()'`;
+     /,    /`
+     \\"--\\
+</pre>
+    <h5><a class="orange">ASCII art</a> é um estilo de desenho em que se usa apenas letras e símbolos.</h5>
+<pre></pre><pre>
+      .
+     ":"
+   ___:____     |"\/"|
+ ,'        `.    \  /
+ |  O        \___/  |
+^~^~^~^~^~^~^~^~^~^~^~^
+</pre>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" >
+    	<a href="{% url 'livro1:lesson' 'colegas' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividade" width="150px">
+			<div class="box"> <h3 class="box contrast white">Atividade</h3>
+				<h4>Observe as imagens abaixo e exclua as atitudes erradas:</h4>
+			</div>
+		</nav>
+		{% if itens.3 != False %}
+			<div class="line"></div>
+			<nav class="box happy">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.3.score < 40 %} 
+						Você marcou <strong>{{itens.3.score}}</strong> pontos e a pontuação máxima é 40. Você pode tentar marcar os 40 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.3.score}}</strong> pontos, a pontuação máxima! Meus parabéns!
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.3.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.3.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.3.score < 40 %}
+				{% if request.user.profile.credits > itens.3.credits %}
+					<a href="{% url 'livro1:questUndo' '8-2' itens.3.score 'colegas' 3 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.3.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.3.credits }} créditos e poderá receber até <strong>40,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<a href="{% url 'livro1:lesson' 'colegas' 4 %}" class="large">
+				<button class="button next"><span>VAMOS LÁ!</span></button>
+			</a>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny">Atitudes deletadas:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="box base flex" style=" display: flex; justify-content: center;">
+				<img class="interactive" src={% static '/img/8/c1.png' %} alt="c1" width="40%" height="220px" onclick="delItem(this)">
+				<img class="interactive" src={% static '/img/8/c3.png' %} alt="c3" width="25%" height="220px" onclick="delItem(this)">
+				<img class="interactive" src={% static '/img/8/c2.png' %} alt="c2" width="50%" height="200px" id="notDel" onclick="delItem(this)">
+				<img class="interactive" src={% static '/img/8/c4.png' %} alt="c4" width="50%" height="200px" onclick="delItem(this)">
+				<img class="interactive" src={% static '/img/8/c5.png' %} alt="c5" width="50%" height="200px" onclick="delItem(this)">
+			</nav>
+			<a class="button" onclick="questFinish('questModal','8-2','colegas',3,40);">Terminar</a>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

@@ -1,0 +1,269 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+	<script src="{% static 'js/functions.js' %}"></script>
+	<title>Projeto Atitudes</title>
+	<link rel="Atitudes icon" href="{%  static '/img/atitude.ico' %}">
+    <script src="https://thunkable.github.io/webviewer-extension/thunkableWebviewerExtension.js" type="text/javascript"></script>
+</head>
+<body class="base">
+
+<!-- Header -->
+<header>
+	<img src={% static '/img/title2.png' %} alt="Atitudes">
+  	<!-- Navigation Bar -->
+  <nav class="navbar base-detail">
+    <span class="menu-link base-detail" id="leftBtn" onclick="openSide('leftSide','leftBtn')">Figurinhas
+  	<div class="menu-icon-container">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+  	</span>
+    <a class="menu-link" href="{% url 'livro1:home' %}"><i class="fas fa-home"></i> Início</a>
+    <a class="menu-link" href="{% url 'livro1:chapter' lesson profile.id %}">
+        <i class="fas fa-hand-point-left"></i> &ensp; Voltar</a>
+  </nav>
+</header>
+
+<!-- The flexible grid (content) -->
+<main class="back-img">
+
+<form id="textForm" action="#" method="post" style="display:flex; justify-content: center; width:100%; overflow: auto;">
+	<aside class="side clean-detail" id="leftSide">
+		<a onclick="openPage('page2', 'page1');" class="btn available interactive"><span>Loja de figurinhas&ensp;<i class="fas fa-images"></i></span></a>
+		<div class="notSqueeze"><h5>Para adicionar uma figurinha, selecione o lado da folha em que deseja colar ela, após clique na figurinha que quer usar</h5></div>
+		<input type="range" id="fposition" name="position" min="0" max="1">
+		{% if stickers %}
+			<div class="flex notSqueeze" style="overflor: auto; height: 500px;">
+				{% for sticker in stickers %}
+					<div class="item column sunny" style="margin: 10px; height: auto;">
+						<img src={% static sticker.url %} alt="sticker" width="125px">
+						<input type="submit" value="{{ sticker.id }}" name="sticker_submit">
+					</div>
+				{% endfor %}
+			</div>
+		{% else %}
+			<div class="notSqueeze">Que pena... Você ainda não tem nenhuma figurinha</div>
+		{% endif %}
+	</aside>
+
+	<section class="page box clean"  style="overflow: auto; width:100%;">
+		<article class="page" id="page1" >
+			{% csrf_token %}
+			<div class="box">
+			  	{% if form.errors %}
+					{{form.non_field_errors}}	
+				{% endif %}
+				<em id="text_caption">Escreva o capítulo {{lesson}} aqui</em>
+				<input type="hidden" id="fparagraph_id" name="paragraph_id" value="">
+			</div>
+			<h5 class="red" style="padding: 0px !important; margin: 0px !important;">Você pode escrever 255 caracteres por parágrafo!</h5>
+			<nav style="width:90%">
+				<textarea name="paragraph" id="fparagraph" placeholder="Escreva aqui um parágrafo. Após cada parágrafo clique em 'salvar parágrafo'" rows="4"
+				    style="width:100%" maxlength="255"></textarea>
+        		<article class="item happy">
+        			<div class="box large">	
+        				<div class=""><label for="fstyle">Escolha o tipo da letra</label></div>
+        				<select name="style" id="fstyle" onchange="changeFont('fstyle','fparagraph')">
+        					<option value="p"><p>Normal</p></option>
+        					<option value="em"><em>Negrito</em></option>
+        					<option value="h3"><h3>Itálico</h3></option>
+        					<option value="strong"><strong>Detalhe</strong></option>
+        					<option value="h2"><h2>Título</h2></option>
+        				</select>
+        		  	</div>
+        			<div class="box large">	
+        				<div class=""><label for="fcolor">Escolha a cor da letra</label></div>
+        				<select name="color" id="fcolor" onchange="changeColor('fcolor','fparagraph')">
+        					<option value=""><p>Cor padrão</p></option>
+        					<option value="blue"><p>Azul</p></option>
+        					<option value="red"><em>Vermelho</em></option>
+        					<option value="green"><h3>Verde</h3></option>
+        					<option value="yellow"><strong>Amarelo</strong></option>
+        					<option value="pink"><h2>Rosa</h2></option>
+        					<option value="orange"><h2>Laranjado</h2></option>
+        				</select>
+        		  	</div>
+        		</article>
+        		
+    			<input type="submit" value="Salvar parágrafo" name="save_submit" id="salvar">
+    			<input type="submit" value="Excluir esse parágrafo" name="delete_submit" class="hide" id="deleteBtn">
+    			
+			</nav> 
+			<div class="notepad">
+				<div>
+					{% if chapter %}
+						{% for p in chapter %}
+							{% if p.style == 'img' %}
+									<a href="{% url 'livro1:getSticker' p.id %}" class="interactive {{ p.position }}"><img src={% static p.paragraph %} alt="Atitudes" width="150px"></a>
+							{% else %}
+								<{{ p.style }} id="{{p.id}}" class="interactive {{ p.color }}" onClick="editParagraph({{p.id}})"> {{p.paragraph}} </{{ p.style }}>
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+			<p class="purple">Você digitou {{words}} caracteres.</p>
+			<a href="{% url 'livro1:chapter' lesson profile.id %}" class="btn completed">
+				Salvar e voltar &ensp;<i class="fas fa-hand-point-left"></i></a>
+			<p class="green" style="width:80%">Para terminar a lição você precisa escrever no mínimo 500 caracteres, depois clique em salvar e voltar e, então, em Terminar lição.</p>
+		</article>
+
+		<article class="page" id="page2">
+			<h1 class="blue">Loja de figurinhas</h1>
+			<h5>Aqui todas as figurinhas custam apenas 50,00 créditos!</h5>
+			<a onclick="openPage('page1', 'page2');" class="btn available interactive"><span><i class="far fa-hand-point-left"></i>&ensp;Voltar para o capítulo</span></a>
+			<nav class="box base flex" style="justify-content:center">
+				<a href="{% url 'livro1:buySticker' 28 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/28.png' %} alt="sticker" width="125px">
+				</a>
+				<a href="{% url 'livro1:buySticker' 29 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/29.png' %} alt="sticker" width="125px">
+				</a>
+				<a href="{% url 'livro1:buySticker' 1 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/1.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 2 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/2.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 3 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/3.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 4 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/4.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 5 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/5.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 6 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/6.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 7 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/7.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 8 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/8.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 9 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/9.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 10 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/10.png' %} alt="sticker" width="125px">
+				</a>						
+				<a href="{% url 'livro1:buySticker' 11 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/11.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 12 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/12.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 13 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/13.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 14 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/14.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 15 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/15.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 16 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/16.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 17 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/17.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 18 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/18.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 19 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/19.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 20 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/20.png' %} alt="sticker" width="125px">
+				</a>				
+				<a href="{% url 'livro1:buySticker' 21 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/21.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 22 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/22.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 23 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/23.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 24 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/24.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 25 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/25.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 26 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/26.png' %} alt="sticker" width="125px">
+				</a>			
+				<a href="{% url 'livro1:buySticker' 27 profile.id lesson %}" class="item sunny column" 
+					style="margin: 10px; height: auto;" onclick="return confirm('Você irá gastar 50,00')">
+					<img src={% static 'img/stickers/27.png' %} alt="sticker" width="125px">
+				</a>
+			</nav>
+		</article>
+	</section>
+	
+    <script>
+        
+        
+    </script>
+ 
+</form>
+</main>
+
+<!-- Footer -->
+<footer class="base-detail">
+    <a class="menu-link" href="{% url 'livro1:privacy' %}" ><i class="fas fa-book"></i>Política de privacidade</a>
+    <a class="menu-link" href="{% url 'livro1:suport' %}" ><i class="fas fa-book"></i>Suporte</a>
+</footer>
+
+<script>
+    document.getElementById('text_caption').scrollIntoView();
+    openPage('page1','page2');
+        
+    document.getElementById('textForm').onsubmit = function() {
+      ThunkableWebviewerExtension.postMessage('reload');
+    }
+    window.onscroll = function() {scrollMenu()};
+</script>
+
+</body>
+</html>
+

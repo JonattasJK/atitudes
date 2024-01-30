@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Uma mulher tem 30 reais para dividir entre suas filhas, que horas são? 15 pras duas hahahaha</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '3-4' 0 'familia' 5 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+	
+	<img src={% static '/img/18/avo5.png' %} alt="Placa" width="100%">
+	<p> Nossos avós costumam conhecer ótimas histórias para contar <label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label></p>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" >
+    	<a href="{% url 'livro1:lesson' 'avo' 3 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <nav class="box sunny">
+			<img class="sticker-left" src={% static '/img/1/lembrese.gif' %} width="150px">
+			<div class="box"> <h3 class="box contrast white">Lembre-se!</h3>
+			<img class="sticker-right" src={% static '/img/18/avo4.png' %} width="35%">
+				<p>Com o passar dos anos, os idosos podem mudar seu comportamento. Para ajudá-los você deve: <br><br>
+					• ser afetuoso;<br>
+					• demonstrar carinho e compreensão;<br>
+					• escutar e conversar sempre que possível;<br>
+					• ter paciência.</p>
+			</div>
+		</nav>
+		<div class="line"></div>
+		<nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="atividades" width="120px">
+			<div class="box"> <h3 class="box contrast white">Atividade</h3>
+				<p>	As imagens abaixo demonstram pessoas idosas em diversas situações do dia a dia. Ligue-as com as suas respectivas ações.	</p>
+				<h3 class="purple">Ações:</h3>
+				<h5>1. Ajude uma pessoa idosa a carregar as comprar. <br>
+					2. Seja gentil, oferecendo seu lugar para os idosos. <br>
+					3. Incentive seus avós a fazer ginástica para deixarem a solidão de lado. <br>
+					4. Passeie com seus avós, demonstrando atenção e carinho.</h5>
+			</div>
+		</nav>
+		{% if itens.10 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.10.score < 40 %} 
+						Você marcou <strong>{{itens.10.score}}</strong> pontos e a pontuação máxima é 30. Você pode tentar marcar os 30 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.10.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.10.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.10.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.10.score < 40 %}
+				{% if request.user.profile.credits > itens.10.credits %}
+					<a href="{% url 'livro1:questUndo' '18-2' itens.10.score 'avo' 4 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.10.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.10.credits }} créditos e poderá receber até <strong>40,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+    		<a href="{% url 'livro1:chapter' 18 request.user.profile.id %}" class="btn completed">
+				Meu livro &ensp;<i class="fas fa-book-reader"></i></a>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny">Acertos:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="flex">
+				<label class="item sunny page" style="width:45%">
+					<img src={% static '/img/18/1.gif' %} alt="gif1" width="100%">
+					<input type="hidden" id="f1Score" value="10">
+					<select name="f1" id="f1" onchange="selectAnswer('f1Smile','f1Score','f1');">
+						<option value="False" >- - Ação - -</option>
+						<option value="True" >Ação 1</option>
+						<option value="False" >Ação 2</option>
+						<option value="False" >Ação 3</option>
+						<option value="False" >Ação 4</option>
+					</select>
+					<i id="f1Smile" class="fas fa-laugh-beam" style="color: blue"></i>
+				</label>
+				&emsp;
+				<label class="item sunny page" style="width:45%">
+					<img src={% static '/img/18/3.gif' %} alt="gif3" width="100%">
+					<input type="hidden" id="f3Score" value="10">
+					<select name="f3" id="f3" onchange="selectAnswer('f3Smile','f3Score','f3');">
+						<option value="False" >- - Ação - -</option>
+						<option value="False" >Ação 1</option>
+						<option value="False" >Ação 2</option>
+						<option value="True" >Ação 3</option>
+						<option value="False" >Ação 4</option>
+					</select>
+					<i id="f3Smile" class="fas fa-laugh-beam" style="color: blue"></i>
+				</label>
+				&emsp;
+				<label class="item sunny page" style="width:45%">
+					<img src={% static '/img/18/4.gif' %} alt="gif4" width="100%">
+					<input type="hidden" id="f4Score" value="10">
+					<select name="f4" id="f4" onchange="selectAnswer('f4Smile','f4Score','f4');">
+						<option value="False" >- - Ação - -</option>
+						<option value="False" >Ação 1</option>
+						<option value="False" >Ação 2</option>
+						<option value="False" >Ação 3</option>
+						<option value="True" >Ação 4</option>
+					</select>
+					<i id="f4Smile" class="fas fa-laugh-beam" style="color: blue"></i>
+				</label>
+				&emsp;
+				<label class="item sunny page" style="width:45%">
+					<img src={% static '/img/18/2.gif' %} alt="gif2" width="100%">
+					<input type="hidden" id="f2Score" value="10">
+					<select name="f2" id="f2" onchange="selectAnswer('f2Smile','f2Score','f2');">
+						<option value="False" >- - Ação - -</option>
+						<option value="False" >Ação 1</option>
+						<option value="True" >Ação 2</option>
+						<option value="False" >Ação 3</option>
+						<option value="False" >Ação 4</option>
+					</select>
+					<i id="f2Smile" class="fas fa-laugh-beam" style="color: blue"></i>
+				</label>
+				&emsp;
+			</nav>
+			<a class="button" onclick="questFinish('questModal','18-2','avo',4,40);">Terminar</a>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

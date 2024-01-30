@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'banheiro' 1 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+<!-- jokeModal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Por que colocaram um pula-pula no Polo norte? Para o urso polar kkkkk</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+<!-- /jokeModal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão Home irá voltar para a página inicial!</h5>
+		<h5>Lição número 11! VAMOS LÁ!</h5>
+		<img src={% static '/img/11/escovas.png' %} alt="Placa" width="100%">
+		<p>Você não precisa ter medo de puxar a descarga. O barulho que ela faz é apenas da água passando!
+			<label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label></p>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+       <h2 class="purple">Boas Maneiras ao <br><b class="green">usar o banheiro</b></h2>
+        <img src={% static '/img/11/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: higiene e cuidado</h3>
+        <p>Antes de iniciar essa lição, visite o banheiro do local onde você está. Examine a organização do banheiro, observe se está limpo e seus objetos.</p>
+        <nav class="box base">
+			<h3 class="item contrast white">Atitudes para transformar em hábito</h3> 
+			<p>O cuidado será uma das palavras-chave de nossas lições. Ele precisa ser uma atitude constante em nosso dia a dia.
+				Cuidar do ambiente em que vivemos também é ter boas maneiras!<br><br>
+				Nesta lição, vamos conhecer um pouco mais sobre as boas maneiras na utilização de banheiros. Vamos aprender que, ao utilizar o banheiro, devemos
+				ser como "fantasminhas": invisíveis.<br><br>
+				Você sabe por que precisamos passar <i class="blue">despercebidos</i> quando utilizamos o banheiro?
+			</p>
+		</nav>
+		{% if itens.1 %}
+			<section class="box happy">
+				<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+					<p>{{ itens.0.text }}</p>
+				</div>
+				<img src={% static '/img/1/glossario.gif' %} alt="Glossario" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/glossario.gif' %} alt="Glossario" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+	    <a href="{% url 'livro1:lesson' 'banheiro' 2 %}" class="large">
+        	<button class="button next"><span>VAMOS LÁ!</span></button>
+        </a>
+        <img src={% static '/img/11/rodape.png' %} alt="amigos" width="100%">
+    </article>
+  </section>
+
+{% endblock %} 	

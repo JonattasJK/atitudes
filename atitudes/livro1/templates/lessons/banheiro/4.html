@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/stickers/6.png' %} alt="Troféu Joinha" height="120px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '10-3' 0 'sala' 4 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+			<img src={% static '/img/11/papel.png' %} alt="Papel" width="100%">
+		<h5>Quando um objeto indevido entra na tubulação, muita coisa ruim pode acontecer.</h5>
+		<h5>Além de fazer mal ao meio ambiente, pode provocar um sério entupimento dos canos.</h5>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" >
+    	<a href="{% url 'livro1:lesson' 'banheiro' 3 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box sunny large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividade" width="150px">
+			<div class="box"> <h3 class="base">Atividade</h3>
+				<p>Contorne abaixo os objetos que são encontrados nos encanamentos que foram jogados incorretamente causando prejuízo ao meio ambiente.</p>
+			</div>
+			<h5>Quando um objeto indevido entra na tubulação, muita coisa ruim pode acontecer.</h5>
+		</nav>
+		<div class="line"></div>
+		{% if itens.8 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.8.score < 110 %} 
+						Você marcou <strong>{{itens.8.score}}</strong> pontos e a pontuação máxima é 110. Você pode tentar marcar os 110 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.8.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.8.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.8.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.8.score < 110 %}
+				{% if request.user.profile.credits > itens.8.credits %}
+					<a href="{% url 'livro1:questUndo' '11-3' itens.8.score 'banheiro' 4 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.8.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.8.credits }} créditos e poderá receber até <strong>110,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<a href="{% url 'livro1:chapter' 11 request.user.profile.id %}" class="btn completed">
+				Meu livro &ensp;<i class="fas fa-book-reader"></i></a>
+		{% else %}
+			<nav class="flex">
+				<div class="item happy">Respostas:&ensp;<strong id="hits" class="orange">0</strong>
+				</div>&emsp;<div class="item happy"> Pontuação:&ensp;<strong id="totalScore" class="orange">0</strong></div>
+			</nav>
+			<nav class="box sunny">
+				<div class="img-map" style="width:100%">
+					<img class="sticker-left" src={% static '/img/11/canos.png' %} alt="Encanamento" width="100%">
+					<svg width="100%" height="100%">
+						<rect x="23.5%" y="41.5%" width="5%" height="5.9%" id="gillete" rx="10" ry="10" onclick="selectPoint(this)"/>
+						<rect x="22%" y="54.5%" width="5%" height="5.9%" id="escova1" rx="10" ry="10" onclick="selectPoint(this)"/>
+						<rect x="15%" y="73%" width="5%" height="5.9%" id="escova" rx="10" ry="10" onclick="selectPoint(this)"/>
+						<rect x="31.9%" y="63.1%" width="5%" height="12%" id="fiodental" rx="10" ry="10" onclick="selectPoint(this)"/>
+						<rect x="40%" y="62.7%" width="5%" height="3%" id="dentadura" rx="10" ry="10" onclick="selectPoint(this)"/>
+						<rect x="54.5%" y="48%" width="5%" height="7%" id="chupaa" rx="10" ry="10" onclick="selectPoint(this)"/>
+						<rect x="38%" y="88%" width="5.8%" height="8.5%" id="enxaguadero" rx="10" ry="10" onclick="selectPoint(this)"/>
+						<rect x="69%" y="86.7%" width="5.8%" height="8.5%" id="xamp" rx="10" ry="10" onclick="selectPoint(this)"/>
+						<rect x="66.7%" y="57%" width="5%" height="5.4%" id="sabonete" rx="10" ry="10" onclick="selectPoint(this)"/>
+						<rect x="78.5%" y="58.7%" width="12%" height="4%" id="sabonete" rx="10" ry="10" onclick="selectPoint(this)"/>
+						<rect x="82.5%" y="80.5%" width="5.8%" height="4.5%" id="xamp" rx="10" ry="10" onclick="selectPoint(this)"/>
+					</svg> 
+				</div>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','11-3','banheiro',4,110);">Terminar</a>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

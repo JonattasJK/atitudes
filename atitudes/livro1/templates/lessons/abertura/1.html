@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Clicando em <strong class="purple">HOME</strong> você volta para a página inicial</h5>
+		<h5>O botão <strong class="purple">VAMOS LÁ</strong> te levará para a próxima página da lição</h5>
+		<h5>Caso queira retornar uma página, clique em <strong class="purple">VOLTAR</strong></h5>
+		<img src={% static '/img/1/VcSabia.gif' %} alt="Você sabia?" width="50%">
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" id="page1">
+        <h2 class="green">Guia prático passo a passo</h2>
+        <img src={% static '/img/Ethos.gif' %} alt="Atitudes" width="50%">
+        <p class="a"> <b class="mid">Crianças e seus Relacionamentos: Boas Maneiras, Atitudes, Valores e Cidadania</b> <br>
+	        Durante este ano, vamos tratar de temas importantes na vida em sociedade:
+			Boas Maneiras, Atitudes, Regras, Valores e Cidadania. Por meio de reflexões sobre
+			esses temas, atividades e brincadeiras, vamos compreender um pouco mais o
+			funcionamento das relações sociais e as regras que as cercam. Ao final do
+			processo, você saberá como identificar e praticar essas regras sociais que orientam
+			a nossa vivência e convivência em sociedade.</p>
+	    <button onclick="openPage('page2', 'page1');" class="button next"><span>VAMOS LÁ</span></button>
+    </article>
+
+    <article class="page" id="page2">
+    	<button onclick="openPage('page1', 'page2');" class="button previous"><span>Voltar</span></button>
+    	<br>
+		<nav class="box happy">
+			<img class="sticker-left" src={% static '/img/1/VcSabia.gif' %} alt="Você sabia?" width="20%">
+			<div class="box"> <h3 class="orange">Você sabia que...</h3>
+				<p>Nesta seção você encontrará curiosidades sobre
+				temas diversos e que têm ligação com o conteúdo apresentado na lição.</p>
+			</div>
+		</nav><div class="line"></div>
+		<nav class="box base">
+			<img class="sticker-left" src={% static '/img/1/Observando.gif' %} alt="Observando" width="20%">
+			<div class="box"> <h3 class="green">Observando...</h3>
+				<p>Esta seção é destinada a diversas atividades criativas
+			que podem incluir desde a observação de uma ilustração até
+			a observação da realidade que o cerca para a compreensão/resolução
+			das atividades propostas.</p>
+			</div>
+		</nav><div class="line"></div>
+		<nav class="box shine">
+			<img class="sticker-right" src={% static '/img/1/maosAObra.gif' %} alt="Mãos à obra" width="30%">
+			<div class="box"> <h3 class="red">Mãos à obra!</h3>
+				<p>Nesta seção você será convidado a participar da lição
+			de forma mais ativa, seja produzindo um material de
+			apoio para as aulas, seja realizando pesquisas e completando tarefas.</p>
+			</div>
+		</nav><div class="line"></div>
+		<nav class="box base-detail">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividades" width="20%">
+			<div class="box"> <h3 class="pink">Atividade</h3>
+				<p>A atividade é um momento para você refletir sobre o
+			que aprendeu e consolidar suas ideias e opiniões sobre o
+			conteúdo de cada lição.</p>
+			</div>
+		</nav><div class="line"></div>
+		<nav class="box alert">
+			<img class="sticker-right" src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" width="30%">
+			<div class="box"> <h3 class="yellow">Lembre-se</h3>
+				<p>Algumas regras e ideias merecem destaque e sempre é
+			bom relembrá-las. Esse é o objetivo da seção Lembre-se:
+			ressaltar o que não deve ser esquecido!</p>
+			</div>
+		</nav><div class="line"></div>
+		<nav class="box contrast">
+			<img class="sticker-right" src={% static '/img/1/glossario.gif' %} alt="Lembre-se" width="30%">
+			<div class="box"> <h3 class="blue">Glossário</h3>
+				<p>Durante esta jornada, você vai perceber que, em
+			alguns textos, há palavras com destaque colorido. Isso
+			quer dizer que elas estão explicadas numa “caixinha” na
+			mesma página. Saber o significado dessas palavras irá
+			ajudá-lo a compreender bem os textos do livro.</p>
+			</div>
+		</nav>
+	    <button onclick="openPage('page3', 'page2');" class="button next"><span>VAMOS LÁ!</span></button>
+    </article>
+
+    <article class="page" id="page3">
+    	<button onclick="openPage('page2', 'page3');" class="button previous"><span>Voltar</span></button>
+    	<nav class="item happy">
+    		<p> <strong>Boas Maneiras</strong><br>
+			<img class="sticker-left" src={% static '/img/1/BoasManeiras.png' %} alt="Atitudes" width="200px" height="200px">
+				As boas maneiras procuram mostrar
+				por meio de regras o que é certo ou errado no nosso comportamento
+				e das outras pessoas. Boas maneiras também é tratar os
+				outros com simpatia e com boas atitudes.</p>
+    	</nav>
+    	<nav class="item happy">
+    		<p> <strong>Regras</strong><br>
+			<img class="sticker-right" src={% static '/img/1/Regras.png' %} alt="Atitudes" width="200px" height="200px">
+				As regras são instruções para estabelecer uma igualdade, um padrão na
+				convivência com os outros. Neste livro, as
+				regras incluem princípios de cordialidade,
+				respeito e as leis que, regulamentadas,
+				devem ser cumpridas. As regras foram
+				elaboradas para reduzir o conflito entre
+				as pessoas e tornar a vida mais agradável.</p>
+    	</nav>
+    	<nav class="item happy">
+    		<p> <strong>Atitudes</strong><br>
+			<img class="sticker-left" src={% static '/img/1/Atitudes.png' %} alt="Atitudes" width="200px" height="200px">
+				Formas de agir, de praticar uma ação.
+				Elas podem ser agradáveis ou desagradáveis.
+				A ação, ou seja, as atitudes agradáveis resultam em maior 
+				bem-estar para um maior número de pessoas.</p>
+    	</nav>
+    	<nav class="item happy">
+    		<p> <strong>Valores</strong><br>
+			<img class="sticker-right" src={% static '/img/1/Valores.png' %} alt="Atitudes" width="200px" height="200px">
+				São um conjunto de qualidades que nos distinguem como seres humanos. 
+				Os principais valores humanos são a verdade, as ações corretas,
+				a paz, o amor e a não violência. Nas próximas
+				lições, vamos orientá-lo a compreender de forma concreta 
+				os seus sentimentos e suas atitudes. Ajudá-lo a 
+				construir a sua identidade, isto é, se conhecer.</p>
+    	</nav>
+    	<nav class="item happy">
+    		<p> <strong>Cidadania</strong><br>
+			<img class="sticker-left" src={% static '/img/1/Cidadania.png' %} alt="Atitudes" width="250px" height="200px">
+				A cidadania não é só direitos e
+				deveres: é saber que devemos nos esforçar para construir um mundo melhor.
+				Ser cidadão é participar da vida em comunidade. É a atitude
+				de não pensar só em você, mas também no bem-estar do outro.</p>
+    	</nav>
+    	<nav class="item happy">
+    		<p> <strong>Você é o autor...</strong><br>
+				No final de cada lição você irá escrever um capítulo do seu livro!
+				Lá você também poderá usar figurinhas e outros tipos de letras para
+				criar o seu livro sobre Boas Maneiras, Regras, Atitudes, Valores e Cidadania.
+				Assim, basta começar a escrever suas páginas
+				após cada lição estudada. O ideal é que, após as aulas, você converse com
+				sua família sobre os temas abordados, explicando-lhes sobre o que você
+				aprendeu. Depois disso, faça uma reflexão e só então comece a escrever
+				o seu livro.<br>
+				 Lembre-se: use sua criatividade e explore as atitudes aprendidas
+				em cada lição.</p>
+    	</nav>
+    	<a href="{% url 'livro1:lesson' 'abertura' 2 %}" class="large">
+        	<button class="button next"><span>VAMOS LÁ!</span></button>
+        </a>
+    	
+    </article>
+  </section>
+ 
+  <script>
+  	openPage('page1','page2');
+  </script>
+
+{% endblock %} 	

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+	<aside class="side clean-detail" id="leftSide">
+		<a href="{% url 'livro1:home' %}" class="btn completed">
+			Home &ensp;<i class="fas fa-home"></i></a>
+		<a href="{% url 'livro1:library' request.user.profile.id%}" class="btn completed">
+			Biblioteca &ensp;<i class="fas fa-atlas"></i></a>
+		<h2 class="green">Cinema Atitudes!</h2>
+	</aside>
+
+	<article class="page clean">
+		<em class="yellow">É hora do </em> <em class="green">FILME</em><br>
+		<video width="50%" controls>
+            <source src="{% static movie %}" type="video/mp4">
+            Seu navegador não suporta vídeos.
+        </video>
+        <p>Coloque em tela cheia para aproveitar melhor</p>
+		<a href="{% url 'livro1:continues' %}" class="button previous"><span>Voltar para a lição</span></a>
+	</article>
+{% endblock %} 	

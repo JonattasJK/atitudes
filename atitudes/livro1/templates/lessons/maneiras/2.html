@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'maneiras' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.2.sort }}</strong>
+			  	<p><i>{{ itens.2.name }}:</i> {{ itens.2.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'maneiras' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/stickers/26.png' %} alt="sticker" width="120px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '2-1' 0 'maneiras' 2 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+	<h5>Se você clicar no botão Home irá voltar para a página inicial!</h5>
+	<h5>Nesse <strong>mãos à obra</strong> você deverá escolher a palavra correta dentro de cada balãozinho</h5>
+	<img src={% static '/img/2/meninaFala.png' %} alt="Observando" width="300px">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'maneiras' 1 %}" class="large">
+        	<button class="button previous"><span>Voltar</span></button>
+        </a>
+       {% if itens.1 %}
+			<nav class="box alert large">
+				<img class="sticker-right" src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" width="150px">
+				<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+					<p>{{ itens.0.text|linebreaks }}</p>
+				</div>
+			</nav><br>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		<p></p>
+		{% if itens.8 != False %}
+			<nav class="box base">
+				<img class="sticker-right" src={% static '/img/1/maosAObra.gif' %} alt="Mãos à obra" width="150px">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.8.score < 40 %} 
+						Você marcou <strong>{{itens.8.score}}</strong> pontos e a pontuação máxima é 40. Você pode tentar marcar os 40 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.8.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.8.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.8.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.8.score < 40 %}
+				{% if request.user.profile.credits > itens.8.credits %}
+					<a href="{% url 'livro1:questUndo' '2-1' itens.8.score 'maneiras' 2 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.8.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.8.credits }} créditos e poderá receber até <strong>40,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+		{% else %}
+			<nav class="box base">
+				<img class="sticker-right" src={% static '/img/1/maosAObra.gif' %} alt="amigos" width="200">
+				<h3 class="red">Mãos à obra!</h3>
+				<p><em class="green">Departamento P&D</em><br>
+					Uma das coisas que um Departamento de Pesquisa e
+					Desenvolvimento faz é descobrir novos produtos e melhorar os já existentes.
+					O desafio aqui é encontrar palavras mágicas. <br>Com um pouco de imaginação
+					e criatividade você consegue. Então, mãos à obra!
+				</p>
+				<nav class="flex">
+					<div class="item sunny">Acertos:&ensp;<strong id="hits" class="red">0</strong>
+					</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+				</nav>
+				<div class="box" style="background-color: deepskyblue">
+					<div class="flex"  style="justify-content: start">
+						<div class="thought">
+							<i id="f2Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+							<input type="hidden" id="f2Score" value="10">
+							<select name="f2" id="f2" onchange="selectAnswer('f2Smile','f2Score','f2')">
+								<option value="" >--Clique--</option>
+								<option value="True" >Por gentileza</option>
+								<option value="False" >Desfavor</option>
+								<option value="False" >Me dá</option>
+								<option value="False" >Bolo</option>
+							</select>
+						</div>
+						<div class="thought">
+							<i id="f3Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+							<input type="hidden" id="f3Score" value="10">
+							<select name="f3" id="f3" onchange="selectAnswer('f3Smile','f3Score','f3')">
+								<option value="" >--Clique--</option>
+								<option value="False" >Mal-agradecido</option>
+								<option value="True" >Obrigado(a)</option>
+								<option value="False" >Ingrato</option>
+								<option value="False" >Bula</option>
+							</select>
+						</div>
+						<div class="thought"><i class="fas fa-grin-hearts" style="color: #0284cf;"></i></div>
+						<div class="thought"><i class="fas fa-grin-tears" style="color: #0284cf;"></i></div>	
+					</div>
+					<div class="flex"  style="justify-content: end">
+						<div class="thought"><i class="fas fa-smile-wink" style="color: #0284cf;"></i></div>
+						<div class="thought"><i class="fas fa-grin-tongue" style="color: #0284cf;"></i></div>
+						<div class="thought">
+							<i id="f4Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+							<input type="hidden" id="f4Score" value="10">
+							<select name="f4" id="f4" onchange="selectAnswer('f4Smile','f4Score','f4')">
+								<option value="" >--Clique--</option>
+								<option value="False" >Sai da frente</option>
+								<option value="False" >Empurrar</option>
+								<option value="True" >Com Licença</option>
+								<option value="False" >Bala</option>
+							</select>
+						</div>
+						<div class="thought">
+							<i id="f1Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+							<input type="hidden" id="f1Score" value="10">
+							<select name="f1" id="f1" onchange="selectAnswer('f1Smile','f1Score','f1')">
+								<option value="" >--Clique--</option>
+								<option value="True" >Bom dia</option>
+								<option value="False" >Mal dia</option>
+								<option value="False" >Virar a cara</option>
+								<option value="False" >Bola</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<a class="button" onclick="questFinish('questModal','2-1','maneiras',2,40);">Terminar</a>
+				<img src={% static '/img/2/muitosFalam.png' %} alt="amigos" width="100%">
+				<p></p>
+			</nav>
+		{% endif %}
+		<div class="line"></div>
+		<nav class="box happy">
+			<img class="sticker-left" src={% static '/img/1/VcSabia.gif' %} alt="amigos" width="150">
+			<h3 class="pink">Você sabia que...</h3>
+			<p>...a palavra “obrigado”, como forma de agradecimento,
+				vem do latim <i>obligatus</i>, que significa ligar, amarrar. Trata-se da forma abreviada da 
+				expressão “fico-lhe obrigado”, ou seja, fico-lhe ligado pelo favor que me fez. Assim, quando
+				uma pessoa lhe faz um favor, mesmo que simples como o ato de abrir-lhe uma porta, 
+				você tem a obrigação de retribuí-lo, seja na forma de uma gentileza, seja na forma 
+				de outro favor. Ao responder obrigado, você está mostrando sua <b class="blue">gratidão</b> e indicando que irá retribuir o favor prestado.
+			</p>
+		</nav>
+		<p></p>
+		{% if itens.3 %}
+			<section class="box shine">
+				<div class="box"> <h3 class="blue">{{ itens.2.name }}</h3>
+					<p>{{ itens.2.text|linebreaks }}</p>
+				</div>
+				<img src={% static '/img/1/glossario.gif' %} alt="Lembre-se" width="150px" height="150px">
+			</section><br>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal2');"><img src={% static '/img/1/glossario.gif' %} alt="Lembre-se" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		{% if itens.8 != False %}
+			<a href="{% url 'livro1:lesson' 'maneiras' 3 %}" class="large">
+		    	<button class="button next"><span>VAMOS LÁ!</span></button>
+		    </a>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

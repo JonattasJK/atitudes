@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '3-4' 0 'familia' 5 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+			<img src={% static '/img/12/livros.png' %} alt="Papel" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" >
+    	<a href="{% url 'livro1:lesson' 'computadores' 3 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividades" width="150px">
+			<div class="box"> <h3 class="box yellow">Atividade</h3>
+				<h4>Responda as perguntas para avançar até o último videogame!</h4>
+			</div>
+		</nav>
+		
+	    {% if itens.7 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.7.score < 50 %} 
+						Você marcou <strong>{{itens.7.score}}</strong> pontos e a pontuação máxima é 50. Você pode tentar marcar os 50 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.7.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.7.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.7.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.7.score < 50 %}
+				{% if request.user.profile.credits > itens.7.credits %}
+					<a href="{% url 'livro1:questUndo' '14-2' itens.7.score 'computadores' 4 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.7.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.7.credits }} créditos e poderá receber até <strong>50,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<a href="{% url 'livro1:chapter' 14 request.user.profile.id %}" class="btn completed">
+					Meu livro &ensp;<i class="fas fa-book-reader"></i></a>
+		{% else %}
+			<div class="line"></div>
+			<input type="hidden" id="bad" value="{% static 'img/8/triste.png' %}">
+			<input type="hidden" id="good" value="{% static 'img/star.gif' %}">
+			<nav class="flex">
+				<div class="element"><nav class="frame">
+					<img id="background" src={% static 'img/avatars/game.jpg' %} alt="fundo" width="100%">
+					<img id="stage1" class="avatar" src={% static request.user.profile.avatar.active %} width="100%">
+				</nav></div>
+				<div class="element"><nav class="frame" id="stage">
+					<img id="background" src={% static 'img/avatars/game.jpg' %} alt="fundo" width="100%">
+					<img id="stage2" class="avatar" src="" width="100%">
+				</nav></div>
+				<div class="element"><nav class="frame" id="stage">
+					<img id="background" src={% static 'img/avatars/game.jpg' %} alt="fundo" width="100%">
+					<img id="stage3" class="avatar" src="" width="100%">
+				</nav></div>
+				<div class="element"><nav class="frame" id="stage">
+					<img id="background" src={% static 'img/avatars/game.jpg' %} alt="fundo" width="100%">
+					<img id="stage4" class="avatar" src="" width="100%">
+				</nav></div>
+				<div class="element"><nav class="frame" id="stage">
+					<img id="background" src={% static 'img/avatars/game.jpg' %} alt="fundo" width="100%">
+					<img id="stage5" class="avatar" src="" width="100%">
+				</nav></div>
+			</nav>
+			<nav id="quest1">
+				<p id="quests">Na internet, você pode conversar sobre vários assuntos, mas você deve divulgar seus dados pessoais?</p>
+				<label class="item sunny">
+					<input type="radio" name="stage1" value="False" onclick="reply(this)">
+					Sim		
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="stage1" value="True" onclick="reply(this)">
+					Não			
+				</label>
+			</nav>
+			<nav id="quest2" style="display:none">
+				<p id="quests">As pessoas na vida real podem ser muito diferentes do que
+					elas dizem que são pela internet. Por isso, você pode marcar encontros com
+					amigos virtuais?</p>
+				<label class="item sunny">
+					<input type="radio" name="stage2" value="False" onclick="reply(this)">
+					Sim		
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="stage2" value="True" onclick="reply(this)">
+					Não	
+				</label>
+			</nav>
+			<nav id="quest3" style="display:none">
+				<p id="quests">Quando você está on-line e percebe algo estranho ou que
+					deixa você com medo, você sempre avisa seus pais?</p>
+				<label class="item sunny">
+					<input type="radio" name="stage3" value="True" onclick="reply(this)">
+					Sim
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="stage3" value="False" onclick="reply(this)">
+					Não
+				</label>
+			</nav>
+			<nav id="quest4" style="display:none">
+				<p id="quests">O que você deve fazer ao receber e-mails estranhos, de quem
+					você não conhece, com arquivos ou fotos suspeitas?</p>
+				<label class="item sunny">
+					<input type="radio" name="stage4" value="False" onclick="reply(this)">
+					Abrir o e-mail e responder sem avisar para seus pais	
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="stage4" value="True" onclick="reply(this)">
+					Apagar o e-mail sem abrir	
+				</label>
+			</nav>
+			<nav id="quest5" style="display:none">
+				<p id="quests">Você deve participar de grupos on-line onde as pessoas são hostis?</p>
+				<label class="item sunny">
+					<input type="radio" name="stage5" value="False" onclick="reply(this)">
+					Sim
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="stage5" value="True" onclick="reply(this)">
+					Não
+				</label>
+			</nav>
+			<nav class="flex">
+				<div class="item sunny">Acertos:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<a class="button" style="display:none" id="btnTerminar" onclick="questFinish('questModal','14-2','computadores',4,50);">Terminar</a>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

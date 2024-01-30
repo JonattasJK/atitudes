@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.2.sort }}</strong>
+			  	<p><i>{{ itens.2.name }}:</i> {{ itens.2.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'avo' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  		</div>
+	  		<form action="#" method="post" class="element box">
+	  			{% csrf_token %}
+				<input type="hidden" name="text" id="text" value="10">
+				<input type="submit" value="Resgatar meu prêmio">
+		  	</form>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+	<img src={% static '/img/18/linha.png' %} alt="Livro" width="100%">
+	<h4>No tempo dos seus avós tudo era diferente, então tenha um pouco de paciência com eles</h4>
+	<img src={% static '/img/18/peao.png' %} alt="Livro" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" style="height:100%">
+        <a href="{% url 'livro1:lesson' 'avo' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <nav class="box sunny">
+			<img class="sticker-right" src={% static '/img/1/maosAObra.gif' %} alt="Mãos à obra" width="230px">
+			<div class="box"> <h3 class="box base">Atividade</h3>
+				<p>Com a ajuda de seus familiares, complete a árvore genealógica de sua família</p>
+			</div>
+		</nav>
+		{% if itens.8 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.8.score < 60 %} 
+						Você marcou <strong>{{itens.8.score}}</strong> pontos e a pontuação máxima é 60. Você pode tentar marcar os 60 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.8.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.8.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.8.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.8.score < 60 %}
+				{% if request.user.profile.credits > itens.8.credits %}
+					<a href="{% url 'livro1:questUndo' '18-1' itens.8.score 'avo' 2 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.8.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.8.credits }} créditos e poderá receber até <strong>60,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<div class="line"></div>
+			<nav class="page base box">
+				<nav class="flex">
+					<div class="element item base-detail pink">
+						{% for word in itens.9 %}
+							{% if word == '|' %}
+								&emsp;<i class="far fa-heart red"></i>&emsp;
+							{% elif word == '#' %}
+								</div>&emsp;<div class="element item base-detail pink">
+							{% elif word == '&' %}
+								</div></nav><nav class="flex"><div class="element item base-detail pink">
+							{% else %}
+								<a class="white">{{word}}</a>
+							{% endif %}
+						{% endfor %}
+					</div>
+				</nav>
+				<div class="page large">
+					<div class="thought">
+						<nav class="frame">
+							<img id="background" src={% static request.user.profile.avatar.background %} alt="fundo" width="100%">
+							<img class="avatar" src={% static request.user.profile.avatar.active %} alt="Usuário" width="100%">
+							<a class="frame-bottom box" style="background-color:rgba(224, 255, 255, 0.5);">{{request.user.username}}</a>
+						</nav>
+					</div>
+				</div>
+			</nav>
+			<div class="line"></div>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny">Acertos:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<div class="frame">
+				<div class="leaves large">
+					<div class="large" style="display: flex; justify-content: space-between;">
+						<div class="thought">
+							<input type="text" id="aPo" placeholder="Avô paterno" oninput="familyFree(this)">
+						</div>
+						<div class="thought">
+							<input type="text" id="aPa" placeholder="Avó paterna" oninput="familyFree(this)">
+						</div>
+						<div class="thought">
+							<input type="text" id="aMo" placeholder="Avô materno" oninput="familyFree(this)">
+						</div>
+						<div class="thought">
+							<input type="text" id="aMa" placeholder="Avó materna" oninput="familyFree(this)">
+						</div>
+					</div>
+					<div class="page large">
+						<div class="flex">
+							<div class="thought">
+								<input type="text" id="pai" placeholder="Pai" oninput="familyFree(this)">
+							</div>
+							<div class="thought">
+								<input type="text" id="mae" placeholder="Mãe" oninput="familyFree(this)">
+							</div>
+						</div>
+					</div>
+					<div class="page large">
+						<div class="thought">
+							<nav class="frame">
+								<img id="background" src={% static request.user.profile.avatar.background %} alt="fundo" width="100%">
+								<img class="avatar" src={% static request.user.profile.avatar.active %} alt="Usuário" width="100%">
+								<a class="frame-bottom box" style="background-color:rgba(224, 255, 255, 0.5);">{{request.user.username}}</a>
+							</nav>
+						</div>
+					</div>
+				</div>
+				<img src={% static '/img/3/tree.png' %} alt="arvore" width="100%">
+			</div>
+			<a class="button" onclick="answareText('questModal','18-1');">Terminar</a><p></p>
+		{% endif %}
+		{% if itens.3 %}
+			<nav class="box sunny large" style="width:100%">
+				<img class="sticker-right" src={% static '/img/1/glossario.gif' %} width="150px" height="150px">
+				<div class="box"> <h3 class="blue">{{ itens.2.name }}</h3>
+					<p>{{ itens.2.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/glossario.gif' %} width="150px"></a>
+			</section>
+		{% endif %}
+		{% if itens.8 != False %}
+			<a href="{% url 'livro1:lesson' 'avo' 3 %}" class="large">
+				<button class="button next"><span>VAMOS LÁ!</span></button>
+			</a>
+	    {% endif %}
+    </article>
+  </section>
+
+{% endblock %}

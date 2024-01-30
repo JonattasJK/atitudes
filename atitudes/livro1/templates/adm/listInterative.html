@@ -1,0 +1,35 @@
+{% extends "adm/base.html" %}
+{% load static %}
+
+{% block body %}
+
+  <article class="main clean">
+    <nav class="item base page"><h3>
+		{% if school %}
+			{{ school.name }}
+		{% else %}
+			Independente
+		{% endif %}
+    </h3></nav>
+    <h5>Aqui você terá uma lista de usuários permitindo que você acesse o perfil de qualquer deles para executar uma ação.</h5>
+    <a class="button" href="{% url 'livro1:userList' 0 %}" id="getUsers">Procurar usuários</a>
+	<nav class="box page">
+		{% if profiles %}<br>{% for p in profiles %}
+			<div class="item base page" style="width:100%">
+				<a href="{% url 'livro1:userInfo' p.id %}" class="btn available">{{ p.user.username }}&ensp;
+					{% if p.level >= 2 %}<i class="fas fa-user">{% else %}<i class="fas fa-user-tie">{% endif %}</i></a>
+				<p>Cadastro: {{ p.user.date_joined }} <br> Último login: {{ p.user.last_login }}</p>
+				<em>Título do livro: {{ p.bookTitle }}</em>
+			</div>
+		{% endfor %}{% endif %}
+	</nav>
+  </article>
+  
+  <script>
+  	function alterBtn(school){
+  		 var btn = document.getElementById('getUsers');
+  		 btn.href = "/adm/UserList/"+school.value+"/"
+  	}
+  </script>
+
+{% endblock %} 

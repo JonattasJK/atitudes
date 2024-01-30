@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/stickers/22.png' %} alt="Troféu Joinha" height="120px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '3-4' 0 'familia' 5 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão Home irá voltar para a página inicial!</h5>
+		<h5>Você já está na <em class="purple">lição 14</em>. Meus parabéns! :D</h5>
+		<img class="sticker-left" src={% static '/img/14/mouse.png' %} alt="Seta" width="40%">
+		<p>Olhe bem onde você vai clicar! Alguns links da internet são <em class="red">armadilhas</em>.</p>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+       <h2 class="green">Boas Maneiras no <br><b class="blue">laboratório</b> <b class="purple">de</b> <b class="red">informática</b></h2>
+        <img src={% static '/img/14/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: organização e disciplina</h3>
+        <nav class="box base">
+        	<img class="sticker-right" src={% static '/img/14/mesa.png' %} alt="Livros" width="50%">
+			<h3 class="item base-detail white">Laboratório de informática também é lugar de silêncio</h3> 
+			<p>O laboratório de informática da escola é um local que oferece recursos tecnológicos que auxiliam no seu aprendizado, assim como a sala de aula e a biblioteca.
+				Para preservar o laboratório em suas perfeitas condições, as atitudes de organização, disciplina e responsabilidade devem fazer parte do seu dia a dia.</p>
+		</nav>
+		<div class="line"></div>
+		<nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividades" width="150px">
+			<div class="box"> <h3 class="box yellow">Atividade</h3>
+				<h4>Antes de conhecer algumas regrinhas sobre a utilização do laboratório de informática, que tal testar seu conhecimento sobre as partes que
+					compõem o computador? Ligue o nome ao objeto correspondente.</h4>
+			</div>
+		</nav>
+		{% if itens.6 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.6.score < 60 %} 
+						Você marcou <strong>{{itens.6.score}}</strong> pontos e a pontuação máxima é 60. Você pode tentar marcar os 60 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.6.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.6.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.6.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.6.score < 60 %}
+				{% if request.user.profile.credits > itens.6.credits %}
+					<a href="{% url 'livro1:questUndo' '14-1' itens.6.score 'computadores' 1 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.6.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.6.credits }} créditos e poderá receber até <strong>60,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<a href="{% url 'livro1:lesson' 'computadores' 2 %}" class="large">
+				<button class="button next"><span>VAMOS LÁ!</span></button>
+			</a>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny">Acertos:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="item flex happy">
+				<div class="thought flex">
+					<img src={% static '/img/14/teclado.png' %} alt="Livros" width="50%">
+					<input type="hidden" id="f1Score" value="10">
+					<select name="f1" id="f1" onchange="selectAnswer('f1Smile','f1Score','f1')">
+						<option value="" >--escolha--</option>
+						<option value="True" >Teclado</option>
+						<option value="False" >Mouse</option>
+						<option value="False" >Gabinete</option>
+						<option value="False" >Pen drive</option>
+						<option value="False" >Webcam</option>
+						<option value="False" >Monitor</option>
+					</select>
+					<i id="f1Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+				</div>
+				<div class="thought flex">
+					<img src={% static '/img/14/webcam.png' %} alt="Livros" width="50%">
+					<input type="hidden" id="f2Score" value="10">
+					<select name="f2" id="f2" onchange="selectAnswer('f2Smile','f2Score','f2')">
+						<option value="" >--escolha--</option>
+						<option value="False" >Teclado</option>
+						<option value="False" >Mouse</option>
+						<option value="False" >Gabinete</option>
+						<option value="False" >Pen drive</option>
+						<option value="True" >Webcam</option>
+						<option value="False" >Monitor</option>
+					</select>
+					<i id="f2Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+				</div>
+				<div class="thought flex">
+					<img src={% static '/img/14/pc.png' %} alt="Livros" width="50%">
+					<input type="hidden" id="f3Score" value="10">
+					<select name="f3" id="f3" onchange="selectAnswer('f3Smile','f3Score','f3')">
+						<option value="" >--escolha--</option>
+						<option value="False" >Teclado</option>
+						<option value="False" >Mouse</option>
+						<option value="True" >Gabinete</option>
+						<option value="False" >Pendrive</option>
+						<option value="False" >Webcam</option>
+						<option value="False" >Monitor</option>
+					</select>
+					<i id="f3Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+				</div>
+				<div class="thought flex">
+					<img src={% static '/img/14/tela.png' %} alt="Livros" width="50%">
+					<input type="hidden" id="f4Score" value="10">
+					<select name="f4" id="f4" onchange="selectAnswer('f4Smile','f4Score','f4')">
+						<option value="" >--escolha--</option>
+						<option value="False" >Teclado</option>
+						<option value="False" >Mouse</option>
+						<option value="False" >Gabinete</option>
+						<option value="False" >Pen drive</option>
+						<option value="False" >Webcam</option>
+						<option value="True" >Monitor</option>
+					</select>
+					<i id="f4Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+				</div>
+				<div class="thought flex">
+					<img src={% static '/img/14/mouse2.png' %} alt="Livros" width="50%">
+					<input type="hidden" id="f5Score" value="10">
+					<select name="f5" id="f5" onchange="selectAnswer('f5Smile','f5Score','f5')">
+						<option value="" >--escolha--</option>
+						<option value="False" >Teclado</option>
+						<option value="True" >Mouse</option>
+						<option value="False" >Gabinete</option>
+						<option value="False" >Pen drive</option>
+						<option value="False" >Webcam</option>
+						<option value="False" >Monitor</option>
+					</select>
+					<i id="f5Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+				</div>
+				<div class="thought flex">
+					<img src={% static '/img/14/pendrive.png' %} alt="Livros" width="50%">
+					<input type="hidden" id="f6Score" value="10">
+					<select name="f6" id="f6" onchange="selectAnswer('f6Smile','f6Score','f6')">
+						<option value="" >--escolha--</option>
+						<option value="False" >Teclado</option>
+						<option value="False" >Mouse</option>
+						<option value="False" >Gabinete</option>
+						<option value="True" >Pen drive</option>
+						<option value="False" >Webcam</option>
+						<option value="False" >Monitor</option>
+					</select>
+					<i id="f6Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+				</div>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','14-1','computadores',1,60);">Terminar</a>
+		{% endif %}
+    </article>
+  </section>
+{% endblock %} 	

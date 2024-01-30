@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '4-4' 0 'acordar' 6 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <h5>com licença, responder, por favor, gratidão, cumprimentar, silêncio, disciplina, auxiliar, obedecer, respeitar, desculpa, cuidar, organizar, ajudar, comprometimento, tolerar</h5>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'acordar' 5 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box">
+			<div class="box"> <h2 class="box base">A organização do seu dia</h2>
+				<img class="sticker-right" src={% static '/img/4/estudar.png' %} alt="Estudar" width="50%">
+				<p>Ao acordar devemos
+					dizer “bom dia” para as
+					pessoas que estiverem em
+					casa. Pais, irmãos, avós,
+					pessoas que nos ajudam
+					com a organização da casa.
+					Lembre-se: devemos dizer
+					“bom dia” para todos da
+					casa!</p>
+				<p>O dia começa e cada
+					um segue uma rotina, alguns estudam de manhã,
+					outros à tarde. O mais importante para todos é ter disciplina e organização.
+					Ao organizar seu dia, algumas atividades devem ser feitas seguindo
+					uma ordem. Por exemplo, primeiro verificamos a agenda escolar, fazemos
+					as tarefas e depois podemos ir brincar.</p>
+			</div>
+		</nav>
+		<h3 class="green">Exercício de Responsabilidade</h3>
+		<h5>Escolha um desafio por semana, alguma coisa que você não faça
+			habitualmente, ou que seja difícil de conseguir e que você precisa
+			<img class="sticker-right" src={% static '/img/4/orar.png' %} alt="Estudar" width="50%">
+			se acostumar a fazer. Exemplos:<br>
+			1. Não dizer palavrões.<br>
+			2. Arrumar a cama.<br>
+			3. Não ficar bravo.<br>
+			4. Arrumar a mesa no fim da refeição.<br>
+			5. Guardar suas roupas.<br>
+			Escolha um desafio por dia. No final do dia, antes de dormir, relembre 
+			como foi o dia e veja se conseguiu cumprir o desafio que se propôs a fazer.
+		</h5>
+		<nav class="box sunny large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividades" width="150px">
+			<div class="box"> <h3 class="box yellow">Atividade</h3>
+				<h4>Jogo dos 7 erros.</h4>
+				<h5 class="blue">Ache os erros e clique na imagem da direita</h5>
+			</div>
+		</nav>
+		<div class="line"></div>
+		{% if itens.8 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.8.score < 70 %} 
+						Você marcou <strong>{{itens.8.score}}</strong> pontos e a pontuação máxima é 70. Você pode tentar marcar os 70 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.8.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.8.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.8.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.8.score < 70 %}
+				{% if request.user.profile.credits > itens.8.credits %}
+					<a href="{% url 'livro1:questUndo' '4-4' itens.8.score 'acordar' 5 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.8.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.8.credits }} créditos e poderá receber até <strong>70,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+    		<a href="{% url 'livro1:chapter' 4 request.user.profile.id %}" class="btn completed">
+				Meu livro &ensp;<i class="fas fa-book-reader"></i></a>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="box sunny">
+				<img src={% static '/img/4/certo.png' %} alt="Certo" width="47%">
+				<div class="img-map" style="width:47%">
+					<img src={% static '/img/4/errado.png' %} alt="Errado" width="100%">
+					<svg width="100%" height="100%">
+						<rect x="24.2%" y="72.4%" width="5%" height="5%" id="bola" rx="20" ry="50" onclick="selectPoint(this)"/>
+						<rect x="22.6%" y="58%" width="5%" height="5%" id="travesseiro" rx="20" ry="50" onclick="selectPoint(this)"/>
+						<rect x="74%" y="64.5%" width="5%" height="8%" id="tapete" rx="20" ry="50" onclick="selectPoint(this)"/>
+						<rect x="74.5%" y="47%" width="6%" height="5%" id="rabo_gato" rx="20" ry="50" onclick="selectPoint(this)"/>
+						<rect x="30%" y="36%" width="5.8%" height="5.8%" id="cama" rx="20" ry="50" onclick="selectPoint(this)"/>
+						<rect x="35.5%" y="44.2%" width="5.9%" height="5.9%" id="despertador" rx="20" ry="50" onclick="selectPoint(this)"/>
+						<rect x="51%" y="28%" width="8%" height="8%" id="janela" rx="20" ry="50" onclick="selectPoint(this)"/>
+					</svg> 
+				</div>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','4-4','acordar',6,70);">Terminar</a><p></p>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

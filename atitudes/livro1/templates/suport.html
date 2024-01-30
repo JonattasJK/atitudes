@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Atitudes - Suporte</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+	<script src="{% static 'js/functions.js' %}"></script>
+	<link rel="Atitudes icon" href="{%  static '/img/atitude.ico' %}">
+</head>
+<body class="base">
+
+<!-- Header -->
+<header>
+  <img src={% static '/img/title1.png' %} alt="Atitudes">
+  <!-- Navigation Bar -->
+  <nav class="navbar base-detail">
+  	
+    <a class="menu-link" href="{% url 'livro1:index' %}"><i class="fas fa-backspace"></i>Voltar</a>
+    
+  </nav>
+</header>
+
+<!-- The flexible grid (content) -->
+<main class="back-img">
+
+    <article class="main clean" style="max-width:">
+        <h2 class="green">Suporte</h2>
+		<!-- <p>Você pode solicitar ajuda pelo chat na nossa <a href="https://www.facebook.com/livroatitudes/?ref=py_c" target="_blank">página do Facebook</a>, <br>
+		na nossa página do <a href="https://www.instagram.com/projetoatitudes/" target="_blank">página do Instagram</a> <br>
+		ou enviando um email para <a href="mailto:suporte@projetoatitudes.com">suporte@projetoatitudes.com</a>
+		</p> -->
+		<p>Você pode solicitar ajuda pelo chat na nossa página do Facebook <a class="green">(facebook.com/projeto.atitudes)</a>, <br>
+		na nossa página do página do Instagram <a class="green">(@projetoatitudes)</a> <br>
+		ou enviando um email para  <a class="green">suporte@projetoatitudes.com</a>
+		</p>
+    </article>
+</main>
+<!-- Footer -->
+<footer class="base-detail">
+    <a class="menu-link" href="{% url 'livro1:privacy' %}" ><i class="fas fa-book"></i>Política de privacidade</a>
+    <a class="menu-link" href="{% url 'livro1:suport' %}" ><i class="fas fa-book"></i>Suporte</a>
+</footer>
+
+
+</body>
+</html>
+

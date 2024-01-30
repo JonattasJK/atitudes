@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'especiais' 3 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.2.sort }}</strong>
+			  	<p><i>{{ itens.2.name }}:</i> {{ itens.2.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'especiais' 3 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="discoveryModal3" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.4.sort }}</strong>
+			  	<p><i>{{ itens.4.name }}:</i> {{ itens.4.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.4.id 'especiais' 3 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="discoveryModal4" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.6.sort }}</strong>
+			  	<p><i>{{ itens.6.name }}:</i> {{ itens.6.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.6.id 'especiais' 3 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="discoveryModal5" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.8.sort }}</strong>
+			  	<p><i>{{ itens.8.name }}:</i> {{ itens.8.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.8.id 'especiais' 3 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+    <img src={% static '/img/17/especial.png' %} alt="abc" width="100%">
+    <img src={% static '/img/17/rodape.png' %} alt="abc" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page">
+    	<a href="{% url 'livro1:lesson' 'especiais' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <nav class="box">
+			<p>Para facilitar a integração dos alunos com necessidades especiais
+				com a escola e com a comunidade, é importante que você conheça e pratique algumas atitudes:</p>
+			<h3 class="purple">Cumprimentos</h3>
+			<img class="sticker-right" src={% static '/img/17/cego5.png' %} alt="dog" width="50%">
+			<p><em class="box contrast white">1</em>Dirija-se sempre a pessoa com necessidade especial e não ao acompanhante. Cumprimente-a e ofereça a mão.
+				Ao encontrar um cadeirante, procure ficar na sua altura, ou seja, de joelhos dobrados, antes de cumprimentá-lo.</p>
+			<p><em class="box contrast white">2</em>A pessoa com necessidade especial poderá ter uma forma diferente de cumprimentá-lo e retribuir um aperto de mão.
+				Respeite essa diferença.</p>
+		</nav>
+		{% if itens.1 %}
+			<nav class="box sunny large" style="width:100%">
+				<img class="sticker-right" src={% static '/img/1/lembrese.gif' %} width="150px" height="150px">
+				<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+					<p>{{ itens.0.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/lembrese.gif' %} width="150px"></a>
+			</section>
+		{% endif %}
+		<div class="line"></div>
+		{% if itens.3 %}
+			<nav class="box happy large" style="width:100%">
+				<img class="sticker-right" src={% static '/img/1/glossario.gif' %} width="150px" height="150px">
+				<div class="box"> <h3 class="blue">{{ itens.2.name }}</h3>
+					<p>{{ itens.2.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal2');"><img src={% static '/img/1/glossario.gif' %} width="150px"></a>
+			</section>
+		{% endif %}
+		<nav class="box">
+			<h3 class="purple">Primeiros encontros</h3>
+			<p><em class="box contrast white">1</em>Nos primeiros encontros, aja com naturalidade. Não faça perguntas embaraçosas ou indague o deficiente sobre as 
+				causas de sua deficiência.</p>
+			<p><em class="box contrast white">2</em>É importante que, ao encontrar um portador de deficiência, você não faça de conta que a deficiência não existe.
+				Ao ignorar a deficiência você estará desconsiderando uma característica importante dessa pessoa.</p>
+		</nav>
+		{% if itens.5 %}
+			<nav class="box base large" style="width:100%">
+				<img class="sticker-right" src={% static '/img/1/lembrese.gif' %} width="150px" height="150px">
+				<div class="box"> <h3 class="blue">{{ itens.4.name }}</h3>
+					<p>{{ itens.4.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal3');"><img src={% static '/img/1/lembrese.gif' %} width="150px"></a>
+			</section>
+		{% endif %}
+		<nav class="box">
+			<h3 class="purple">Oferecendo ajuda</h3>
+			<img class="sticker-right" src={% static '/img/17/cadeirante5.png' %} alt="dog" width="50%">
+			<p><em class="box contrast white">1</em>Quando perceber que um aluno especial precisa de ajuda, pergunte primeiro se ele deseja ajuda e como você poderá ajudá-lo.</p>
+			<p><em class="box contrast white">2</em>Não se ofenda se a sua ajuda não for aceita. Em muitos casos os portadores de deficiência podem 
+				realizar as tarefas sozinhos.</p>
+			<p><em class="box contrast white">3</em>Se você não se sentir confortável ou seguro para ajudar o portador de deficiência, peça ajuda a um adulto ou a um outro
+				colega. Só realize a tarefa quando você tiver certeza de que pode cumpri-la sem causar acidentes ou transtornos.</p>
+		</nav>
+		{% if itens.7 %}
+			<nav class="box happy large" style="width:100%">
+				<img class="sticker-right" src={% static '/img/1/lembrese.gif' %} width="150px" height="150px">
+				<div class="box"> <h3 class="blue">{{ itens.6.name }}</h3>
+					<p>{{ itens.6.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal4');"><img src={% static '/img/1/lembrese.gif' %} width="150px"></a>
+			</section>
+		{% endif %}
+		<nav class="box">
+			<h3 class="purple">Oferecendo ajuda</h3>
+			<img class="sticker-right" src={% static '/img/17/cadeirante6.png' %} alt="dog" width="50%">
+			<p><em class="box contrast white">1</em>Na sala de aula facilite o movimento das cadeiras e a circulação do aluno portador de deficiência.</p>
+			<p><em class="box contrast white">2</em>Trate o portador de deficiência da mesma forma que trata os demais colegas. Brinque, converse e seja
+				companheiro. No horário do intervalo procure ajudar na integração social do portador de deficiência chamando-o para o lanche
+				ou para uma roda de amigos.</p>
+		</nav>
+		{% if itens.9 %}
+			<nav class="box sunny large" style="width:100%">
+				<img class="sticker-right" src={% static '/img/1/lembrese.gif' %} width="150px" height="150px">
+				<div class="box"> <h3 class="blue">{{ itens.8.name }}</h3>
+					<p>{{ itens.8.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal5');"><img src={% static '/img/1/lembrese.gif' %} width="150px"></a>
+			</section>
+		{% endif %}
+		<p></p>
+    	<a href="{% url 'livro1:lesson' 'especiais' 4 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+
+{% endblock %}

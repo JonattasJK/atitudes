@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+			<img src={% static '/img/9/princesa.png' %} alt="Cartão de porta" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" >
+    	<a href="{% url 'livro1:lesson' 'professor' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/VcSabia.gif' %} alt="Você sabia?" width="150px">
+			<div class="box"> <h3 class="box base-detail white">Você sabia...</h3>
+				<h4>...que diversos países têm um dia dedicado ao professor? Neste dia especial, diversas nações expressam todo seu respeito e
+					gratidão aos mestres que, com muito carinho, ajudam a formar e educar as novas gerações. No Brasil, comemoramos
+					o “Dia do Professor” no dia 15 de outubro, mas cada nação escolheu uma data especial para homenagear seus mestres.
+					Além disso, no dia 5 de outubro comemoramos o Dia Mundial dos Professores.</h4>
+			</div>
+		</nav>
+		<nav class="box base large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Mãos à obra" width="150px">
+			<div class="box"> <h3 class="red sunny">Atividade</h3>
+				<h4>Estabelecendo um acordo</h4>
+				<p>A seguir, temos os dois lados de um cartão aviso de porta. Em cada lado, 
+					contém uma das mensagens:<br><br>
+					“Respeitem o silêncio, estou estudando”<br>
+					“Respeitem o silêncio, pois estou aprendendo”.<br><br>
+					Decore seu aviso de porta com as figurinhas, você pode também escolher a cor do
+					seu cartão. Depois de pronto, mostre o cartão para um amigo!!</p>
+			</div>
+		</nav>
+		<a href="{% url 'livro1:color' %}" class="button previous next"><span>Criar aviso de porta</span></a>
+    	<a href="{% url 'livro1:lesson' 'professor' 4 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+
+{% endblock %}

@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'sala' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.2.sort }}</strong>
+			  	<p><i>{{ itens.2.name }}:</i> {{ itens.2.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'sala' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '6-2' 0 'caminho' 3 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h4>Mas quando eu vou usar isso?</h4>
+	  	<img src={% static '/img/10/conta.png' %} alt="Giz" width="100%">
+		<h5 class="yellow">A matemática está em todos os lugares e conhecê-la te permitirá atingir seus objetivos com êxito!</h5>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" style="height:100%">
+        <a href="{% url 'livro1:lesson' 'sala' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box">
+			<h3 class="purple">Atitudes na prática</h3>
+			<img class="sticker-right" src={% static '/img/10/lapis.png' %} alt="lapis" width="40%">
+			<h4>Leia algumas regrinhas importantes que devem ser cumpridas para que a sala de aula seja um ambiente harmonioso em que todos podem aprender:</h4>
+			<p><em class="box contrast white">1</em>O respeito <i class="blue">mútuo</i> entre professor e alunos deve ser sempre observado.</p>
+			<p><em class="box contrast white">2</em>As atitudes em sala de aula são orientadas pelo professor, por isso, fique atento aos comandos dele.</p>
+			<p><em class="box contrast white">3</em>Ao sentar-se, procure não arrastar a carteira e fazer barulho.</p>
+			<p><em class="box contrast white">4</em>Fique atento ao material de estudo de cada aula.</p>
+			<p><em class="box contrast white">5</em>Ouça com atenção o conteúdo ensinado pelo professor e faça silêncio para que todos os colegas possam ouvi-lo.</p>
+			<p><em class="box contrast white">6</em>Faça anotações no caderno, na apostila ou agenda.</p>
+			<p><em class="box contrast white">7</em>Pergunte quando tiver dúvidas, sem interromper a explicação do professor.</p>
+	    </nav>
+		{% if itens.1 %}
+			<section class="box happy">
+				<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+					<p>{{ itens.0.text }}</p>
+				</div>
+				<img src={% static '/img/1/glossario.gif' %} alt="Glossario" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/glossario.gif' %} alt="Glossario" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		{% if itens.3 %}
+			<section class="box sunny">
+				<div class="box"> <h3 class="blue">{{ itens.2.name }}</h3>
+					<p>{{ itens.2.text }}</p>
+				</div>
+				<img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal2');"><img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		<nav class="box base large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Mãos à obra" width="150px">
+			<div class="box"> <h3 class="red contrasr">Atividade</h3>
+				<h4>A imagem abaixo representa uma sala de aula, onde três alunos estão praticando atitudes incorretas. Observe e clique onde estão as atitudes incorretas.</h4>
+			</div>
+		</nav>
+		<div class="line"></div>
+		{% if itens.6 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.6.score < 30 %} 
+						Você marcou <strong>{{itens.6.score}}</strong> pontos e a pontuação máxima é 30. Você pode tentar marcar os 30 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.6.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.6.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.6.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.6.score < 30 %}
+				{% if request.user.profile.credits > itens.6.credits %}
+					<a href="{% url 'livro1:questUndo' '10-1' itens.6.score 'sala' 3 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.6.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.6.credits }} créditos e poderá receber até <strong>30,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<nav class="box sunny large">
+				<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Mãos à obra" width="150px">
+				<div class="box"> <h3 class="red base">Atividade</h3>
+					<h4>Você conhece os colaboradores da sua escola? Procure conhecê-los melhor.
+					Depois, escreva seus nomes e responda as questões a seguir.</h4>
+				</div>
+			</nav>
+			<div class="line"></div>
+			{% if itens.7 != False %}
+				<nav class="box base">
+					<h5>
+						Você já completou esse desafio e conquistou a sua recompensa<br>
+						{% if itens.7.score < 30 %} 
+							Você marcou <strong>{{itens.7.score}}</strong> pontos e a pontuação máxima é 30. Você pode tentar marcar os 30 pontos se quiser
+						{% else %}
+							Você marcou <strong>{{itens.7.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+						{% endif %}
+					</h5>
+				</nav><p></p>
+				<em>Recompensa obtida:</em>
+				<nav class="flex">
+					<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.7.score }}</strong></div>&emsp;
+					<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.7.credits }}</strong></div>&emsp;
+					<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+				</nav>
+				{% if itens.7.score < 30 %}
+					{% if request.user.profile.credits > itens.7.credits %}
+						<a href="{% url 'livro1:questUndo' '10-2' itens.7.score 'sala' 3 %}" class="large">
+							<button class="button previous next"><span>Tentar novamente</span></button>	
+						</a>
+					{% else %}
+						<button onclick="alert('Ops... Você não tem {{itens.7.credits}} créditos disponíveis para tentar novamente')" 
+							class="button previous next"><span>Tentar novamente</span></button>
+					{% endif %}
+					<nav class="item alert">
+						<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+							Você irá gastar {{ itens.7.credits }} créditos e poderá receber até <strong>30,00</strong> créditos de volta.</h5>
+					</nav>
+				{% endif %}
+				<p></p>
+				<a href="{% url 'livro1:lesson' 'sala' 3 %}" class="large">
+					<button class="button next"><span>VAMOS LÁ!</span></button>
+				</a>
+			{% else %}
+				<nav class="flex">
+					<div class="item base">Respostas:&ensp;<strong id="hits" class="green">0</strong>
+					</div>&emsp;<div class="item base"> Pontuação:&ensp;<strong id="totalScore" class="green">0</strong></div>
+				</nav>
+				<nav class="box sunny large">
+					<nav class="item column happy">
+						<label for="fDiretor">Diretor(a)</label><br>
+						<input type="text" id="fDiretor" placeholder="">
+						<label for="f3">O que ele(a) representa?</label><br>
+						<div>
+							<i id="f1Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+							<input type="hidden" id="f1Score" value="10">
+							<select name="f1" id="f1" onchange="selectAnswer('f1Smile','f1Score','f1')">
+								<option value="" >__Selecione a resposta__</option>
+								<option value="True" >Administrar a escola</option>
+								<option value="False" >Mandar nos professores</option>
+								<option value="False" >Deixar de castigo</option>
+							</select>
+						</div>
+					</nav>
+					<nav class="item column happy">
+						<label for="fSecretaria">Secretário(a)</label><br>
+						<input type="text" id="fSecretaria" placeholder="">
+						<label for="f3">Você já precisou dos serviços da secretaria? Quais? Você foi bem atendido?</label><br>
+						<div>
+							<i id="f2Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+							<input type="hidden" id="f2Score" value="10">
+							<select name="f2" id="f2" onchange="selectAnswer('f2Smile','f2Score','f2')">
+								<option value="" >__Selecione a resposta__</option>
+								<option value="True" >Fui bem atendido</option>
+								<option value="True" >Fui mal atendido</option>
+								<option value="True" >Nunca precisei</option>
+							</select>
+						</div>
+					</nav>
+					<nav class="item column happy">
+						<label for="fZelador">Zelador(a)</label><br>
+						<input type="text" id="fZelador" placeholder="">
+						<label for="f3">Você já conversou com o(a) zelador(a)? Já colaborou com o trabalho dele(a)
+							cuidando para manter a limpeza da escola?</label><br>
+						
+						<div>
+							<i id="f3Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+							<input type="hidden" id="f3Score" value="10">
+							<select name="f3" id="f3" onchange="selectAnswer('f3Smile','f3Score','f3')">
+								<option value="" >__Selecione a resposta__</option>
+								<option value="True" >Já colaborei com o ele(ela)</option>
+								<option value="True" >Só conversei com ele(ela)</option>
+								<option value="True" >Nunca conversei com ele(ela)</option>
+							</select>
+						</div>
+					</nav>
+				</nav>
+				<a class="button" onclick="questFinish('questModal','10-2','sala',2,30);">Terminar</a>
+			{% endif %}
+		{% else%}
+			<nav class="flex">
+				<div class="item sunny">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="box base">
+				<div class="img-map" style="width:100%">
+					<img src={% static '/img/10/errado.png' %} alt="Errado" width="100%">
+					<svg width="100%" height="100%">
+						<rect x="19%" y="45%" width="15%" height="26%" id="lixo" rx="20" ry="50" onclick="selectPoint(this)"/>
+						<rect x="69%" y="47%" width="13%" height="23%" id="cola" rx="20" ry="50" onclick="selectPoint(this)"/>
+						<rect x="33%" y="5%" width="12%" height="37%" id="parede" rx="20" ry="50" onclick="selectPoint(this)"/>
+					</svg> 
+				</div>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','10-1','sala',2,30);">Terminar</a><p></p>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

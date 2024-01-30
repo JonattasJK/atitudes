@@ -1,0 +1,229 @@
+{% extends "adm/base.html" %}
+{% load static %}
+
+{% block body %}
+
+<article class="main clean">
+  <form action="#" method="post">
+
+	<article class="item sunny">
+	  {% csrf_token %}
+	  <div class="box">
+	  	{% if form.errors %}
+			{{form.non_field_errors}}
+		{% endif %}
+		<h4>Preencha os campos referentes ao usuário que está sendo cadastrado</h4>
+	  </div>
+	</article>&emsp;
+		<article class="item happy">
+		  <div class="box large">
+			<label for="fname">Nome de login:<a style="font-size: 18px;">(não use espaços ou caracteres especiais)</a></label><br>
+			<input oninput="inputNick(this)" type="text" id="fname" name="username" value="{{ form.username.value|default_if_none:"" }}" placeholder="SeuNomeDeLogin">
+		  </div>
+		</article>
+		<article class="item happy narrow">
+		  <div class="box large">
+			<label for="ffirst_name">Primeiro Nome:</label><br>
+			<input type="text" id="ffirst_name" name="first_name" value="{{ form.first_name.value|default_if_none:"" }}" placeholder="O seu primeiro nome">
+		  </div>
+		  <div class="box large">
+			<label for="flast_name">Sobrenome:</label><br>
+			<input type="text" id="flast_name" name="last_name" value="{{ form.last_name.value|default_if_none:"" }}" placeholder="O seu sobrenome">
+		  </div>
+		</article>
+		<article class="item happy">
+		  <div class="box large">
+			<label for="femail">E-mail:</label><br>
+			<input type="text" id="femail" name="email" value="{{ form.email.value|default_if_none:"" }}" placeholder="Seu email">
+		  </div>
+		</article>
+		<article class="item happy narrow">
+		  <div class="box large">
+			<label for="fpassword">Digite uma senha:</label><br>
+			<input type="password" id="fpassword" name="password" value="{{ form.password.value|default_if_none:"" }}" placeholder="Sua senha">
+		  </div>
+		  <div class="box large">
+			<label for="fpassword_confirm">Confirme sua senha:</label><br>
+			<input type="password" id="fpassword_confirm" name="password_confirm" value="{{ form.password_confirm.value|default_if_none:"" }}" placeholder="Sua senha">
+		  </div>
+		</article>&emsp;
+		<article class="item base-detail">
+		  {% if request.user.username != '' %}
+			<div class="box large">	
+				<label for="flevel">Selecione o tipo do usuário:</label><br>
+				<select name="level" id="flevel" >
+					<option value="5" >Cliente</option>
+					{% if school %}
+						<option value="4" >Aluno(a)</option>
+						{% if request.user.profile.level <= 2 %}
+							<option value="3" >Educador(a)</option>
+						{% endif%}
+						{% if request.user.profile.level <= 1 %}
+							<option value="2" >Diretor(a)</option>
+						{% endif %}
+					{% endif %}
+					{% if request.user.profile.level <= 1 %}
+						<option value="1" >Administrador</option>
+					{% endif %}
+				</select>
+		  	</div>
+		  {% else %}
+		    <div class="box large hide">
+		  		<h3>Como você irá usar esse sistema?</h3>
+		  		<input type="radio" id="aluno" name="level" value="4" onclick="hideOrShow('4',1);hideOrShow('5',0);" {% if form.level.value == "4" %} checked {% endif %}>
+  				<label for="aluno">Vou usar junto com a minha escola</label><br>
+		  		<input type="radio" id="cliente" name="level" value="5" onclick="hideOrShow('5',1);hideOrShow('4',0);" {% if form.level.value == "5" %} checked {% endif %}>
+  				<label for="cliente">Vou usar em casa</label>
+		  	</div>
+		  {% endif %}
+		</article>&emsp;
+		{% if request.user.username == '' %}
+		  <div id='4' class="hide">
+			 <article class="item contrast">
+				<div class="box large">	
+					<label for="frelated_school">A qual escola você pertence?</label><br>
+					<select name="related_school" id="frelated_school" >
+						<option value="" >Selecione uma escola</option>
+						{% if schools %}
+							{% for school in schools %}
+								<option value="{{ school.id }}">{{school.name}}</option>
+							{% endfor %}
+						{% endif %}
+					</select>
+			  	</div>
+			 </article>
+			 <article class="item contrast">
+				<div class="box large">	
+					<label for="fanswerable">Qual o ID do seu professor?</label><br>
+					<input type="text" id="fanswerable" name="answerable" value="{{ form.answerable.value|default_if_none:"" }}" placeholder="ID é um número que o professor te passou">
+			  	</div>
+			 </article>
+			 <article class="item contrast">
+				<div class="box large">	
+					<label for="fclass_year">Em qual ano de estudo você está?</label><br>
+					<select name="class_year" id="fclass_year" >
+						<option value="" >Selecione o ano</option>
+						<option value="1" >1º ano</option>
+						<option value="2" >2º ano</option>
+						<option value="3" >3º ano</option>
+						<option value="4" >4º ano</option>
+						<option value="5" >5º ano</option>
+						<option value="6" >6º ano</option>
+						<option value="7" >7º ano</option>
+						<option value="8" >8º ano</option>
+						<option value="9" >9º ano</option>
+					</select>
+			  	</div>
+			 </article>
+			 <article class="item contrast">
+				<div class="box large">	
+					<label for="fclass_number">Qual é a sua turma?</label><br>
+					<input type="text" id="fclass_number" name="class_number" value="{{ form.class_number.value|default_if_none:"" }}" placeholder="Ex: 3º A">
+			  	</div>
+			 </article>
+		  </div>
+		  <div id='5' class="hide">
+			 <article class="item contrast">
+				<div class="box large">	
+					<label for="fsponsor_name">Qual é o nome da pessoa responsável?</label><br>
+					<input type="text" id="fsponsor_name" name="sponsor_name" value="{{ form.sponsor_name.value|default_if_none:"" }}" placeholder="Nome do responsável">
+			  	</div>
+			 </article>
+			 <article class="item contrast">
+				<div class="box large">	
+					<label for="fsponsor_relationship">Qual é a relação entre a pessoa responsável e o usuário?</label><br>
+					<select name="sponsor_relationship" id="fsponsor_relationship" >
+						<option value="" >Relação</option>
+						<option value="Mãe" >Mãe</option>
+						<option value="Pai" >Pai</option>
+						<option value="Tio/Tia" >Tio/Tia</option>
+						<option value="Avô/Avó" >Avô/Avó</option>
+						<option value="Avô/Avó" >Padrinho/Madrinha</option>
+						<option value="Outro" >Outro</option>
+					</select>
+			  	</div>
+			 </article>
+			 <article class="item contrast">
+				<div class="box large">	
+					<label for="fsponsor_email">Qual o e-mail da pessoa responsável?</label><br>
+					<input type="text" id="fsponsor_email" name="sponsor_email" value="{{ form.sponsor_email.value|default_if_none:"" }}" placeholder="E-mail do responsável">
+			  	</div>
+			 </article>
+		  </div>
+		{% else %}
+			<article class="item contrast">
+			  <div class="box large">
+				<label for="frelated_school">Escola: <em>{{ school.name }}</em></label><br>
+				<input type="number" id="frelated_school" name="related_school" value="{{ school.id }}" readonly>
+			  </div>
+			</article>
+			<article class="item contrast">
+			  <div class="box large">
+				<label for="fanswerable">Educador: <em>{{ request.user.username }}</em></label><br>
+				<input type="number" id="fanswerable" name="answerable" value="{{ request.user.profile.id }}" readonly>
+			  </div>
+			</article>
+			<h3>Se o usuário for um aluno, preencha os seguintes campos.</h3>
+		    <article class="item alert">
+				<div class="box large">	
+					<label for="fclass_number">Qual é a turma?</label><br>
+					<input type="text" id="fclass_number" name="class_number" value="{{ form.class_number.value|default_if_none:"" }}" placeholder="Ex: 3º A">
+			  	</div>
+			</article>
+			<article class="item alert">
+			  <div class="box large">
+				<label for="fclass_year">Qual é o ano de ensino?</label><br>
+				<input type="number" id="fclass_year" name="class_year" value="{{ form.class_year.value|default_if_none:"" }}" placeholder="Por exemplo: 5">
+			  </div>
+			</article>
+			<h3>Se o usuário for um cliente, preencha os seguintes campos.</h3>
+			<article class="item alert">
+				<div class="box large">	
+					<label for="fsponsor_name">Qual o nome da pessoa responsável?</label><br>
+					<input type="text" id="fsponsor_name" name="sponsor_name" value="{{ form.sponsor_name.value|default_if_none:"" }}" placeholder="Nome do responsável">
+			  	</div>
+			 </article>
+			 <article class="item alert">
+				<div class="box large">	
+					<label for="fsponsor_relationship">Qual é a relação entre a pessoa responsável e o usuário?</label><br>
+					<select name="sponsor_relationship" id="fsponsor_relationship" >
+						<option value="" >Relação</option>
+						<option value="Mãe" >Mãe</option>
+						<option value="Pai" >Pai</option>
+						<option value="Tio/Tia" >Tio/Tia</option>
+						<option value="Avô/Avó" >Avô/Avó</option>
+						<option value="Outro" >Outro</option>
+					</select>
+			  	</div>
+			 </article>
+			 <article class="item alert">
+				<div class="box large">	
+					<label for="fsponsor_email">Qual é o e-mail da pessoa responsável pelo usuário?</label><br>
+					<input type="text" id="fsponsor_email" name="sponsor_email" value="{{ form.sponsor_email.value|default_if_none:"" }}" placeholder="E-mail do responsável">
+			  	</div>
+			 </article>
+		{% endif %}
+	<article class="item sunny">
+		{% csrf_token %}
+		<div class="box">
+			<a>Para acessar o sistema use "</a>
+			<a id="nickname"></a>
+			<a>" como nome de login!</a>
+			<br><a style="font-size: 18px;">Escreva exatamente como você escreveu aqui! Mesmas letras maíusculas, mesmos acentos, tudo exatamente igual!</a>
+		</div>
+	</article>
+	<input type="submit" value="Salvar usuário">
+  </form>
+</article>
+
+<script>
+    hideOrShow('5',1);
+    hideOrShow('4',0);
+    document.getElementById("cliente").checked = true;
+	inputNick(document.getElementById("fname"))
+	function inputNick(nick) {
+		document.getElementById("nickname").innerHTML = nick.value;
+	}
+</script>    
+
+{% endblock %} 

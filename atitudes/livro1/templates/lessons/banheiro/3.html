@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '10-3' 0 'sala' 4 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+    <img src={% static '/img/11/banheiro.png' %} alt="Banheiro" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'banheiro' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box base-detail large">
+			<img class="sticker-left" src={% static '/img/1/maosAObra.gif' %} alt="Mãos à obra" width="250px">
+			<div class="box"> <h3 class="base">Mãos à obra!</h3>
+				<p>Agora que você já conhece algumas atitudes que demonstram boas maneiras
+					na utilização dos banheiros, que tal bancar o detetive e fazer uma investigação sobre
+					as atitudes corretas e incorretas que foram executadas pelos usuários do banheiro?
+					Então, mãos à obra!<br><br>
+					Retorne ao banheiro do local onde você está e analise as pistas deixadas
+					pelos usuários (local onde o papel higiênico foi descartado, estado do assento do
+					vaso sanitário, limpeza da pia, etc.). Depois, registre a seguir as atitudes corretas e as
+					incorretas que você constatou.</p>
+			</div>
+		</nav>
+		{% if itens.6 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.6.score < 60 %} 
+						Você marcou <strong>{{itens.6.score}}</strong> pontos e a pontuação máxima é 60. Você pode tentar marcar os 60 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.6.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.6.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.6.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.6.score < 60 %}
+				{% if request.user.profile.credits > itens.6.credits %}
+					<a href="{% url 'livro1:questUndo' '11-1' itens.6.score 'banheiro' 3 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.6.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.6.credits }} créditos e poderá receber até <strong>60,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			
+			<nav class="box base-detail large">
+				<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividade" width="150px">
+				<div class="box"> <h3 class="base">Atividade</h3>
+					<p>Complete as frases abaixo inserindo as palavras que estão representadas nos desenhos</p>
+				</div>
+			</nav>
+			{% if itens.7 != False %}
+				<nav class="box base">
+					<h5>
+						Você já completou esse desafio e conquistou a sua recompensa <br>
+						{% if itens.7.score < 80 %} 
+							Você marcou <strong>{{itens.7.score}}</strong> pontos e a pontuação máxima é 80. Você pode tentar marcar os 80 pontos se quiser
+						{% else %}
+							Você marcou <strong>{{itens.7.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+						{% endif %}
+					</h5>
+				</nav><p></p>
+				<em>Recompensa obtida:</em>
+				<nav class="flex">
+					<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.7.score }}</strong></div>&emsp;
+					<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.7.credits }}</strong></div>&emsp;
+					<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+				</nav>
+				{% if itens.7.score < 80 %}
+					{% if request.user.profile.credits > itens.7.credits %}
+						<a href="{% url 'livro1:questUndo' '11-2' itens.7.score 'banheiro' 3 %}" class="large">
+							<button class="button previous next"><span>Tentar novamente</span></button>	
+						</a>
+					{% else %}
+						<button onclick="alert('Ops... Você não tem {{itens.7.credits}} créditos disponíveis para tentar novamente')" 
+							class="button previous next"><span>Tentar novamente</span></button>
+					{% endif %}
+					<nav class="item alert">
+						<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+							Você irá gastar {{ itens.7.credits }} créditos e poderá receber até <strong>80,00</strong> créditos de volta.</h5>
+					</nav>
+				{% endif %}
+				<p></p>
+				<a href="{% url 'livro1:lesson' 'banheiro' 4 %}" class="large">
+					<button class="button next"><span>VAMOS LÁ!</span></button>
+				</a>
+			{% else %}
+				<nav class="flex">
+					<div class="item base">Respostas:&ensp;<strong id="hits" class="green">0</strong>
+					</div>&emsp;<div class="item base"> Pontuação:&ensp;<strong id="totalScore" class="green">0</strong></div>
+				</nav>
+				<nav class="item flex base">
+					<div class="box" style="width:50%">
+						<a>A <i id="f1Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i></a>
+			  			<div class="flex">
+							<input type="hidden" id="f1Score" value="10">
+							<select name="f1" id="f1" onchange="selectAnswer('f1Smile','f1Score','f1')">
+								<option value="" >__Selecione__</option>
+								<option value="True" >Escova de dentes</option>
+								<option value="False" >Colher</option>
+								<option value="False" >Escova de cabelo</option>
+							</select>
+						</div>
+			  			<a>deve ser lavada com sabão neutro antes de ser guardada no
+							<i id="f2Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i></a>	
+			  			<div class="flex">
+							<input type="hidden" id="f2Score" value="10">
+							<select name="f2" id="f2" onchange="selectAnswer('f2Smile','f2Score','f2')">
+								<option value="" >__Selecione__</option>
+								<option value="False" >Vaso sanitário</option>
+								<option value="True" >Armário</option>
+								<option value="False" >Chão</option>
+							</select>
+						</div>
+		  			</div>
+		  			<div class="page" style="width:50%">
+		  				<img src={% static '/img/11/escova2.png' %} alt="Escova" style="width: 100%; max-width: 150px;">
+		  				<img src={% static '/img/11/escovas.png' %} alt="armario" style="width: 100%; max-width: 150px;">
+		  			</div>
+				</nav>
+				<nav class="item flex base">
+					<div class="box" style="width:50%">
+						<a>Após utilizar o banheiro, devemos recolher os
+							<i id="f3Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i></a>	
+			  			<div class="flex">
+							<input type="hidden" id="f3Score" value="10">
+							<select name="f3" id="f3" onchange="selectAnswer('f3Smile','f3Score','f3')">
+								<option value="" >__Selecione__</option>
+								<option value="True" >Cabelos</option>
+								<option value="False" >Camelos</option>
+								<option value="False" >Caramelos</option>
+							</select>
+						</div>
+			  			<a>que caíram na
+							<i id="f4Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i></a>	
+			  			<div class="flex">
+							<input type="hidden" id="f4Score" value="10">
+							<select name="f4" id="f4" onchange="selectAnswer('f4Smile','f4Score','f4')">
+								<option value="" >__Selecione__</option>
+								<option value="True" >Pia</option>
+								<option value="True" >Cuba</option>
+								<option value="False" >Escova</option>
+							</select>
+						</div>
+		  			</div>
+		  			<div class="page" style="width:50%">
+		  				<img src={% static '/img/11/cabelo.png' %} alt="cabelo" style="width: 80%; max-width: 90px; transform: rotate(90deg);">
+		  				<img src={% static '/img/11/pia.png' %} alt="pia" style="width: 100%; max-width: 150px;">
+		  			</div>
+				</nav>
+				<nav class="item flex base">
+					<div class="box" style="width:50%">
+						<a>Após utilizar o
+							<i id="f5Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i></a>	
+			  			<div class="flex">
+							<input type="hidden" id="f5Score" value="10">
+							<select name="f5" id="f5" onchange="selectAnswer('f5Smile','f5Score','f5')">
+								<option value="" >__Selecione__</option>
+								<option value="False" >Celular</option>
+								<option value="False" >Vaso de flor</option>
+								<option value="True" >Vaso sanitário</option>
+							</select>
+						</div>
+			  			<a>devemos fechá-lo antes de dar a descarga, para evitar a contaminação.</a>
+		  			</div>
+		  			<div class="page" style="width:50%">
+		  				<img src={% static '/img/11/vaso.png' %} alt="vaso" style="width: 100%; max-width: 250px;">
+		  			</div>
+				</nav>
+				<nav class="item flex base">
+					<div class="box" style="width:50%">
+						<a>Ao utilizarmos o banheiro, devemos ser como um
+							<i id="f6Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i></a>	
+			  			<div class="flex">
+							<input type="hidden" id="f6Score" value="10">
+							<select name="f6" id="f6" onchange="selectAnswer('f6Smile','f6Score','f6')">
+								<option value="" >__Selecione__</option>
+								<option value="False" >Tubarão</option>
+								<option value="False" >Furacão</option>
+								<option value="True" >Fantasma</option>
+							</select>
+						</div>
+		  			</div>
+		  			<div class="page" style="width:50%">
+		  				<img src={% static '/img/11/fantasminha.png' %} alt="fantasminha" style="width: 100%; max-width: 150px;">
+		  			</div>
+				</nav>
+				<nav class="item flex base">
+					<div class="box" style="width:50%">
+						<a>o entrar no banheiro, feche a
+							<i id="f7Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i></a>	
+			  			<div class="flex">
+							<input type="hidden" id="f7Score" value="10">
+							<select name="f7" id="f7" onchange="selectAnswer('f7Smile','f7Score','f7')">
+								<option value="" >__Selecione__</option>
+								<option value="False" >Boca</option>
+								<option value="True" >Porta</option>
+								<option value="False" >Tampa do vaso</option>
+							</select>
+						</div>
+			  			<a>para que outras pessoas não o vejam.</a>
+		  			</div>
+		  			<div class="page" style="width:50%">
+		  				<img src={% static '/img/11/porta.png' %} alt="porta" style="width: 100%; max-width: 150px;">
+		  			</div>
+				</nav>
+				<nav class="item flex base">
+					<div class="box" style="width:50%">
+						<a>Devemos lavar bem as
+							<i id="f8Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i></a>	
+			  			<div class="flex">
+							<input type="hidden" id="f8Score" value="10">
+							<select name="f8" id="f8" onchange="selectAnswer('f8Smile','f8Score','f8')">
+								<option value="" >__Selecione__</option>
+								<option value="True" >Mãos</option>
+								<option value="False" >Escovas</option>
+								<option value="False" >Toalhas</option>
+							</select>
+						</div>
+			  			<a>antes de sair do banheiro.</a>
+		  			</div>
+		  			<div class="page" style="width:50%">
+		  				<img src={% static '/img/11/maos.png' %} alt="maos" style="width: 100%; max-width: 200px;">
+		  			</div>
+				</nav>
+				<a class="button" onclick="questFinish('questModal','11-2','banheiro',3,80);">Terminar</a>
+			{% endif %}
+		{% else %}
+			<nav class="flex">
+				<div class="item base">Respostas:&ensp;<strong id="hits" class="green">0</strong>
+				</div>&emsp;<div class="item base"> Pontuação:&ensp;<strong id="totalScore" class="green">0</strong></div>
+			</nav>
+			<div>
+				<i id="f1Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+				<input type="hidden" id="f1Score" value="10">
+			</div>
+			<nav class="item large sunny">
+				<div style="width:65%"><p>A tampa do vaso estava fechada?</p></div>
+					<select id="f1" onchange="selectAnswer('f1Smile','f1Score','f1')" style="width:30%">
+					<option value="" >-- resposta --</option>
+					<option value="True" >Sim</option>
+					<option value="True" >Não</option>
+				</select>
+			</nav>
+			<nav class="item large happy">
+				<div style="width:65%"><p>Tinha detritos no vaso?</p></div>
+					<select id="f2" onchange="selectAnswer('f1Smile','f1Score','f2')" style="width:30%">
+					<option value="" >-- resposta --</option>
+					<option value="True" >Sim</option>
+					<option value="True" >Não</option>
+				</select>
+			</nav>
+			<nav class="item large base">
+				<div style="width:65%"><p>Encontrou papel higiênico usado fora do cesto de lixo?</p></div>
+					<select id="f3" onchange="selectAnswer('f1Smile','f1Score','f3')" style="width:30%">
+					<option value="" >-- resposta --</option>
+					<option value="True" >Sim</option>
+					<option value="True" >Não</option>
+				</select>
+			</nav>
+			<nav class="item large alert">
+				<div style="width:65%"><p>Tinha fios de cabelo, resto de creme dental na pia?</p></div>
+					<select id="f4" onchange="selectAnswer('f1Smile','f1Score','f4')" style="width:30%">
+					<option value="" >-- resposta --</option>
+					<option value="True" >Sim</option>
+					<option value="True" >Não</option>
+				</select>
+			</nav>
+			<nav class="item large sunny">
+				<div style="width:65%"><p>Todas as escovas de dentes estavam guardadas no armário?</p></div>
+					<select id="f5" onchange="selectAnswer('f1Smile','f1Score','f5')" style="width:30%">
+					<option value="" >-- resposta --</option>
+					<option value="True" >Sim</option>
+					<option value="True" >Não</option>
+				</select>
+			</nav>
+			<nav class="item large contrast">
+				<div style="width:65%"><p>Encontrou roupa no chão?</p></div>
+					<select id="f6" onchange="selectAnswer('f1Smile','f1Score','f6')" style="width:30%">
+					<option value="" >-- resposta --</option>
+					<option value="True" >Sim</option>
+					<option value="True" >Não</option>
+				</select>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','11-1','banheiro',3,60);">Terminar</a>
+		{% endif %}
+		
+    </article>
+  </section>
+
+{% endblock %}

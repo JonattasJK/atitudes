@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Atitudes - Suporte</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+	<script src="{% static 'js/functions.js' %}"></script>
+	<link rel="Atitudes icon" href="{%  static '/img/atitude.ico' %}">
+</head>
+<body class="base">
+
+<!-- Header -->
+<header>
+  <img src={% static '/img/title2.png' %} alt="Atitudes">
+  <!-- Navigation Bar -->
+  <nav class="navbar base-detail">
+  	
+    <a class="menu-link" href="https://guia.projetoatitudes.com/biblioteca/"><i class="fas fa-backspace"></i>Voltar</a>
+    <a class="menu-link" href="{% url 'livro1:home' %}"><i class="fas fa-dor"></i>Acessar</a>
+    
+  </nav>
+</header>
+
+<main class="back-img">
+
+    <article class="main clean" style="max-width:">
+        <h2 class="green">Estante de livros</h2>
+		<p>Você pode solicitar ajuda pelo chat na nossa página do Facebook <a class="green">(facebook.com/projeto.atitudes)</a>, <br>
+		na nossa página do página do Instagram <a class="green">(@projetoatitudes)</a> <br>
+		ou enviando um email para  <a class="green">suporte@projetoatitudes.com</a>
+		</p>
+		
+		<section>
+			<h3>Biblioteca</h3>
+			{% if books %}
+				{% for b in books %}
+					<footer>
+						<hr />
+						<ul class="actions">
+							<li><a href="{% url 'livro1:printBook' b.author.id %}" target="_blank" class="button">
+								{{b.author.bookTitle}}</a><br><em>Escrito por {{b.author.user.username}}</em></li>
+						</ul>
+					</footer>
+				{% endfor %}
+			{% else %}
+				<h5>Aparentemente AINDA não foi adicionado nenhum livro</h5>
+			{% endif %}
+		</section>
+    </article>
+</main>
+<!-- Footer -->
+<footer class="base-detail">
+    <a class="menu-link" href="{% url 'livro1:privacy' %}" ><i class="fas fa-book"></i>Política de privacidade</a>
+    <a class="menu-link" href="{% url 'livro1:suport' %}" ><i class="fas fa-book"></i>Suporte</a>
+</footer>
+
+
+</body>
+</html>
+

@@ -1,0 +1,150 @@
+{% load static %}
+{% load l10n %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+	<script src="{% static 'js/functions.js' %}"></script>
+	<title>Projeto Atitudes</title>
+	<link rel="Atitudes icon" href="{%  static '/img/atitude.ico' %}">
+</head>
+<body class="base">
+
+<!-- Header -->
+<header>
+	<img src={% static '/img/title2.png' %} alt="Atitudes">
+  	<!-- Navigation Bar -->
+  <nav class="navbar base-detail">
+  	<span class="menu-link" id="leftBtn" onclick="openSide('leftSide','leftBtn')">Prévia
+  	<div class="menu-icon-container">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+  	</span>
+        <a class="menu-link" href="{% url 'livro1:home' %}"><i class="fas fa-hand-point-left"></i> Início</a>
+        <a class="menu-link" href="{% url 'livro1:userInfo' profile.id %}">Perfil<i class="fas fa-user-astronaut"></i></a>
+    <span class="menu-link" id="rightBtn" onclick="openSide('rightSide','rightBtn')">
+    <div class="menu-icon-container">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+    Avatar Atual</span>
+  </nav>
+</header>
+
+<!-- The flexible grid (content) -->
+<main class="back-img">
+
+  <aside class="side clean-detail" id="leftSide"> 
+    <button class="button previous" onclick="closeSide('leftSide','leftBtn')"><span>Fechar Prévia</span></button>
+    <h5 class="notSqueeze"> Aqui você pode ver como o seu avatar vai ficar antes salvar</h5>
+    <nav class="frame">
+		<img id="background" src={% static 'img/avatars/0/1.jpg' %} alt="fundo" width="100%">
+		<img id="avatar" class="avatar" src={% static 'img/avatars/default.jpg' %} alt="Usuário" width="100%">
+		<h5 class="frame-top green item" style="background-color:rgba(255, 255, 255, 0.8);" id="av_name">Avatar</h5>
+		<h5 class="frame-bottom green item" style="background-color:rgba(255, 255, 255, 0.8);" id="bg_name">Fundo</h5>
+		<input type="hidden" id="avatar_items" name="0" value="0">
+	</nav>
+	<div class="item base-detail column notSqueeze"> 
+        <em> Avatar: <strong id="avatar_price">0.00</strong> </em>
+        <em> Plano de fundo: <strong id="background_price">0.00</strong> </em>
+        <em> total: <strong id="total_price">0.00</strong> </em>
+    </div>
+    <h5 class="notSqueeze"> Seu saldo em créditos é <b> {{request.user.profile.credits}} </b></h5>
+    <button class="button" onclick="resetAvatar({{ profile.id }})"><span>Resetar</span></button>
+	<a href="{% url 'livro1:setAvatar' profile.id 0 0 0 %}" class="large" id="btnSave">
+    	<button class="button"><span>Salvar!</span></button>
+    </a>
+  </aside> 
+  
+  <article class="main clean">
+  	<article class="page" id="page1">
+  	  <button onclick="openPage('page2', 'page1');" class="button next"><span>Planos de fundo</span></button>
+	  <nav class="flex scroll">
+	  	{% if avatars %}
+		  	{% for a in avatars %}
+		  		<nav class="galery">
+		  			{% if a in acquired %}
+						<nav class="frame interactive" onclick="selectAvatar({{ profile.id }},{{ a.id }},0.00,{{ a.breed }},'{{ a.name }}')">
+		  					<img id="{{a.id}}" src={% static  a.url %} alt="Avatar" width="100%">
+							<h5 class="frame-bottom"><i class="fas fa-award green"></i></h5>
+						</nav>
+					{% else %}
+						<nav class="frame interactive" onclick="selectAvatar({{ profile.id }},{{ a.id }},{{ a.price|unlocalize }},{{ a.breed }},'{{ a.name }}')">
+		  					<img id="{{a.id}}" src={% static  a.url %} alt="Avatar" width="100%">
+							<h5 class="frame-bottom">{{a.price}}</h5>
+						</nav>
+					{% endif %}
+		  		</nav>
+		  	{% endfor %}
+	  	{% endif %}
+	  </nav>
+  	</article>
+  	<article class="page" id="page2">
+  	  <button onclick="openPage('page1', 'page2');" class="button previous"><span>Avatares</span></button>
+	  <nav class="flex">
+	  	{% if backgrounds %}
+		  	{% for b in backgrounds %}
+		  		<nav class="galery">
+		  			{% if b in acquired %}
+						<nav class="frame interactive" onclick="selectAvatar({{ profile.id }},{{ b.id }},0.00,{{ b.breed }},'{{ b.name }}')">
+		  					<img id="{{b.id}}" src={% static  b.url %} alt="fundo" width="100%">
+							<img id="avatar_default" class="avatar" src={% static 'img/avatars/default.jpg' %} alt="Avatar" width="100%">
+							<h5 class="frame-bottom"><i class="fas fa-award green"></i></h5>
+						</nav>
+					{% else %}
+						<nav class="frame interactive" onclick="selectAvatar({{ profile.id }},{{ b.id }},{{ b.price|unlocalize }},{{ b.breed }},'{{ b.name }}')">
+		  					<img id="{{b.id}}" src={% static  b.url %} alt="fundo" width="100%">
+							<img id="avatar_default" class="avatar" src={% static 'img/avatars/default.jpg' %} alt="Avatar" width="100%">
+							<h5 class="frame-bottom">{{b.price}}</h5>
+						</nav>
+					{% endif %}
+		  		</nav>
+		  	{% endfor %}
+	  	{% endif %}
+	  </nav>
+  	</article>
+  </article>
+ 
+ 
+ 
+ 
+		  				
+ 
+ 
+  
+  <aside class="side clean-detail" id="rightSide">
+  	<div class="item column base-detail"> 
+        <h3>{{ profile.user.username }}</h3>
+    </div>
+    <nav class="frame">
+    	<img id="background" src={% static profile.avatar.background %} alt="fundo" width="100%">
+    	<img class="avatar" src={% static profile.avatar.active %} alt="Usuári0" width="100%">
+    </nav>
+    <div class="item base-detail"> 
+        <p>Pontuação: <strong>{{ profile.score }}</strong></p>
+    </div>
+    <div class="item base-detail"> 
+        <p>Créditos: <strong>{{ profile.credits }}</strong></p>
+    </div>
+  </aside>
+</main>
+
+<!-- Footer -->
+<footer class="base-detail">
+    <a class="menu-link" href="{% url 'livro1:privacy' %}" ><i class="fas fa-book"></i>Política de privacidade</a>
+    <a class="menu-link" href="{% url 'livro1:suport' %}" ><i class="fas fa-book"></i>Suporte</a>
+</footer>
+
+<script>
+    screenSize();
+  	openPage('page1','page2');
+</script>
+
+</body>
+</html>

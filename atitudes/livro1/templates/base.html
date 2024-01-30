@@ -1,0 +1,165 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-KRSTDWP');</script>
+	<!-- End Google Tag Manager -->
+	<!-- Confirmação de domínio -->
+	<meta name="facebook-domain-verification" content="9ws6q5skh65zuvq3y81jcvjmeb0bwu" />
+	<!-- Fim da confirmação de domínio-->
+	<link rel="stylesheet" href="{% static '/css/styles.css' %}" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Projeto Atitudes</title>
+	<link rel="Atitudes icon" href="{%  static '/img/icoEthos.ico' %}">
+	<script type="text/javascript" src="{%  static '/js/functions.js' %}"></script>
+	
+	<meta name="description" content="O projeto atitudes é um livro gamificado, que tem como objetivo ensinar boas maneiras para as novas gerações">
+	<meta name="author" content="Cirene Vanzela Miotto">
+	<meta name="keywords" content="Gamificação, Projeto Atitudes, Educação, Livro, Ética, Boas Maneiras, Etiqueta"/>
+
+	<link rel="alternate" href="https://projetoatitudes.com/" hreflang="pt-br" />
+	<meta name="robots" content="index, follow"> 
+
+	<meta property="og:url"             content="https://projetoatitudes.com/" /> 
+	<meta property="og:title"           content="Projeto Atitudes" /> 
+	<meta property="og:image"           content="https://projetoatitudes.com/atitudes/livro1/static/img/icoEthos.png" /> 
+	<meta property="og:description"     content="O projeto atitudes é um livro gamificado, que tem como objetivo ensinar boas maneiras para as novas gerações" />
+	<meta name="theme-color" content="#4775d1">
+	<meta property="business:contact_data:country_name" content="Brasil" />
+	<meta property="business:contact_data:website" content="https://projetoatitudes.com/" />
+	<meta property="business:contact_data:region" content="PR" />
+	<meta property="business:contact_data:email" content="contato@projetoatitudes.com" />
+	<meta property="business:contact_data:phone_number" content="+5546999224114" />
+	<meta name="twitter:card" content="Sumario" />
+	<meta name="twitter:description" content="O projeto atitudes é um livro gamificado, que tem como objetivo ensinar boas maneiras para as novas gerações"/>
+	<meta name="twitter:title" content="Projeto Atitudes" />
+	<meta name="twitter:image" content="https://projetoatitudes.com/atitudes/livro1/static/img/icoEthos.png" />
+	<meta name="geo.placename" content="Paraná" />
+	<meta name="geo.region" content="BR" />
+	<link rel="canonical" href="https://projetoatitudes.com/" />
+
+	<meta property="og:type"            content="website" />
+	<meta property="og:locale"          content="pt_BR" />
+	<meta name="format-detection" content="telephone=no">
+	<script src="https://thunkable.github.io/webviewer-extension/thunkableWebviewerExtension.js" type="text/javascript"></script>
+</head>
+<!--<body class="base" oncopy="return false" onpaste="return false" oncut="return false">-->
+<body class="base">
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRSTDWP"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+<!-- Modal -->
+<div id="landscape" class="modal">
+  <div class="modal-container">
+  	<nav class="box important modal-container">
+	  	<nav class="element box contrast"><h1 class="blue">Opsss!</h1></nav>
+	  	<div class="modal-animation">
+		  	<img src={% static '/img/rotatePhone.gif' %} alt="Parabéns" width="100%">
+	  	</div>
+	  	<nav class="element box contrast">
+	  		<div class=""><p></p>
+	  			<p> Para uma melhor experiência precisamos que você acesse o site em modo de paisagem, com o dispositivo deitado.</p>
+	  		</div>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+
+<!-- Header -->
+<header>
+  <img src={% static '/img/title2.png' %} alt="Atitudes">
+  <!-- Navigation Bar -->
+  <nav class="navbar base-detail">
+  	<span class="menu-link base-detail" id="leftBtn" onclick="openSide('leftSide','leftBtn')">Lição
+  	<div class="menu-icon-container">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+  	</span>
+    <section>
+      <span class="menu-link" onclick="openMenu('menu')">Menu</span>
+      <section class="menu" id="menu">
+      
+        {% if request.user.username != '' %}
+            <a class="menu-link" href="{% url 'livro1:home' %}"><i class="fas fa-home"></i>Home</a>
+            <a class="menu-link" href="{% url 'livro1:library' request.user.profile.id%}"><i class="fas fa-book"></i>Biblioteca</a>
+            <a class="menu-link" href="{% url 'livro1:userInfo' request.user.profile.id %}"><i class="fas fa-user-astronaut"></i>Perfil</a>
+            <a class="menu-link" href="{% url 'livro1:logout' %}"><i class="fas fa-sign-out-alt"></i>Sair</a>
+        {% else %}
+            <a class="menu-link" href="{% url 'livro1:login' %}"><i class="fas fa-door-open"></i>Acessar</a>
+        {%  endif %}
+      </section>
+    </section>
+    <span class="menu-link" id="rightBtn" onclick="openSide('rightSide','rightBtn')">
+    <div class="menu-icon-container">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+    Internauta</span>
+  </nav>
+</header>
+
+<!-- The flexible grid (content) -->
+<main class="back-img">
+  
+    {% block body %}
+    {% endblock %}
+
+ 
+  
+  <aside class="side clean-detail" id="rightSide">
+    <div class="item column base-detail"> 
+        <h3>{% if request.user.profile.stage >= 20 %}<i class="fas fa-crown yellow"></i> &ensp;{% endif %}{{ request.user.username }} </h3>
+    </div>
+    <nav class="frame">
+    	<img id="background" src={% static request.user.profile.avatar.background %} alt="fundo" width="100%">
+    	<img class="avatar" src={% static request.user.profile.avatar.active %} alt="Usuári0" width="100%">
+    </nav>
+    <div class="item base-detail"> 
+        <p>Pontuação: <strong>{{ request.user.profile.score }}</strong></p>
+    </div>
+    <div class="item base-detail"> 
+        <p>Créditos: <strong>{{ request.user.profile.credits }}</strong></p>
+    </div>
+    <div class="item base column"> 
+    	{% if request.user.profile.related_school %}
+		    <p>{{ request.user.profile.related_school.name }}</p>
+		    <h5>{{ request.user.profile.related_school.description }}</h5>
+		    <h5>{{ request.user.profile.related_school.address }}</h5>
+    	{% else %}
+    		<p>Responsável: {{ request.user.profile.sponsor.name }}</p>
+		    <h5>{{ request.user.profile.sponsor.email }}</h5>
+    	{% endif %}
+    </div>
+
+    {% if request.user.profile.level <= 3 and request.user.profile.active == True %}
+		<a href="{% url 'livro1:admPanel' %}" class="btn available">
+		Painel de administração &ensp;<i class="fas fa-toolbox"></i></a>
+    {% endif %}
+  </aside>
+</main>
+
+<!-- Footer -->
+<footer class="base-detail">
+    <a class="menu-link" href="{% url 'livro1:privacy' %}" ><i class="fas fa-book"></i>Política de privacidade</a>
+    <a class="menu-link" href="{% url 'livro1:suport' %}" ><i class="fas fa-book"></i>Suporte</a>
+</footer>
+<script>
+    screenSize();
+    window.onscroll = function() {scrollMenu()};
+    
+</script>
+
+</body>
+</html>

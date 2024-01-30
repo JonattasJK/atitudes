@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/stickers/14.png' %} alt="sticker" width="120px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '1-1' 0 'abertura' 3 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <a href="{% url 'livro1:lesson' 'abertura' 1 %}" class="btn completed">
+        Voltar para a lição &ensp;<i class="fas fa-book"></i></a>
+    <p class="box base">
+		<h4 class="green"> Você pode usar o dicionário online para te ajudar a encontrar
+		o significado das palavras!</h4>
+		<a href="https://www.dicio.com.br/" target="_blank"><strong>Dicionário aqui!</strong></a>
+	</p>
+	<img src={% static '/img/1/VcSabia.gif' %} alt="Você sabia?" width="50%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'abertura' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		{% if itens.2 != False %}
+			<nav class="box happy">
+				<img class="sticker-right" src={% static '/img/1/maosAObra.gif' %} alt="Mãos à obra" height="120px" width="150px">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.2.score < 100 %} 
+						Você marcou <strong>{{itens.2.score}}</strong> pontos e a pontuação máxima é 100. Você pode tentar marcar os 100 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.2.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.2.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.2.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.2.score < 100 %}
+				{% if request.user.profile.credits > itens.2.credits %}
+					<a href="{% url 'livro1:questUndo' '1-1' itens.2.score 'abertura' 3 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.2.credits}} créditos disponíveis para tentar novamente')" class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em <strong>Tentar novamente</strong>, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.2.credits }} créditos e poderá receber até <strong>100,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<strong class="orange">AGORA É COM VOCÊ</strong>
+			<p>Você é o autor!<br>
+                Ao clicar no botão <strong>Meu Livro</strong>, você será direcionado para a página de escrita de seu livro.<br> 
+                Lembre-se: use sua criatividade e explore as atitudes aprendidas em cada lição.</p>
+			<a href="{% url 'livro1:chapter' 1 request.user.profile.id %}" class="btn completed">
+				Meu livro &ensp;<i class="fas fa-book-reader"></i></a>
+		{% else %}
+			<nav class="box happy flex">
+				<h5>
+					Do lado direito, selecione a opção que corresponde ao significado apresentado do lado esquerdo. <br>
+					Use o dicionário para não escolher as opções erradas.
+				</h5>
+			</nav>
+			<nav class="flex">
+				<div class="item sunny">Acertos:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="item base">
+				<h5 class="jigsaw1 jigsaw-b">
+					São todas as qualidades ou condições que fazem de uma
+					pessoa um cidadão. Sendo todos os direitos e deveres do cidadão na
+					sociedade.
+					<span class="r"></span>
+				</h5>
+				<h5 class="jigsaw2">
+	 				<i id="cidadaniaSmile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="cidadaniaScore" value="10">
+					<select name="cidadania" id="fcidadania" style="background-color: #0284cf;" onchange="selectAnswer('cidadaniaSmile','cidadaniaScore','fcidadania')">
+						<option value="0" > -- Opção -- </option>
+						<option value="False" >Solidariedade</option>
+						<option value="False" >Respeito</option>
+						<option value="False" >Compromisso</option>
+						<option value="True" >Cidadania</option>
+						<option value="False" >Cuidado</option>
+					</select>
+					<span class="l"></span>
+				</h5>
+			</nav>
+			<nav class="item base">
+				<h5 class="jigsaw1 jigsaw-c">
+					É o ato de ser solidário. Buscar ajudar ou confortar
+					alguém em um momento de dificuldade.
+					<span class="r"></span>
+				</h5>
+				<h5 class="jigsaw2">
+	 				<i id="solidariedadeSmile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="solidariedadeScore" value="10">
+					<select name="Solidariedade" id="fsolidariedade" style="background-color: #0284cf;" onchange="selectAnswer('solidariedadeSmile','solidariedadeScore','fsolidariedade')">
+						<option value="0" > -- Opção -- </option>
+						<option value="True" >Solidariedade</option>
+						<option value="False" >Respeito</option>
+						<option value="False" >Compromisso</option>
+						<option value="False" >Cidadania</option>
+						<option value="False" >Cuidado</option>
+					</select>
+					<span class="l"></span>
+				</h5>
+			</nav>
+			<nav class="item base">
+				<h5 class="jigsaw1 jigsaw-a">
+					É o sentimento que faz uma pessoa tratar as outras com
+					atenção, com educação. Ser respeitoso.
+					<span class="r"></span>
+				</h5>
+				<h5 class="jigsaw2">
+	 				<i id="respeitoSmile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="respeitoScore" value="10">
+					<select name="Respeito" id="frespeito" style="background-color: #0284cf;" onchange="selectAnswer('respeitoSmile','respeitoScore','frespeito')">
+						<option value="0" > -- Opção -- </option>
+						<option value="False" >Valores</option>
+						<option value="False" >Compromisso</option>
+						<option value="False" >Tolerância</option>
+						<option value="False" >Cuidado</option>
+						<option value="True" >Respeito</option>
+					</select>
+					<span class="l"></span>
+				</h5>
+			</nav>
+			<nav class="item base">
+				<h5 class="jigsaw1 jigsaw-e">
+					É o ato de responder pelo seu próprio
+					comportamento ou ações.
+					<span class="r"></span>
+				</h5>
+				<h5 class="jigsaw2">
+	 				<i id="responsabilidadeSmile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="responsabilidadeScore" value="10">
+					<select name="responsabilidade" id="fresponsabilidade" style="background-color: #0284cf;" onchange="selectAnswer('responsabilidadeSmile','responsabilidadeScore','fresponsabilidade')">
+						<option value="0" > -- Opção -- </option>
+						<option value="False" >Cordialidade</option>
+						<option value="False" >Respeito</option>
+						<option value="True" >Responsabilidade</option>
+						<option value="False" >Solidariedade</option>
+						<option value="False" >Disciplina</option>
+					</select>
+					<span class="l"></span>
+				</h5>
+			</nav>
+			<nav class="item base">
+				<h5 class="jigsaw1 jigsaw-d">
+					Dever assumido com outra pessoa. O ato de
+					comprometimento entre duas ou mais pessoas.
+					<span class="r"></span>
+				</h5>
+				<h5 class="jigsaw2">
+	 				<i id="compromissoSmile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="compromissoScore" value="10">
+					<select name="compromisso" id="fcompromisso" style="background-color: #0284cf;" onchange="selectAnswer('compromissoSmile','compromissoScore','fcompromisso')">
+						<option value="0" > -- Opção -- </option>
+						<option value="False" >Respeito</option>
+						<option value="False" >Valores</option>
+						<option value="True" >Compromisso</option>
+						<option value="False" >Tolerância</option>
+						<option value="False" >Disciplina</option>
+					</select>
+					<span class="l"></span>
+				</h5>
+			</nav>
+			<nav class="item base">
+				<h5 class="jigsaw1 jigsaw-c">
+					Ação de expressar afeto, Cordialidade e simpatia. Ser
+					amável e educado com as pessoas.
+					<span class="r"></span>
+				</h5>
+				<h5 class="jigsaw2">
+	 				<i id="cordialidadeSmile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="cordialidadeScore" value="10">
+					<select name="cordialidade" id="fcordialidade" style="background-color: #0284cf;" onchange="selectAnswer('cordialidadeSmile','cordialidadeScore','fcordialidade')">
+						<option value="0" > -- Opção -- </option>
+						<option value="False" >Solidariedade</option>
+						<option value="True" >Amizade</option>
+						<option value="False" >Compromisso</option>
+						<option value="False" >Cidadania</option>
+						<option value="False" >Responsabilidade</option>
+					</select>
+					<span class="l"></span>
+				</h5>
+			</nav>
+			<nav class="item base">
+				<h5 class="jigsaw1 jigsaw-b">
+					São um conjunto de qualidades que nos distinguem como seres humanos. São exemplos dessas qualidades: a verdade, 
+					as ações corretas, a paz, o amor e a não violência. 
+					<span class="r"></span>
+				</h5>
+				<h5 class="jigsaw2">
+	 				<i id="valoresSmile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="valoresScore" value="10">
+					<select name="valores" id="fvalores" style="background-color: #0284cf;" onchange="selectAnswer('valoresSmile','valoresScore','fvalores')">
+						<option value="0" > -- Opção -- </option>
+						<option value="False" >Disciplina</option>
+						<option value="False" >Respeito</option>
+						<option value="False" >Cuidado</option>
+						<option value="True" >Valores</option>
+						<option value="False" >Cidadania</option>
+					</select>
+					<span class="l"></span>
+				</h5>
+			</nav>
+			<nav class="item base">
+				<h5 class="jigsaw1 jigsaw-a">
+					Agir com atenção. Realizar algo com capricho e zelo. Ser
+					atencioso com as pessoas.
+					<span class="r"></span>
+				</h5>
+				<h5 class="jigsaw2">
+	 				<i id="cuidadoSmile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="cuidadoScore" value="10">
+					<select name="cuidado" id="fcuidado" style="background-color: #0284cf;" onchange="selectAnswer('cuidadoSmile','cuidadoScore','fcuidado')">
+						<option value="0" > -- Opção -- </option>
+						<option value="True" >Cuidado</option>
+						<option value="False" >Solidariedade</option>
+						<option value="False" >Respeito</option>
+						<option value="False" >Compromisso</option>
+						<option value="False" >Cidadania</option>
+					</select>
+					<span class="l"></span>
+				</h5>
+			</nav>
+			<nav class="item base">
+				<h5 class="jigsaw1 jigsaw-d">
+					Ato de aceitar ou tolerar formas de pensar, agir e sentir
+					diferentes das nossas.
+					<span class="r"></span>
+				</h5>
+				<h5 class="jigsaw2">
+	 				<i id="tolerânciaSmile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="tolerânciaScore" value="10">
+					<select name="tolerância" id="ftolerância" style="background-color: #0284cf;" onchange="selectAnswer('tolerânciaSmile','tolerânciaScore','ftolerância')">
+						<option value="0" > -- Opção -- </option>
+						<option value="False" >Responsabilidade</option>
+						<option value="False" >Cuidado</option>
+						<option value="False" >Compromisso</option>
+						<option value="False" >Disciplina</option>
+						<option value="True" >Tolerância</option>
+					</select>
+					<span class="l"></span>
+				</h5>
+			</nav>
+			<nav class="item base">
+				<h5 class="jigsaw1 jigsaw-f">
+					É a obediência ao conjunto das regras e normas estabelecidas. Cumprimento de responsabilidades específicas de cada pessoa.
+					<span class="r"></span>
+				</h5>
+				<h5 class="jigsaw2">
+	 				<i id="disciplinaSmile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="disciplinaScore" value="10">
+					<select name="disciplina" id="fdisciplina" style="background-color: #0284cf;" onchange="selectAnswer('disciplinaSmile','disciplinaScore','fdisciplina')">
+						<option value="0" > -- Opção -- </option>
+						<option value="False" >Compromisso</option>
+						<option value="True" >Disciplina</option>
+						<option value="False" >Responsabilidade</option>
+						<option value="False" >Cidadania</option>
+						<option value="False" >Solidariedade</option>
+					</select>
+					<span class="l"></span>
+				</h5>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','1-1','abertura',3,100);">Terminar</a>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

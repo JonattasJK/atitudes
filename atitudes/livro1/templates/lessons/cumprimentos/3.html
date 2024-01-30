@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<!-- jokeModal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Por que a fourmiga tem quatro patas? Porque se tivesse cinco seria fivemiga haha <br>
+	  				<h5 class="green">No inglês, four significa quatro e five significa cinco.</h5>
+	  			</p>
+	  		</div>
+		</nav>
+	</nav>
+  </div>
+</div>
+
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '7-1' 0 'caminho' 3 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /jokeModal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <h4 class="yellow">Despeça-se sempre!</h4>
+    <img src={% static '/img/7/capa.png' %} alt="sol" width="100%">
+    <h4>Não se despedir é falta de educação. <label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label></h4>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'cumprimentos' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box base">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividade" width="100px">
+			<h3 class="box contrast white">Atividade</h3>
+			<h4>Clique na imagem e na frase correspondente à apresentação</h4>
+		</nav>
+		{% if itens.4 != False %}
+			<div class="line"></div>
+			<nav class="box sunny">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa<br>
+					{% if itens.4.score < 40 %} 
+						Você marcou <strong>{{itens.4.score}}</strong> pontos e a pontuação máxima é 40. Você pode tentar marcar os 40 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.4.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.4.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.4.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.4.score < 40 %}
+				{% if request.user.profile.credits > itens.4.credits %}
+					<a href="{% url 'livro1:questUndo' '7-1' itens.4.score 'cumprimentos' 3 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.4.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.4.credits }} créditos e poderá receber até <strong>40,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<a href="{% url 'livro1:chapter' 7 request.user.profile.id %}" class="btn completed">
+				Meu livro &ensp;<i class="fas fa-book-reader"></i></a>
+		{% else %}
+			<nav class="flex">
+				<div class="item happy">Acertos:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item happy"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="page box base">
+				<div class="flex" style="max-width:500px">
+					<img src={% static '/img/7/turma2.png' %}  width="250px" height="200px" class="interactive" onclick="selectItem(this)" id="cGrupo" style="transition: 0.5s; border-radius: 8px;">
+					<img src={% static '/img/7/boatarde.png' %} width="250px" height="200px" class="interactive" onclick="selectItem(this)" id="cApresentar" style="transition: 0.5s; border-radius: 8px;">
+					<img src={% static '/img/7/turma1.png' %} width="250px" height="200px" class="interactive" onclick="selectItem(this)" id="cAmigos" style="transition: 0.5s; border-radius: 8px;">
+					<img src={% static '/img/7/1.png' %} width="250px" height="200px" class="interactive" onclick="selectItem(this)" id="cAdulto" style="transition: 0.5s; border-radius: 8px;">
+				</div>
+				<input type="hidden" id="selected" value="">
+				<div class="line"></div>
+				<div id="options">
+					<a class="btn completed interactive" onclick="useItem(this,'cAmigos')">Apresentar um amigo a outro &ensp;<i class="fas fa-hands-helping"></i></a>
+					<a class="btn completed interactive" onclick="useItem(this,'cGrupo')">Apresentar um amigo para três ou quatro pessoas &ensp;<i class="fas fa-users"></i></a>
+					<a class="btn completed interactive" onclick="useItem(this,'cAdulto')">Apresentar pessoas adultas &ensp;<i class="fas fa-people-arrows"></i></a>
+					<a class="btn completed interactive" onclick="useItem(this,'cApresentar')">Apresentar-se &ensp;<i class="fas fa-hand-peace"></i></a>
+				</div>
+				<img src={% static '/img/7/rodape.png' %} alt="Errado" width="100%" style="opacity: 0.5;" id="imgGame">
+				<a class="hide" onclick="questFinish('questModal','7-1','cumprimentos',3,40);" id="finishBtn">Terminar</a>
+			</nav>
+			<p></p>
+		{% endif %}
+	</article>
+  </section>
+
+
+{% endblock %}

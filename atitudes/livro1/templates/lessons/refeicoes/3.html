@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<!-- discoveryModal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.4.sort }}</strong>
+			  	<p><i>{{ itens.4.name }}:</i> {{ itens.4.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.4.id 'refeicoes' 3 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.6.sort }}</strong>
+			  	<p><i>{{ itens.6.name }}:</i> {{ itens.6.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.6.id 'refeicoes' 3 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /discoveryModal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <h4 class="green">Não se esqueça que lugar de lixo é na lixeira</h4>
+    <img src={% static '/img/5/lixo.png' %} alt="sol" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" >
+    	<a href="{% url 'livro1:lesson' 'refeicoes' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box">
+			<img class="sticker-right" src={% static '/img/5/comer.png' %} alt="Lavar as mãos" width="30%">
+			<h3 class="purple">Durante o almoço em casa</h3>
+			<p><em class="box contrast white">1</em>Coma sem pressa, saboreando os alimentos. Ao terminar a refeição 
+				você não precisa anunciar que está com a “barriga cheia”. Apenas peça licença e retire-se da mesa.
+				O ideal é que, mesmo tendo finalizado a sua refeição, você continue sentado à mesa acompanhando
+				as demais pessoas. Essa é uma atitude que demonstra <em class="blue">cortesia</em>.</p>
+			<p><em class="box contrast  white">2</em>Não incline o corpo para comer: é a comida que vem até a boca e não
+				a boca que vai até a comida.</p>
+			<img class="sticker-right" src={% static '/img/5/bife.png' %} alt="beber" width="40%">
+			<p><em class="box contrast  white">3</em>Durante as refeições, utilize sempre garfo e
+				faca: o garfo na mão esquerda e a faca na direita. Se você for tomar uma sopa, utilize a
+				colher na mão direita.</p>
+			<p><em class="box contrast  white">4</em>Se você estiver comendo uma massa (macarrão), enrole-a com o garfo.
+				Caso seja necessário, você poderá utilizar uma colher.</p>
+			<img class="sticker-left" src={% static '/img/5/macarrao.png' %} alt="Lavar as mãos" width="30%">
+			<p><em class="box contrast white">5</em>Segure o garfo levemente, como se estivesse
+				segurando um lápis.</p>
+			<p><em class="box contrast  white">6</em>Não fale com a boca cheia.</p>
+			<p><em class="box contrast  white">7</em>Não encha o prato completamente: os alimentos devem ficar somente no centro do
+				prato e não sobre as bordas.</p>
+			<img class="sticker-right" src={% static '/img/5/comer2.png' %} alt="Lavar as mãos" width="30%">
+			<p><em class="box contrast  white">8</em>Antes de beber algo, passe o guardanapo nos lábios.</p>
+			<p><em class="box contrast  white">9</em>Segure o copo de forma que a sua mão fique mais próxima da base: assim, você evita
+				encostar a mão na “boca” do copo, onde coloca os lábios para beber.</p>
+			<p><em class="box contrast  white">10</em>Ao terminar a refeição, não amasse o guardanapo. Ele deve ficar dobrado!</p>
+			<p><em class="box contrast  white">11</em>Se você parar de comer para conversar, descanse os talheres no prato.</p>
+			<img class="sticker-left" src={% static '/img/5/pratos.png' %} alt="Lavar as mãos" width="50%">
+			<p><em class="box contrast  white">12</em>Ao terminar a refeição, posicione os talheres no prato como se fossem
+				ponteiros de um relógio que marca 15h15min ou 16h20min, como no modelo abaixo.</p>
+		</nav>
+		<div class="line"></div>
+		{% if itens.5 %}
+			<section class="box base">
+				<div class="box"> <h3 class="blue">{{ itens.4.name }}</h3>
+					<p>{{ itens.4.text }}</p>
+				</div>
+				<img src={% static '/img/1/glossario.gif' %} alt="Lembre-se" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/glossario.gif' %} alt="Glossario" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		{% if itens.7 %}
+			<section class="box happy">
+				<div class="box"> <h3 class="blue">{{ itens.6.name }}</h3>
+					<p>{{ itens.6.text }}</p>
+				</div>
+				<img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal2');"><img src={% static '/img/1/lembrese.gif' %} alt="lembrese" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		<nav class="box sunny">
+			<img class="sticker-left" src={% static '/img/1/Observando.gif' %} alt="Observando" width="100px">
+			<h3 class="box contrast white">Observando...</h3>
+			<h4>Vamos aprender a organizar a mesa para as
+				refeições diárias? Observe as imagens abaixo:<br></h4>
+			<nav class="item base-detail">
+				<div class="box column base">
+					<h5>Mesa quando tem sobremesa</h5>
+					<img src={% static '/img/5/prato1.png' %} alt="Sobremesa" width="100%">
+				</div>
+				<div class="box column base">
+					<h5>Mesa quando tem sopa</h5>
+					<img src={% static '/img/5/prato2.png' %} alt="Sopa" width="100%">
+				</div>
+			</nav>
+			<h5 class="green">Que tal você arrumar a mesa hoje no almoço ou no jantar para mostrar o que aprendeu?</h5>
+		</nav>
+    	<a href="{% url 'livro1:lesson' 'refeicoes' 4 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+
+{% endblock %}

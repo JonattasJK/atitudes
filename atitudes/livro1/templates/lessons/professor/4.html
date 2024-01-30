@@ -1,0 +1,383 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+
+<!-- Modal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Qual é a diferença entre a fita adesiva e o avião? A fica cola e o avião decola! hahah</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '9-2' 0 'professor' 4 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+    <img src={% static '/img/9/prof.png' %} alt="Estrelas" width="100%">
+    <h5> Para cada atividade, um professor
+    <label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label></h5>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'professor' 3 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <h3 class="purple">Para cada atividade, um professor</h3>
+	    <p>Você já parou para pensar que os professores nos auxiliam em diversas tarefas?</p>
+	    <h4>As cenas abaixo representam professores exercendo diversas atividades em diferentes projetos.
+	    	Observe as imagens e escreva nos balões as atividades que os professores estão exercendo.</h4>
+	    {% if itens.3 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa<br>
+					{% if itens.3.score < 50 %} 
+						Você marcou <strong>{{itens.3.score}}</strong> pontos e a pontuação máxima é 50. Você pode tentar marcar os 50 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.3.score}}</strong> pontos, a pontuação máxima! Meus parabéns!
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.3.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.3.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.3.score < 50 %}
+				{% if request.user.profile.credits > itens.3.credits %}
+					<a href="{% url 'livro1:questUndo' '9-2' itens.3.score 'professor' 4 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.3.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.3.credits }} créditos e poderá receber até <strong>50,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<nav class="box base-detail large">
+				<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividade" width="150px">
+				<div class="box"> <h3 class="base">Atividade</h3>
+					<h4>A sua escola tem projetos de Educação Integral? Marque quais projetos têm na sua escola!<br><br>
+						Você participa de algum projeto? Qual?</h4>
+					<h5 class="purple">Você não perderá pontos caso sua escola não tenha esses projetos ou caso você não participe de nenhum.<br>
+						Se sua escola não tem nenhum desses projetos, basta clicar em terminar.</h5>
+				</div>
+			</nav>
+			{% if itens.4 != False %}
+				<nav class="box base">
+					<h5>
+						Você já completou esse desafio e conquistou a sua recompensa <br>
+						{% if itens.4.score < 10 %} 
+							Você marcou <strong>{{itens.4.score}}</strong> pontos e a pontuação máxima é 10. Você pode tentar marcar os 10 pontos se quiser
+						{% else %}
+							Você marcou <strong>{{itens.4.score}}</strong> pontos, a pontuação máxima! Meus parabéns!
+						{% endif %}
+					</h5>
+				</nav><p></p>
+				<em>Recompensa obtida:</em>
+				<nav class="flex">
+					<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.4.score }}</strong></div>&emsp;
+					<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.4.credits }}</strong></div>&emsp;
+					<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+				</nav>
+				{% if itens.4.score < 10 %}
+					{% if request.user.profile.credits > itens.4.credits %}
+						<a href="{% url 'livro1:questUndo' '9-3' itens.4.score 'professor' 4 %}" class="large">
+							<button class="button previous next"><span>Tentar novamente</span></button>	
+						</a>
+					{% else %}
+						<button onclick="alert('Ops... Você não tem {{itens.3.credits}} créditos disponíveis para tentar novamente')" 
+							class="button previous next"><span>Tentar novamente</span></button>
+					{% endif %}
+					<nav class="item alert">
+						<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+							Você irá gastar {{ itens.4.credits }} créditos e poderá receber até <strong>10,00</strong> créditos de volta.</h5>
+					</nav>
+				{% endif %}
+				<p></p>
+				<a href="{% url 'livro1:lesson' 'professor' 5 %}" class="large">
+					<button class="button next"><span>VAMOS LÁ!</span></button>
+				</a>
+			{% else %}
+				<nav class="flex">
+					<div class="item sunny hide">Respostas:&ensp;<strong id="hits" class="red">10</strong>
+					</div>&emsp;<div class="item sunny hide"> Pontuação:&ensp;<strong id="totalScore" class="red">10</strong></div>
+				</nav>
+				<section style="width:100%">
+					<div style="width: 50%">
+						<h4>Minha escola tem:</h4>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral17" value="Danca" onclick="showItem('mintegral17');">
+								<label for="mintegral17">Dança</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral" value="Natacao" onclick="showItem('mintegral');">
+								<label for="integral">Natação</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral1" value="Volei" onclick="showItem('mintegral1');">
+								<label for="integral1">Vôlei</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral2" value="Futebol" onclick="showItem('mintegral2');">
+								<label for="integral2">Futsal ou Futebol</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral3" value="Tenis" onclick="showItem('mintegral3');">
+								<label for="integral3">Tênis de mesa</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral4" value="Xadrez" onclick="showItem('mintegral4');">
+								<label for="integral4">Xadrez</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral5" value="Cinema" onclick="showItem('mintegral5');">
+								<label for="integral5">Cinema</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral6" value="Fotografia" onclick="showItem('mintegral6');">
+								<label for="integral6">Fotografia</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral7" value="Jornal" onclick="showItem('mintegral7');">
+								<label for="integral7">Jornal da Escola</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral8" value="Tecnologias" onclick="showItem('mintegral8');">
+								<label for="integral8">Tecnologias Digitais</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral9" value="Saude" onclick="showItem('mintegral9');">
+								<label for="integral9">Saúde e Meio Ambiente</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral10" value="Musica" onclick="showItem('mintegral10');">
+								<label for="integral10">Música</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral11" value="Arte" onclick="showItem('mintegral11');">
+								<label for="integral11">Arte e Cultura</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral12" value="Poesia" onclick="showItem('mintegral12');">
+								<label for="integral12">Poesia</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral13" value="Leitura" onclick="showItem('mintegral13');">
+								<label for="integral13">Leitura literária</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral14" value="Social" onclick="showItem('mintegral14');">
+								<label for="integral14">Formação Social</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral15" value="Teatro" onclick="showItem('mintegral15');">
+								<label for="integral15">Teatro</label><br>
+						</div>
+						<div class="box base large" style="padding: 3px;">
+							<input type="checkbox" id="integral16" value="Gibiteca" onclick="showItem('mintegral16');">
+								<label for="integral16">Gibiteca</label><br>
+						</div>
+					</div>
+					<div style="width: 50%">
+						<h4>Eu participo:</h4>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral17" value="Danca">
+								<label for="mintegral17">Dança</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral" value="Natacao">
+								<label for="mintegral">Natação</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral1" value="Volei">
+								<label for="mintegral1">Vôlei</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral2" value="Futebol">
+								<label for="mintegral2">Futsal ou Futebol</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral3" value="Tenis">
+								<label for="mintegral3">Tênis de mesa</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral4" value="Xadrez">
+								<label for="mintegral4">Xadrez</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral5" value="Cinema">
+								<label for="mintegral5">Cinema</label><br>
+						</div>
+						<div class="box sunny large  hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral6" value="Fotografia">
+								<label for="mintegral6">Fotografia</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral7" value="Jornal">
+								<label for="mintegral7">Jornal da Escola</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral8" value="Tecnologias">
+								<label for="mintegral8">Tecnologias Digitais</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral9" value="Saude">
+								<label for="mintegral9">Saúde e Meio Ambiente</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral10" value="Musica">
+								<label for="mintegral10">Música</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral11" value="Arte">
+								<label for="mintegral11">Arte e Cultura</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral12" value="Poesia">
+								<label for="mintegral12">Poesia</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral13" value="Leitura">
+								<label for="mintegral13">Leitura literária</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral14" value="Social">
+								<label for="mintegral14">Formação Social</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral15" value="Teatro">
+								<label for="mintegral15">Teatro</label><br>
+						</div>
+						<div class="box sunny large hide" style="padding: 3px;">
+							<input type="checkbox" id="mintegral16" value="Gibiteca">
+								<label for="mintegral16">Gibiteca</label><br>
+						</div>
+					</div>
+				</section>
+				<a class="button" onclick="questFinish('questModal','9-3','professor',4,10);">Terminar</a>
+			{% endif %}
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="flex">
+				<div class="page" style="width:33%">
+					<img src={% static '/img/9/f1.png' %} alt="f1" width="100%">
+					<div class="thought">
+						<i id="f1Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+						<input type="hidden" id="f1Score" value="10">
+						<select name="f1" id="f1" onchange="selectAnswer('f1Smile','f1Score','f1')">
+							<option value="" >-- Escolha --</option>
+							<option value="False" >Ensinando cozinhar</option>
+							<option value="False" >Ensinando matemática</option>
+							<option value="False" >Ensinando músicas</option>
+							<option value="True" >Ensinando brincadeiras</option>
+							<option value="False" >Ensinando computação</option>
+						</select>
+					</div>
+				</div>
+				<div class="page" style="width:33%">
+					<img src={% static '/img/9/f2.png' %} alt="f2" width="100%">
+					<div class="thought">
+						<i id="f2Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+						<input type="hidden" id="f2Score" value="10">
+						<select name="f2" id="f2" onchange="selectAnswer('f2Smile','f2Score','f2')">
+							<option value="" >-- Escolha --</option>
+							<option value="False" >Ensinando cozinhar</option>
+							<option value="False" >Ensinando matemática</option>
+							<option value="True" >Ensinando músicas</option>
+							<option value="False" >Ensinando brincadeiras</option>
+							<option value="False" >Ensinando computação</option>
+						</select>
+					</div>
+				</div>
+				<div class="page" style="width:33%">
+					<img src={% static '/img/9/f3.png' %} alt="f3" width="100%">
+					<div class="thought">
+						<i id="f3Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+						<input type="hidden" id="f3Score" value="10">
+						<select name="f3" id="f3" onchange="selectAnswer('f3Smile','f3Score','f3')">
+							<option value="" >-- Escolha --</option>
+							<option value="False" >Ensinando cozinhar</option>
+							<option value="True" >Ensinando matemática</option>
+							<option value="False" >Ensinando músicas</option>
+							<option value="False" >Ensinando brincadeiras</option>
+							<option value="False" >Ensinando computação</option>
+						</select>
+					</div>
+				</div>
+				<div class="page" style="width:33%">
+					<img src={% static '/img/9/f4.png' %} alt="f1" width="100%">
+					<div class="thought">
+						<i id="f4Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+						<input type="hidden" id="f4Score" value="10">
+						<select name="f4" id="f4" onchange="selectAnswer('f4Smile','f4Score','f4')">
+							<option value="" >-- Escolha --</option>
+							<option value="True" >Ensinando cozinhar</option>
+							<option value="False" >Ensinando matemática</option>
+							<option value="False" >Ensinando músicas</option>
+							<option value="False" >Ensinando brincadeiras</option>
+							<option value="False" >Ensinando computação</option>
+						</select>
+					</div>
+				</div>
+				<div class="page" style="width:33%">
+					<img src={% static '/img/9/f5.png' %} alt="f1" width="100%">
+					<div class="thought">
+						<i id="f5Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+						<input type="hidden" id="f5Score" value="10">
+						<select name="f5" id="f5" onchange="selectAnswer('f5Smile','f5Score','f5')">
+							<option value="" >-- Escolha --</option>
+							<option value="False" >Ensinando cozinhar</option>
+							<option value="False" >Ensinando matemática</option>
+							<option value="False" >Ensinando músicas</option>
+							<option value="False" >Ensinando brincadeiras</option>
+							<option value="True" >Ensinando computação</option>
+						</select>
+					</div>
+				</div>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','9-2','professor',4,50);">Terminar</a>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

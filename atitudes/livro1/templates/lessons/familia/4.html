@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p> O que é, o que é? Tem uma mãe sem dentes e um pai cantor... O ovo! hahaha</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '2-1' 0 'maneiras' 2 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+    <h5>
+    	Clique na imagem mostrando o que está errado. Depois responda como deveria ser. É bem fácil! Viu!? 
+    <label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label></h5>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'familia' 3 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box base">
+			<img class="sticker-left" src={% static '/img/1/Observando.gif' %} alt="Mãos à obra" width="150px">
+			<div class="box"> <h3 class="box contrast white">Observando...</h3>
+			<h4><br>Você aprendeu algumas das atitudes que  precisamos ter com a família. Junto com os seus familiares,
+    			observe a imagem e clique em cima do que considera incorreto, após escolha a
+    			resposta correta no retângulo abaixo da imagem.</h4>
+			</div>
+		</nav>
+		{% if itens.7 != False %}
+			<div class="line"></div>
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.7.score < 40 %} 
+						Você marcou <strong>{{itens.7.score}}</strong> pontos e a pontuação máxima é 40. Você pode tentar marcar os 40 pontos se quiser.
+					{% else %}
+						Você marcou <strong>{{itens.7.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.7.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.7.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.7.score < 40 %}
+				{% if request.user.profile.credits > itens.7.credits %}
+					<a href="{% url 'livro1:questUndo' '3-3' itens.7.score 'familia' 4 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.7.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.7.credits }} créditos e poderá receber até <strong>40,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			
+			<a href="{% url 'livro1:lesson' 'familia' 5 %}" class="large">
+				<button class="button next"><span>VAMOS LÁ!</span></button>
+			</a>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<div class="img-map">
+				<img src={% static '/img/3/sala.png' %} alt="sala de estar" width="100%">
+				<svg width="100%" height="100%">
+					<rect x="12%" y="28%" width="18%" height="51%" id="pai" rx="20" ry="50" onclick="selectPoint(this)"/>
+					<rect x="51%" y="55%" width="11%" height="31%" id="filho" rx="20" ry="50" onclick="selectPoint(this)"/>
+					<rect x="71%" y="60%" width="12%" height="30%" id="filha" rx="20" ry="50" onclick="selectPoint(this)"/>
+				</svg> 
+			</div>
+			<div class="item base page">
+				<i id="f1Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+				<input type="hidden" id="f1Score" value="10">
+				<select name="f1" id="f1" onchange="selectAnswer('f1Smile','f1Score','f1')">
+					<option value="" >--Escolha a resposta--</option>
+					<option value="False" >Não precisa arrumar a casa</option>
+					<option value="False" >Todos deveriam estar jogando</option>
+					<option value="True" >Todos deveriam estar ajudando</option>
+					<option value="False" >Só o pai deveria ajudar</option>
+				</select>
+			</div><p></p>
+			<a class="button" onclick="questFinish('questModal','3-3','familia',4,40);">Terminar</a><p></p>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

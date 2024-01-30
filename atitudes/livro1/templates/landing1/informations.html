@@ -1,0 +1,86 @@
+{% extends "landing1/base.html" %}
+{% load static %}
+
+{% block body %}
+
+
+		<!-- Modal -->
+		<div id="imageModal" class="modal" onclick="closeModal('imageModal')">
+		  <span class="close" onclick="closeModal('imageModal')">&times;</span>
+		  <img class="modal-content" id="bigImage">
+		  <div id="caption"></div>
+		</div>
+
+			<!-- Main -->
+				<div id="main" class="wrapper style1">
+					<div class="container">
+						<header class="major">
+							<h2>NOSSA HISTÓRIA</h2>
+						</header>
+						<div class="row gtr-150">
+							<div class="col-4 col-12-medium">
+
+								<!-- Sidebar -->
+									<section id="sidebar" class="sidebar">
+										<section>
+											<h3>Projeto Gente - Saudade do Iguaçu, PR</h3>
+											<img src="{% static '/img/picture/1.jpg' %}" onclick="openImage(this)" alt="Projeto Gente">
+											<p>Projeto Gente – Treinamento de Educadores realizado em 2018, em Saudade do Iguaçu, PR</p>
+										</section>
+										<hr />
+										<section>
+											<h3>Atitudes em Clevelândia, PR</h3>
+											<img src="{% static '/img/picture/3.jpg' %}" onclick="openImage(this)" alt="foto">
+											<p>Projeto Atitudes em Clevelândia, PR, foi implantado nas Escolas Antônio Rocha Loures e Raphael Pocai, em 2018, em projeto do tempo integral</p>
+										</section>
+										<hr />
+										<section>
+											<h3>Atitudes em Mangueirinha, PR</h3>
+											<img src="{% static '/img/picture/9.jpg' %}" onclick="openImage(this)" alt="foto">
+											<p>Projeto Atitudes em Mangueirinha, PR, em 2012</p>
+										</section>
+										<hr />
+										<section>
+											<h3>Atitudes em Mariópolis, PR</h3>
+											<img src="{% static '/img/picture/10.jpg' %}" onclick="openImage(this)" alt="foto">
+											<p>Projeto Atitudes em Mariópolis, PR, em 2012</p>
+										</section>
+										<hr />
+										<section>
+											<h3>Desfile em Pato Branco, PR</h3>
+											<img src="{% static '/img/picture/11.jpg' %}" onclick="openImage(this)" alt="foto">
+											<p>Desfile de 07 de setembro de 2011, em Pato Branco, PR, com participação do Projeto Atitudes</p>
+										</section>
+										<hr />
+										<section>
+											<h3>Atitudes na RPC</h3>
+											<img src="{% static '/img/picture/3.jpg' %}" onclick="openImage(this)" alt="foto">
+											<p>Projeto Atitudes com 260 crianças participantes foi notícia na RPC regional estadual, em 2007</p>
+										</section>
+									</section>
+
+							</div>
+							<div class="col-8 col-12-medium imp-medium">
+
+								<!-- Content -->
+									<section id="content">
+										<a href="#" class="image fit"><img src="{% static 'img/title2.png' %}" alt="" /></a>
+										<h3>Avaliações dos nossos participantes</h3>
+										<p>Aqui você verá comentários de pessoas que participaram e puderam testar o Projeto Atitudes</p>
+										{% if ratings %}
+											{% for r in ratings %}
+												<hr />
+												<h3>{{r.author}}</h3>
+												<p>{{r.testimony}}</p>
+												<h4>{{r.date}} em {{r.address}}</h4>
+											{% endfor %}
+										{% endif %}
+									</section>
+
+							</div>
+						</div>
+					</div>
+				</div>
+	
+			<script src="{% static 'js/functions.js' %}"></script>
+{% endblock %} 

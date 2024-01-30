@@ -1,0 +1,35 @@
+{% extends "adm/base.html" %}
+{% load static %}
+
+{% block body %}
+
+<article class="main clean">
+	<article class="item sunny">
+		<nav class="box">
+			<h3 class="green">Conta criada com sucesso</h3>
+			<p>Para acessar, basta fazer o login usando as credenciais que você acabou de cadastrar.</p>
+			<div class="line"></div>
+			<nav class="box happy">
+				<div class="line"></div>
+				<img class="sticker-right" src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" width="30%">
+					<div class="box"> <h3 class="yellow">Lembre-se</h3>
+					<a>Lembre-se de usar o nome de login e senha exatamente como foram digitados no cadastro, com as mesmas letras maiúsculas e minúsculas.</a>
+				</div>
+			</nav>
+			<a href="{% url 'livro1:home' %}" class="button next"><span>ENTRAR</span></a>
+		</nav>
+	</article>	
+	
+</article>
+
+<script>
+    hideOrShow('5',1);
+    hideOrShow('4',0);
+    document.getElementById("cliente").checked = true;
+	inputNick(document.getElementById("fname"))
+	function inputNick(nick) {
+		document.getElementById("nickname").innerHTML = nick.value;
+	}
+</script>    
+
+{% endblock %} 

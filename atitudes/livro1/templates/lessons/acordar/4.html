@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.2.sort }}</strong>
+			  	<p><i>{{ itens.2.name }}:</i> {{ itens.2.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'acordar' 4 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '4-5' 0 'acordar' 4 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+    <h5> 	</h5>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'acordar' 3 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		{% if itens.3 %}
+			<section class="box base">
+				<div class="box"> <h3 class="blue">{{ itens.2.name }}</h3>
+					<p>{{ itens.2.text }}</p>
+				</div>
+				<img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/lembrese.gif' %} alt="Glossario" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		<nav class="box shine">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividades" width="150px">
+			<div class="box"> <h3 class="box yellow">Atividade</h3>
+				<h4>Escreva uma legenda para cada uma das cenas abaixo. Aproveite para colorir.</h4>
+			</div>
+		</nav>
+		<a href="{% url 'livro1:color' %}" class="button previous next"><span>Colorir os desenhos</span></a>
+		{% if itens.9 != False %}
+			<div class="line"></div>
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.9.score < 40 %} 
+						Você marcou <strong>{{itens.9.score}}</strong> pontos e a pontuação máxima é 40. Você pode tentar marcar os 40 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.9.score}}</strong> pontos, a pontuação máxima! Meus parabéns!
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.9.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.9.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.9.score < 40 %}
+				{% if request.user.profile.credits > itens.9.credits %}
+					<a href="{% url 'livro1:questUndo' '4-5' itens.9.score 'acordar' 4 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.9.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.9.credits }} créditos e poderá receber até <strong>40,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<a href="{% url 'livro1:lesson' 'acordar' 5 %}" class="large">
+				<button class="button next"><span>VAMOS LÁ!</span></button>
+			</a>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny">Legendas certas:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="flex">
+				<div class="page" style="width:50%">
+					<img class="sticker-left" src={% static '/img/4/f1.png' %} alt="sdesenho 1" width="100%">
+					<i id="f1Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="f1Score" value="10">
+					<select name="disciplina" id="f1" style="background-color: #0284cf;" onchange="selectAnswer('f1Smile','f1Score','f1')">
+						<option value="0" > -- Escolha a legenda -- </option>
+						<option value="True" >Escovando os dentes</option>
+						<option value="False" >Fazendo beat box</option>
+						<option value="False" >Ocupando o banheiro</option>
+						<option value="False" >Comendo pasta de dente</option>
+						<option value="False" >Tirando o bafo</option>
+					</select>
+				</div>
+				<div class="page" style="width:50%">
+					<img class="sticker-right" src={% static '/img/4/f2.png' %} alt="sdesenho 2" width="100%">
+					<i id="f2Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="f2Score" value="10">
+					<select name="disciplina" id="f2" style="background-color: #0284cf;" onchange="selectAnswer('f2Smile','f2Score','f2')">
+						<option value="0" > -- Escolha a legenda -- </option>
+						<option value="False" >Tomando água</option>
+						<option value="True" >Lavando o rosto</option>
+						<option value="False" >Brincando de aquaman</option>
+						<option value="False" >Gastando água</option>
+						<option value="False" >Testando barquinho de papel</option>
+					</select>
+				</div>
+				<div class="page" style="width:50%">
+					<img class="sticker-left" src={% static '/img/4/f3.png' %} alt="sdesenho 3" width="100%">
+					<i id="f3Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="f3Score" value="10">
+					<select name="disciplina" id="f3" style="background-color: #0284cf;" onchange="selectAnswer('f3Smile','f3Score','f3')">
+						<option value="0" > -- Escolha a legenda -- </option>
+						<option value="False" >Brincando de esconde esconde</option>
+						<option value="False" >Se escorando na parede</option>
+						<option value="True" >Dando a descarga</option>
+						<option value="False" >Pensando na vida</option>
+						<option value="False" >Esqueceu o que estava fazendo</option>
+					</select>
+				</div>
+				<div class="page" style="width:50%">
+					<img class="sticker-right" src={% static '/img/4/f4.png' %} alt="sdesenho 4" width="100%">
+					<i id="f4Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+	 				<input type="hidden" id="f4Score" value="10">
+					<select name="disciplina" id="f4" style="background-color: #0284cf;" onchange="selectAnswer('f4Smile','f4Score','f4')">
+						<option value="0" > -- Escolha a legenda -- </option>
+						<option value="False" >Fazendo slime</option>
+						<option value="False" >Gastando sabonete</option>
+						<option value="False" >Fazendo desenhos de espuma</option>
+						<option value="True" >Lavando as mãos</option>
+					</select>
+				</div>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','4-5','acordar',4,40);">Terminar</a>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

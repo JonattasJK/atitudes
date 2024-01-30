@@ -1,0 +1,63 @@
+{% extends "landing1/base.html" %}
+{% load static %}
+
+{% block body %}
+
+
+		<!-- Modal -->
+		<div id="imageModal" class="modal" onclick="closeModal('imageModal')">
+		  <span class="close" onclick="closeModal('imageModal')">&times;</span>
+		  <img class="modal-content" id="bigImage">
+		  <div id="caption"></div>
+		</div>
+
+			<!-- Main -->
+				<div id="main" class="wrapper style1">
+					<div class="container">
+						<header class="major">
+							<h2>BIBLIOTECA VIRTUAL</h2>
+							<p>Conheça os livros criados por alguns usuários que já concluíram a jornada gamificada do Projeto Atitudes</p>
+						</header>
+						<div class="row gtr-150">
+							<div class="col-4 col-12-medium">
+
+								<!-- Sidebar -->
+									<section id="sidebar" class="sidebar">
+										<section>
+											<h3>Biblioteca</h3>
+											{% if books %}
+												{% for b in books %}
+													<footer>
+														<hr />
+														<ul class="actions">
+															<li><a href="{% url 'livro1:printBook' b.author.id %}" target="_blank" class="button">
+																{{b.author.bookTitle}}</a><br><em>Escrito por {{b.author.user.username}}</em></li>
+														</ul>
+													</footer>
+												{% endfor %}
+											{% else %}
+												<h5>Aparentemente AINDA não foi adicionado nenhum livro</h5>
+											{% endif %}
+										</section>
+									</section>
+
+							</div>
+							<div class="col-8 col-12-medium imp-medium">
+
+								<!-- Content -->
+									<section id="content">
+										<a href="#" class="image fit"><img src="{% static 'img/title2.png' %}" alt="" /></a>
+										<h2>O que você vai encontrar?</h2>
+										<h5>O projeto atitudes gamificado é composto de 18 lições de Boas Maneiras, Valores e Cidadania.
+											Destinado às crianças e adolescentes de 8 a 12 anos. Serão 18 etapas para concluir o prêmio total, que será
+											o envio e publicação do seu livro em nosso site</h5>
+										<img src="{% static 'img/13/mesa.png' %}" width="100%" alt="" />
+									</section>
+
+							</div>
+						</div>
+					</div>
+				</div>
+	
+			<script src="{% static 'js/functions.js' %}"></script>
+{% endblock %} 

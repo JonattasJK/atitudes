@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<!-- Modal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Quais são as duas coisas que não se pode comer no café da manhã? R: O almoço e o Jantar. hahahaha</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão Home irá voltar para a página inicial!</h5>
+		<h5>Parabéns!!! Você chegou à quarta lição!</h5>
+		<img src={% static '/img/4/rodape.png' %} alt="Você sabia?" width="100%">
+		<em>Quando o sol ilumina a manhã é hora de dizer BOM DIA!!!</em>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+       <h2 class="purple">Boas Maneiras ao<br><b class="yellow">acordar</b></h2>
+        <img src={% static '/img/4/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: disciplina, higiene e organização</h3>
+        <nav class="box happy">
+			<img class="sticker-right" src={% static '/img/4/talitacume.png' %} alt="Menina Acordando" width="50%">
+			<h3 class="item sunny">O que faço ao acordar?</h3> 
+			<p>Todos os dias você segue uma rotina: acorda, toma café, vai à escola, brinca. Essa
+				rotina varia de acordo com os dias da semana e as atividades que cada um
+				desempenha. <label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label></p>
+		</nav>
+	    <a href="{% url 'livro1:lesson' 'acordar' 2 %}" class="large">
+        	<button class="button next"><span>VAMOS LÁ!</span></button>
+        </a>
+        <img src={% static '/img/4/rodape.png' %} alt="amigos" width="100%">
+    </article>
+  </section>
+
+{% endblock %} 	

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<!-- Modal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p> Porque a nuvem mãe brigou com a nuvem filha? R: Porque ela estava fazendo tempestade em copo d'água. kkkk</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão <strong>home</strong> irá voltar para a página inicial!</h5>
+		<h5>Parabéns!!! Você chegou à segunda lição!</h5>
+		<img src={% static '/img/1/Observando.gif' %} alt="Você sabia?" width="150px">
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+       <h2 class="blue">Boas Maneiras em<br><b class="pink">família</b></h2>
+        <img src={% static '/img/3/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: afeto, organização e amor</h3>
+        <nav class="box happy">
+			<img class="sticker-right" src={% static '/img/3/pai.png' %} alt="amigos" width="50%">
+			<h3 class="item contrast white">Convivência familiar</h3> 
+			<p>Nesta lição, vamos conhecer algumas atitudes que demonstram boas maneiras
+				em família. A família pode ser definida como um grupo de indivíduos,
+				parentes ou não, que vivem sob o mesmo teto e que pode ser
+				constituída de pai, mãe, filhos, avós, tios, etc.</p>
+		</nav>
+		<label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label>
+	    <a href="{% url 'livro1:lesson' 'familia' 2 %}" class="large">
+        	<button class="button next"><span>VAMOS LÁ!</span></button>
+        </a>
+        <img src={% static '/img/3/rodape.png' %} alt="amigos" width="100%">
+    </article>
+  </section>
+
+{% endblock %} 	

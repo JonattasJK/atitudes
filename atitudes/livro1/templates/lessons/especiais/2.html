@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  		</div>
+	  		<form action="#" method="post" class="element box">
+	  			{% csrf_token %}
+				<input type="hidden" name="text" id="text" value="10">
+				<input type="submit" value="Resgatar meu prêmio">
+		  	</form>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="questModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 50 pontos, 50 créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '6-2' 0 'caminho' 3 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+	<img src={% static '/img/17/cadeirante.png' %} alt="Livro" width="100%">
+	<h4>Ninguém escolhe ter uma necessidade especial mas, quando isso acontece, muitas dessas pessoas passam a ter valiosos ensinamentos sobre a vida</h4>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" id="page1">
+        <a href="{% url 'livro1:lesson' 'especiais' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box">
+			<p>É natural que pessoas que não possuem necessidades especiais fiquem
+				“confusas” ao encontrar pessoas que as possuem. Esse “desconforto” tende
+				a diminuir e até mesmo a desaparecer à medida que aprendemos a lidar
+				com as diferenças.</p>
+	    </nav>
+		<nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/Observando.gif' %} alt="VcSabia" width="150px">
+			<div class="box"> <h3 class="box contrast white">Observando...</h3>
+				<p>Você conhece alguém que possui alguma necessidade especial? Como é o seu relacionamento com esta pessoa? Que tipo de necessidade especial ela possui?</p>
+			</div>
+		</nav>
+		
+		{% if itens.10 != False %}
+			<div class="line"></div>
+			<nav class="box base">
+				<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Mãos à obra" width="150px">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa<br>
+					{% if itens.10.score < 50 %} 
+						Você marcou <strong>{{itens.10.score}}</strong> pontos e a pontuação máxima é 50. Você pode tentar marcar os 50 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.10.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.10.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.10.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.10.score < 50 %}
+				{% if request.user.profile.credits > itens.10.credits %}
+					<a href="{% url 'livro1:questUndo' '17-1' itens.10.score 'especiais' 2 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.10.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.10.credits }} créditos e poderá receber até <strong>50,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p>Resposta: <em class="green">{{ itens.11 }}</em></p>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny hide">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="box happy large"><p></p>
+				<textarea name="paragraph" id="ftext" placeholder="Responda aqui!" oninput="textSize(this,50)" rows="4" cols="100"></textarea><p></p>
+			</nav> 
+			<a class="button" onclick="answareText('questModal','17-1');">Terminar</a><p></p>
+		{% endif%}
+		<nav class="box">
+			<h3 class="purple">Regras e atitudes para uma boa convivência</h3>
+			<p>As necessidades dos portadores de deficiência podem variar de acordo
+				com a sua idade, suas habilidades e seu grau de deficiência. Mas algumas
+				regras de convivência podem ser observadas:</p>
+			<h3 class="purple">Pessoas cegas ou portadoras de deficiência visual</h3>
+			<img class="sticker-right" src={% static '/img/17/cego4.png' %} alt="dog" width="50%">
+			<p><em class="box contrast white">1</em>Nem sempre o deficiente visual necessita de ajuda, mas se você encontrar alguém que pareça estar em dificuldades,
+				identifique-se e ofereça ajuda. Espere até que sua ajuda seja aceita e só então dobre seu braço e coloque a mão do deficiente sobre seu cotovelo para que ele possa
+				guiar-se pelo movimento do seu corpo. Jamais tente puxar o portador de deficiência pela mão ou pelo braço pois você poderá desequilibrá-lo.</p>
+			<p><em class="box contrast white">2</em>Enquanto estiver servindo de guia para o deficiente, avise-o com antecedência sobre a existência de degraus, buracos, elevações
+				e outros obstáculos que podem existir durante o trajeto.</p>
+			<p><em class="box contrast white">3</em>Para ajudar uma pessoa cega a sentar-se, guie-a até a cadeira, coloque a mão dela sobre o encosto e permita
+				que ela se sente sozinha.</h3>
+			<p><em class="box contrast white">4</em>Nunca distraia ou acaricie o cão-guia. Lembre-se de que a função do cão é guiar o cego e distraí-lo poderá causar acidentes.</p>
+			<p><em class="box contrast white">3</em>Antes de se afastar do deficiente visual, despeça-se ou avise-o de que
+				está se afastando para que ele não fique falando sozinho.</p>
+		</nav>
+		<img class="sticker-left" src={% static '/img/17/braille.png' %} alt="bike" width="100%">
+		{% if itens.10 != False %}
+			{% if itens.13 != False %}
+				<div class="line"></div>
+				<nav class="box base">
+					<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Mãos à obra" width="150px">
+					<h5>
+						Você já completou esse desafio e conquistou a sua recompensa<br>
+						{% if itens.13.score < 50 %} 
+							Você marcou <strong>{{itens.13.score}}</strong> pontos e a pontuação máxima é 50. Você pode tentar marcar os 50 pontos se quiser
+						{% else %}
+							Você marcou <strong>{{itens.13.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+						{% endif %}
+					</h5>
+				</nav><p></p>
+				<em>Recompensa obtida:</em>
+				<nav class="flex">
+					<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.13.score }}</strong></div>&emsp;
+					<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.13.credits }}</strong></div>&emsp;
+					<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+				</nav>
+				{% if itens.13.score < 50 %}
+					{% if request.user.profile.credits > itens.13.credits %}
+						<a href="{% url 'livro1:questUndo' '17-3' itens.13.score 'especiais' 2 %}" class="large">
+							<button class="button previous next"><span>Tentar novamente</span></button>	
+						</a>
+					{% else %}
+						<button onclick="alert('Ops... Você não tem {{itens.13.credits}} créditos disponíveis para tentar novamente')" 
+							class="button previous next"><span>Tentar novamente</span></button>
+					{% endif %}
+					<nav class="item alert">
+						<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+							Você irá gastar {{ itens.13.credits }} créditos e poderá receber até <strong>50,00</strong> créditos de volta.</h5>
+					</nav>
+				{% endif %}
+				<button onclick="openPage('page2', 'page1');" class="button next"><span>VAMOS LÁ!</span></button>
+			{% else %}
+				<nav class="flex">
+					<div class="item sunny">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+					</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+				</nav>
+				<nav class="box happy page" style="width:80%">
+					<p>Clique nos pontos corretos para escrever "OI".</p>
+					<div class="img-map" style="width:100%">
+						<img src={% static '/img/17/oiBraille.png' %} alt="buss" width="100%">
+						<svg width="100%" height="100%">
+							<circle  cx="35.75%" cy="17%" r="3.5%" id="o1" onclick="selectPoint(this)"/>
+							<circle  cx="42.8%" cy="47%" r="3.5%" id="o2" onclick="selectPoint(this)"/>
+							<circle  cx="35.75%" cy="76.5%" r="3.5%" id="o3" onclick="selectPoint(this)"/>
+							<circle  cx="63.75%" cy="17%" r="3.5%" id="i1" onclick="selectPoint(this)"/>
+							<circle  cx="56.8%" cy="47%" r="3.5%" id="i2" onclick="selectPoint(this)"/>
+						</svg> 
+					</div>
+					<p></p>
+				</nav>
+				<a class="button" onclick="questFinish('questModal2','17-3','especiais',2,50);">Terminar</a><p></p>
+			{% endif%}
+		{% endif%}
+    </article>		
+    <article class="page" id="page2">
+	    <button onclick="openPage('page1', 'page2');" class="button previous"><span>Voltar</span></button>
+        <nav class="box">
+			<h3 class="purple">Pessoas portadoras de deficiência auditiva</h3>
+        	<img class="sticker-left" src={% static '/img/17/cego.png' %} alt="bike" width="50%">
+			<p><em class="box contrast white">1</em>Muitas pessoas surdas utilizam a leitura labial para compreender o
+				que as outras pessoas dizem. Por isso é importante que você mantenha sempre contato visual e fale pausadamente.</p>
+			<p><em class="box contrast white">2</em>Nem sempre a pessoa surda tem uma boa dicção. Se você não entender o que ela disse, peça-a para que repita.</p>
+			<p><em class="box contrast white">3</em>Ao dirigir-se a uma pessoa surda, toque levemente em seu braço ou olhe diretamente para
+				ela e certifique-se de que ela também o (a) esteja olhando.</h3>
+			<p><em class="box contrast white">4</em>É comum que pessoas surdas prefiram comunicar-se por bilhetes. Apesar de requerer paciência, esse método é
+				bastante funcional. Lembre-se de que o mais importante é comunicar-se.</h3>
+			<h3 class="purple">Pessoas com alguma deficiência física</h3>
+			<p><em class="box contrast white">1</em>Se você for ajudar uma pessoa em cadeira de rodas, não se esqueça de perguntar se ela realmente precisa de ajuda.</p>
+			<p><em class="box contrast white">2</em>Ao empurrar uma pessoa em cadeira de rodas, tenha cuidado para não bater em outras pessoas ou objetos. Por mais que possa
+				parecer divertido correr empurrando a cadeira de rodas de seu colega, essa atitude não é recomendada pois o menor obstáculo ou desnível na calçada
+				poderá causar um acidente e ambos poderão se machucar.</p>
+			<img class="sticker-right" src={% static '/img/17/cadeirante3.png' %} alt="sinal" width="50%">
+			<p><em class="box contrast white">3</em>Se você estiver ajudando uma pessoa em cadeira de rodas e for necessário subir um degrau, uma escada ou uma rampa,
+				lembre-se sempre de girar a cadeira de modo que o portador de deficiência fique no sentido contrário (de costas) para o degrau ou inclinação.
+				Isso o ajudará a manter o equilíbrio. E lembre-se: só ajude se você tem certeza de que é capaz de suportar o peso da cadeira. Em caso de dúvida, peça
+				a um adulto que o ajude.</h3>
+			<p><em class="box contrast white">4</em>Ao ajudar pessoas que fazem uso de muletas ou outros aparelhos que ajudam na locomoção, lembre-se de mantê-los 
+				sempre ao alcance do portador de deficiência.</p>
+			<p><em class="box contrast white">5</em>Subir em um ônibus, especial ou não, requer muita paciência e destreza, não só do deficiente mas também daqueles que o ajudam.
+				Por isso, peça sempre a ajuda de um adulto ao tentar realizar essas tarefas.</p>
+			<p><em class="box contrast white">6</em>É importante que você tenha em mente que os deficientes físicos precisam de um pouco mais de tempo para realizar algumas
+				tarefas que você executaria com rapidez, como se locomover, ir ao banheiro e subir em um ônibus. Por isso, tenha paciência e não tente acelerar o ritmo.</p>
+		</nav>
+		<nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/maosAObra.gif' %} alt="VcSabia" width="150px">
+			<div class="box"> <h3 class="box contrast white">Mãos à obra!</h3>
+				<p><em class="orange">Cinema-crítico</em><br>
+					Sessão de cinema em família. Filme: Dumbo, ano 2010. Sinopse: Quando o
+					filhote da Sr. Dumbo finalmente chega, Dumbo e suas grandes orelhas são o
+					assunto da vez no circo. Desprezado por todos. Ele conta com a ajuda do ratinho
+					Timóteo para descobrir uma habilidade muito especial. Após assistir ao filme,<br>
+					converse com sua família sobre:<br>
+					❖ A humilhação<br>
+					❖ A saudade<br>
+					❖ A aceitação de si próprio<br>
+					❖ A aceitação da diferença
+				</p>
+				<a class="btn completed" href="{% url 'livro1:movies' 1 %}" target="_blank">Veja o filme &ensp; <i class="fas fa-file-video"></i></a>
+			</div>
+		</nav>
+		<p></p>
+		<a href="{% url 'livro1:lesson' 'especiais' 3 %}" class="large">
+			<button class="button next"><span>VAMOS LÁ!</span></button>
+		</a>
+    </article>
+  </section>
+
+  <script>
+  	openPage('page1','page2');
+  </script>
+{% endblock %}

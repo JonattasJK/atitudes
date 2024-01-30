@@ -1,0 +1,40 @@
+{% extends "adm/base.html" %}
+{% load static %}
+
+{% block body %}
+
+  <article class="main clean">
+    <h2 class="green">{{ school.name }}</h2>
+    <h5>{{school.description }}</h5>
+    <p>{{school.cnpj}}</p>
+    <p>{{school.address}}</p>
+    <h5>Tem disponível <strong>{{school.accession }}</strong> Acesso{{ school.accession|pluralize }}</h5>
+    <pre class="box contrast"><code>
+    {{school.log}}
+    </code></pre>
+    
+    
+	{% if request.user.profile.level <= 2 %}
+		<label for="quantity">Para adicionar acessos, digite uma quantidade e depois clique em adicionar acessos</label>
+		<table>
+			<tr>
+				<td style="width:30%"><input type="number" id="quantity" name="quantity" min="1" oninput="alterBtn(this)"></td>
+				<td style="width:70%"><a href="{% url 'livro1:addAccession' school.id 1 %}" class="btn completed" id="addAccession">
+					Adicionar acessos &ensp;<i class="fas fa-key"></i></a></td>
+			</tr>
+		</table>
+	{% endif %}
+  </article>
+  
+  <script>
+  	function alterBtn(number){
+  		var aNumber = number.value;
+  		if (number.value == '' || Number(number.value) == NaN || Number(number.value) < 1){
+  			aNumber = 1;
+  		}
+		var btn = document.getElementById('addAccession');
+		btn.href = "/adm/addAccession/"+{{school.id}}+"/"+aNumber+"/"
+  	}
+  </script>
+
+{% endblock %} 

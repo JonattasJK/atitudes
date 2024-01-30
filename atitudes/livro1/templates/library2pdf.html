@@ -1,0 +1,116 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Projeto Atitudes</title>
+	<link rel="Atitudes icon" href="{%  static '/img/atitude.ico' %}">
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Fredericka+the+Great&family=Indie+Flower&family=Itim&family=Londrina+Solid:wght@300&display=swap');
+@import url('https://use.fontawesome.com/releases/v5.13.0/css/all.css');
+
+h1{font-family: 'Londrina Solid', cursive;}
+h2{font-family: 'Fascinate Inline', cursive;}
+strong{font-family: 'Fredericka the Great', cursive;}
+h3, h4, h5, em{font-family: 'Indie Flower', cursive;}
+a, p, code, textarea{font-family: 'Itim', cursive; text-align: justify;}
+em{font-weight: bold;}
+pre{overflow-x: scroll;}
+
+.base{background: #E0FFFF;}
+.base-detail{background: #51BAC8;}
+.clean{background: #F8F8FF;}
+.clean-detail{background: #F0F8FF;}
+.contrast{background: #FFA384;}
+.alert{background: #FFB3B3;}
+.important{background: #3E2041;}
+.shine{background: #FFCCFF;}
+.happy{background: #C1F0CF;}
+.sunny{background: #F4F4BE;}
+
+.brown{color: brown;}
+.blue{color: blue;}
+.red{color: red;}
+.green{color: green;}
+.yellow{color: olive;}
+.pink{color: deeppink;}
+.orange{color: orange;}
+.white{color: white;}
+.purple{color: purple;}
+
+
+/* Style the body */
+body{padding: 12px; font-size: 25px; max-width: 1000px; margin-left: auto; margin-right: auto;}
+
+/* Footer */
+footer{display: flex; justify-content: space-around; flex-flow: row wrap;}
+
+/* Header/logo Title */
+header{display: flex; flex-direction: column; justify-content: center; align-items: center;}
+header img{width: 60%}
+
+/* container */
+main, section{display: flex; justify-content: center;}
+
+.main{padding: 20px; max-width: 850px; overflow-x: hidden;}
+.back-img{background-image: url("https://colorir.projetoatitudes.com/stickers/background.png"); background-repeat: repeat; border-left: 5px solid #51bac8;  border-right: 5px solid #51bac8;}
+.page{display: flex; flex-direction: column; align-items: center; padding: 5px;}
+.navbar{display: flex; justify-content: space-between; width: 100%;}
+.item{display: flex; box-shadow: 5px 5px; padding: 12px; margin: 12px 0px; border-radius: 8px;  justify-content: space-between;}
+.chapter{box-shadow: 5px 5px; padding: 12px; margin: 12px 0px; border-radius: 8px;}
+.box{padding:0px 5px; border-radius: 12px;}
+
+.sticker-left {float: left;}
+.sticker-right{float: right;}
+
+</style>
+</head>
+<body class="base">
+
+<nav class="navbar base-detail">&ensp;</nav>
+<main class="back-img page" style="">
+	<div style="text-align: center;"><a href="{% url 'livro1:finish' %}"><img src="https://colorir.projetoatitudes.com/stickers/title2.png" alt="Atitudes" width="80%"></a></div>
+	<h2 class="purple">{{profile.bookTitle}}</h2>
+	{% for c in chapter %}
+		<nav class="chapter {% if forloop.counter|divisibleby:2 %} happy {% else %} base {% endif %}" style="width:90%">
+			<div>
+				<nav class="box base-detail white"><h4>Capítulo {{forloop.counter}}</h4></nav>
+				{% for p in c %}
+					{% if p.style == 'img' %}
+						<img class="{% if p != c.last %} {{ p.position }} {% endif %}" src="https://colorir.projetoatitudes.com/stickers/{{p.color}}.png" alt="Atitudes" width="150px">
+					{% else %}
+						<{{ p.style }} class="{{ p.color }}"> {{p.paragraph}} </{{ p.style }}>
+					{% endif %}
+				{% endfor %}
+			</div>
+			<nav class="box base-detail white"><p><h5 class="white">{{profile.user.username}}</h5></p></nav>
+		</nav>
+	{% endfor%}
+
+	<h4 class="green">Autor {{profile.user.username}}</h4>
+</main>
+
+<!-- Footer -->
+<footer class="base-detail">&ensp;</footer>
+{% if request.user.username != '' %}
+	<script>
+	
+    function isWebview() {
+        var str = window.navigator.userAgent.toUpperCase();
+        if (str.includes("KHTML, LIKE GECKO")){
+            alert('É assim que o seu livro ficou! Para imprimí-lo abra essa página por um navegador\nPara voltar, clique na logo Atitudes');
+        } else {
+            alert('Atenção! Irá abrir uma diálogo para IMPRESSÃO. Ali você poderá imprimir para arquivo (salvando como PDF) ou imprimir com alguma impressora disponível.');
+		    window.print();
+        }
+    }
+    isWebview();
+		
+  
+	</script>
+{% endif %}
+</body>
+</html>

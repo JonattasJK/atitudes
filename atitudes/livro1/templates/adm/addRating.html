@@ -1,0 +1,56 @@
+{% extends "adm/base.html" %}
+{% load static %}
+
+{% block body %}
+
+<article class="main clean">
+  <form action="#" method="post">
+	<article class="item happy">
+	  {% csrf_token %}
+	  <div class="box">
+	  	{% if form.errors %}
+			{{form.non_field_errors}}
+		{% endif %}
+			<h4>Adicione as avaliações aqui, elas irão aparecer no site.</h4>
+	  </div>
+	</article>&emsp;
+	<article class="item happy">
+	  <div class="box large">
+		<label for="ftestimony">Avaliação</label><br>
+		<textarea name="testimony" id="ftestimony" placeholder="Escreva o texto de avaliação" value="{{ form.testimony.value|default_if_none:'' }}" rows="4" cols="100"></textarea>
+	  </div>
+	</article>
+	<article class="item happy">
+	  <div class="box large">
+		<label for="fauthor">Autor</label><br>
+		<input type="text" id="fauthor" name="author" value="{{ form.author.value|default_if_none:'' }}" placeholder="De quem é a avaliação?">
+	  </div>
+	</article>
+	<article class="item happy">
+	  <div class="box large">
+		<label for="fdate">Quando essa avaliação foi feita?</label><br>
+		<input type="date" id="fdate" name="date" value="{{ form.date.value|default_if_none:'' }}">
+	  </div>
+	</article>
+	<article class="item happy">
+	  <div class="box large">
+		<label for="faddress">Lugar</label><br>
+		<input type="text" id="faddress" name="address" value="{{ form.address.value|default_if_none:'' }}" placeholder="De onde vem essa avaliação?">
+	  </div>
+	</article>
+	<input type="submit" value="Salvar avaliação">
+  </form>
+  <hr />
+  {% if ratings %}
+  	{% for r in ratings %}
+  		<nav class="item base">
+  			<div class="page" style="width:100%">
+  				<a><em>{{r.author}}</em><br>{{r.testimony}}<h5>{{r.date}} em {{r.address}}</h5></a>
+				<a href="{% url 'livro1:delRating' r.id %}" class="btn completed "><i class="fas fa-trash-alt"></i></a>
+  			</div>
+  		</nav>
+  	{% endfor %}
+  {% endif %}
+</article>
+
+{% endblock %} 

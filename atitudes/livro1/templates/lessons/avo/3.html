@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.4.sort }}</strong>
+			  	<p><i>{{ itens.4.name }}:</i> {{ itens.4.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.4.id 'avo' 3 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.6.sort }}</strong>
+			  	<p><i>{{ itens.6.name }}:</i> {{ itens.6.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.6.id 'avo' 3 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+    <img src={% static '/img/18/oculos.png' %} alt="abc" width="100%">
+    <img src={% static '/img/18/rodape.png' %} alt="abc" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" id="page1">
+    	<a href="{% url 'livro1:lesson' 'avo' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <nav class="box">
+			<img class="sticker-right" src={% static '/img/18/avo.png' %} alt="dog" width="50%">
+			<h3 class="purple">Atitudes de tolerância</h3>
+			<p>Em muitas famílias os avós moram junto com os filhos e ajudam na educação dos netos.<br><br>
+				Os idosos, às vezes, sentem que não recebem atenção da família, e ficam preocupados com a possibilidade de estarem incomodando ou atrapalhando.
+				Um sorriso ou uma pequena ajuda pode ser a solução.<br><br>
+				Com alguns pequenos gestos, podemos demonstrar às pessoas idosas todo nosso carinho e respeito. Além disso, algumas atitudes demonstram nossas boas maneiras:
+			</p>
+			<img class="sticker-left" src={% static '/img/18/avo2.png' %} alt="dog" width="50%">
+			<p><em class="box contrast white">1</em>Sempre que possível, ofereça seu lugar para os idosos: no transporte público, em filas, parques e supermercados.</p>
+			<p><em class="box contrast white">2</em>Colabore com as pessoas idosas ajudando-as a fazer pequenas tarefas, como carregar pacotes, atravessar a rua, a se alimentar.
+				Esteja sempre atento e tenha uma atitude de colaboração.</p>
+			<img class="sticker-right" src={% static '/img/18/avo3.png' %} alt="dog" width="50%">
+			<p><em class="box contrast white">3</em>Dê atenção às pessoas idosas e converse com elas sempre que possível: fale sobre coisas boas, incentive-as a viajar, se divertir,
+				dançar, fazer ginástica, palavras cruzadas, realizar jogos e muito mais... Assim eles se sentirão úteis e deixarão a solidão de lado.</p>
+		</nav>
+		<div class="line"></div>
+	    <nav class="box sunny">
+			<img class="sticker-left" src={% static '/img/1/VcSabia.gif' %} alt="Mãos à obra" width="150px">
+			<div class="box"> <h3 class="box contrast white">Você sabia que...</h3>
+				<p>...no Brasil as pessoas idosas têm seus direitos assegurados pelo Estatuto do Idoso? <em class="blue">Sancionado</em> pelo 
+				presidente da República, Luis Inácio Lula da Silva,
+				em 1º de outubro de 2003, o Estatuto do Idoso tem como objetivo assegurar os direitos sociais dos idosos, para assim promover sua autonomia, integração e
+				participação efetiva na sociedade.</p>
+			</div>
+		</nav>
+		<div class="line"></div>
+		{% if itens.5 %}
+			<nav class="box happy large" style="width:100%">
+				<img class="sticker-right" src={% static '/img/1/glossario.gif' %} width="150px" height="150px">
+				<div class="box"> <h3 class="blue">{{ itens.4.name }}</h3>
+					<p>{{ itens.4.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/glossario.gif' %} width="150px"></a>
+			</section>
+		{% endif %}
+		<div class="line"></div>
+	    <nav class="box sunny">
+				<h5>O artigo 3º do Estatuto do Idoso estabelece que “é obrigação da família, da comunidade, da sociedade e do Poder Público assegurar ao idoso, com absoluta
+				 prioridade, a efetivação do direito à vida, à saúde, à alimentação, à educação, à cultura, ao esporte, ao lazer, ao trabalho, à cidadania, à liberdade, à
+				 dignidade, ao respeito e à convivência familiar e comunitária”. <br>
+				 Como você pôde perceber no artigo 3º do Estatuto do Idoso, a participação da família é fundamental para a qualidade de vida da pessoa idosa.</h5>
+			</div>
+		</nav>
+		<div class="line"></div>
+		{% if itens.7 %}
+			<nav class="box happy large" style="width:100%">
+				<img class="sticker-right" src={% static '/img/1/lembrese.gif' %} width="150px" height="150px">
+				<div class="box"> <h3 class="blue">{{ itens.6.name }}</h3>
+					<p>{{ itens.6.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal2');"><img src={% static '/img/1/lembrese.gif' %} width="150px"></a>
+			</section>
+		{% endif %}
+    	<a href="{% url 'livro1:lesson' 'avo' 4 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+  <script>
+  	openPage('page1','page2');
+  </script>
+
+{% endblock %}

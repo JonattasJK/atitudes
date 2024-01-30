@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+
+<!-- Modal -->
+<div id="jokeModal" class="modal" onclick="closeModal('jokeModal');">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box clean"><h1 class="green">Charada</h1></nav>
+	  	<nav class="element box clean">
+	  		<div class="modal-backgif"><p></p>
+	  			<p>Por que a mãe do jacaré brigou com ele na escola? Porque ele réptil de ano hahahaha</p>
+	  		</div>
+	</nav>
+  </div>
+</div>
+
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  		</div>
+	  		<form action="#" method="post" class="element box">
+	  			{% csrf_token %}
+				<input type="hidden" name="text" id="text" value="10">
+				<input type="submit" value="Resgatar meu prêmio">
+		  	</form>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h4>Você nasce como uma folha em branco, e vai escrevendo a sua história conforme você vive.</h4>
+	  	<img src={% static '/img/9/materias.png' %} alt="Giz" width="100%">
+		<h5 class="green">Os educadores são quem dão as ferramentas para escrever uma linda história!
+		<label onclick="showModal('jokeModal');"><i class="fas fa-grin-tongue-wink yellow"></i></label></h5>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" style="height:100%">
+        <a href="{% url 'livro1:lesson' 'professor' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box base large">
+			<section class="box base large">
+				<div class="large">
+					<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Mãos à obra" width="100px">
+					<div class="box"> <h3 class="red">Atividade</h3>
+						<p>O início da jornada escolar</p>
+					</div>
+				</div>
+			</section>
+		</nav>
+		{% if itens.2 != False %}
+			<div class="line"></div>
+			<nav class="box base">
+				<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Mãos à obra" width="150px">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.2.score < 35 %} 
+						Você marcou <strong>{{itens.2.score}}</strong> pontos e a pontuação máxima é 35. Você pode tentar marcar os 35 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.2.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.2.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.2.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.2.score < 35 %}
+				{% if request.user.profile.credits > itens.2.credits %}
+					<a href="{% url 'livro1:questUndo' '9-1' itens.2.score 'professor' 2 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.2.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.2.credits }} créditos e poderá receber até <strong>35,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p>Quando você ingressou na escola, ou na pré-escola, quem foi seu primeiro professor? Conte algo especial sobre ele:<br>
+				<em class="purple">{{ itens.7 }}</em></p>
+		{% else %}	
+			<nav class="flex">
+				<div class="item sunny hide">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="box base large">
+				<section class="box base">
+					<div style="width:50%">
+						<img class="sticker-left" src={% static '/img/9/prof.png' %} alt="Mae" width="100%">
+					</div>
+					<div>
+						<label for="ftext">Quando você ingressou na escola, ou na pré-escola, quem foi seu primeiro
+							professor? Conte algo especial sobre ele.</label>
+						<textarea id="ftext" placeholder="Nos conte algo especial" oninput="textSize(this,25)"></textarea>
+					</div>
+				</section>
+				<a class="btn completed" onclick="textFinish(this,'ftext',['r1'])"><em>Concluir texto</em>&ensp;<i class="fas fa-file-alt"></i></a>
+				<p></p>
+				<section class="box base">
+					<div>
+						<label for="r1">Quem é o primeiro educador (professor) que conhecemos em nossa vida?</label>
+						<i id="r1Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+		 				<input type="hidden" id="r1Score" value="10">
+						<select id="r1" style="background-color: #0284cf;" onchange="selectAnswer('r1Smile','r1Score','r1')" disabled>
+							<option value="0" >-- selecione --</option>
+							<option value="true" >Mãe, pai ou responsável</option>
+							<option value="False" >professor(a)</option>
+							<option value="False" >Tio(a)</option>
+							<option value="False" >Colegas e amigos</option>
+						</select>
+					</div>
+					<div style="width:50%">
+						<img class="sticker-left" src={% static '/img/9/mae.png' %} alt="Mae" width="100%">
+					</div>
+				</section>
+				<p></p>
+			</nav>
+			<a class="button" onclick="answareText('questModal','9-1');">Terminar</a><p></p>
+		{% endif %}
+		<div class="line"></div>
+		<p>Nossos pais são os primeiros educadores (professores) que conhecemos e com os quais convivemos. Com eles, aprendemos a caminhar, a andar
+			de bicicleta, a brincar e também a respeitar as outras pessoas ao conviver em sociedade.<br><br>
+			Assim, nos primeiros momentos de nossas vidas,
+			seguimos o exemplo dos pais. <br><br>
+			À medida que crescemos, vamos nos desenvolvendo cada vez mais e, em determinado momento, damos início à educação formal: é chegada a
+			hora de ingressarmos na escola.<br><br>
+			É na escola que passamos bons momentos da nossa vida: ao lado de colegas aprendemos a brincar e a nos relacionar com outras pessoas.
+			Na escola também conhecemos grandes mestres de nossas vidas: os professores. </p>
+		<div class="line"></div>
+		{% if itens.2 != False %}
+			<a href="{% url 'livro1:lesson' 'professor' 3 %}" class="large">
+				<button class="button next"><span>VAMOS LÁ!</span></button>
+			</a>
+	    {% endif %}
+    </article>
+  </section>
+
+{% endblock %}

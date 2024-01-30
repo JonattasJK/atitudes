@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '3-4' 0 'familia' 5 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão Home irá voltar para a página inicial!</h5>
+		<h5>Você já está na <em class="purple">lição 16</em>. Você está muito perto de terminar</h5>
+		<img src={% static '/img/16/cidadeBonita.png' %} alt="Seta" width="100%">
+		<p>Aproveite a sua <em class="blue">cidade</em>!</p>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+       <h2 class="green">Boas Maneiras e a  <br><b class="blue">sua cidade</b></h2>
+        <img src={% static '/img/16/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: cidadania e respeito</h3>
+        <nav class="box base">
+        	<img class="sticker-right" src={% static '/img/16/dona.png' %} alt="Livros" width="50%">
+			<h3 class="item base-detail white">O que é ser cidadão</h3> 
+			<p>Você é um cidadão? Sabe qual é o significado dessa palavra? Compartilhe com seus colegas e seu professor o que você sabe sobre ser cidadão.</p>
+		</nav>
+		<div class="line"></div>
+		<h5 class="hide"><option id="a" value="3">Cidadão</option>
+			<option id="b" value="3">Aquele</option>
+			<option id="c" value="1">Que</option>
+			<option id="d" value="2">Vive</option>
+			<option id="e" value="1">Em</option>
+			<option id="f" value="5">Sociedade</option>
+			<option id="g" value="2">Cumpra</option>
+			<option id="h" value="1">Suas</option>
+			<option id="i" value="3">Obrigações</option>
+			<option id="j" value="4">Aproveite</option>
+			<option id="k" value="1">Seus</option>
+			<option id="l" value="3">Direitos</option></h5>
+		<nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividades" width="150px">
+			<div class="box"> <h3 class="box yellow">Atividade</h3>
+				<p>Depois da conversa, use o código a seguir para completar a frase e descobrir mais sobre a palavra cidadão.</p>
+				<div class="crosswords"><table><tr>
+					<td><h4 class="green"># = A</h4></td>
+					<td><h4 class="green">$ = C</h4></td>
+					<td><h4 class="green">% = E</h4></td>
+					<td><h4 class="green">@ = I</h4></td>
+				</tr></table></div>
+			</div>
+		</nav>
+		{% if itens.6 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.6.score < 120 %} 
+						Você marcou <strong>{{itens.6.score}}</strong> pontos e a pontuação máxima é 120. Você pode tentar marcar os 120 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.6.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.6.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.6.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.6.score < 120 %}
+				{% if request.user.profile.credits > itens.6.credits %}
+					<a href="{% url 'livro1:questUndo' '16-1' itens.6.score 'cidade' 1 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.6.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.6.credits }} créditos e poderá receber até <strong>120,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<a href="{% url 'livro1:lesson' 'cidade' 2 %}" class="large">
+				<button class="button next"><span>VAMOS LÁ!</span></button>
+			</a>
+		{% else %}
+		    <div style="overflow: hidden; min-width: 20px">
+    			<nav class="flex">
+    				<div class="item sunny">Acertos:&ensp;<strong id="hits" class="red">0</strong>
+    				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+    			</nav>
+    			<div class="form"><table><tr>
+					<th><input type="text" maxlength="1" oninput="cw(this,'aC')" tabindex="1" placeholder="$"></th><th>
+					<input type="text" maxlength="1" oninput="cw(this,'aI')" placeholder="@" tabindex="2"></th><th>D</th>
+					<th><input type="text" maxlength="1" oninput="cw(this,'aA')" placeholder="#" tabindex="3"></th><th>D</th><th>Ã</th><th>O</th><td></td><th>É</th><td></td>
+					<th><input type="text" maxlength="1" oninput="cw(this,'bA')" placeholder="#" tabindex="4"></th><th>Q</th><th>U</th>
+					<th><input type="text" maxlength="1" oninput="cw(this,'bE')" placeholder="%" tabindex="5"></th><th>L</th>
+					<th><input type="text" maxlength="1" oninput="cw(this,'bE')" placeholder="%" tabindex="6"></th>
+    			</tr><tr>
+					<th>Q</th><th>U</th><th><input type="text" maxlength="1" oninput="cw(this,'cE')" placeholder="%" tabindex="7"></th><td></td>
+					<th>V</th><th><input type="text" maxlength="1" oninput="cw(this,'dI')" placeholder="@" tabindex="8"></th><th>V</th>
+					<th><input type="text" maxlength="1" oninput="cw(this,'dE')" placeholder="%" tabindex="9"></th><td></td>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'eE')" placeholder="%" tabindex="10"></th><th>M</th>
+    			</tr><tr>
+    				<th>S</th><th>O</th>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'fC')" placeholder="$" tabindex="11"></th>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'fI')" placeholder="@" tabindex="12"></th>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'fE')" placeholder="%" tabindex="13"></th><th>D</th>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'fA')" placeholder="#" tabindex="14"></th>
+    				<th>D</th><th><input type="text" maxlength="1" oninput="cw(this,'fE')" placeholder="%" tabindex="15"></th><th>,</th>
+    			</tr><tr>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'gC')" placeholder="$" tabindex="16"></th><th>U</th><th>M</th><th>P</th><th>R</th>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'gE')" placeholder="%" tabindex="17"></th><td></td><th>S</th><th>U</th><th>
+    				<input type="text" maxlength="1" oninput="cw(this,'hA')" placeholder="#" tabindex="18"></th><th>S</th>
+    			</tr><tr>
+    				<th>O</th><th>B</th><th>R</th><th><input type="text" maxlength="1" oninput="cw(this,'iI')" placeholder="@" tabindex="19"></th><th>G</th>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'iA')" placeholder="#" tabindex="20"></th><th>Ç</th><th>Õ</th><th>
+    				<input type="text" maxlength="1" oninput="cw(this,'iE')" placeholder="%" tabindex="21"></th><th>S</th>
+    			</tr><tr>
+    			    <th>E</th><td></td>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'jA')" placeholder="#" tabindex="22"></th><th>P</th><th>R</th><th>O</th><th>V</th>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'jE')" placeholder="%" tabindex="23"></th>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'jI')" placeholder="@" tabindex="24"></th><th>T</th>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'jA')" placeholder="#" tabindex="25"></th>
+    			</tr><tr>
+    				<th>S</th>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'kE')" placeholder="%" tabindex="26"></th><th>U</th><th>S</th><td></td><th>D</th>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'lI')" placeholder="@" tabindex="27"></th><th>R</th>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'lE')" placeholder="$" tabindex="28"></th>
+    				<th><input type="text" maxlength="1" oninput="cw(this,'lI')" placeholder="@" tabindex="29"></th><th>T</th><th>O</th><th>S</th>
+    			</tr></table></div>
+    			<a class="button" onclick="questFinish('questModal','16-1','cidade',1,120);">Terminar</a>
+			</div>
+		{% endif %}
+	    <img src={% static '/img/16/rodape.png' %} alt="rodape" width="100%">
+    </article>
+  </section>
+{% endblock %} 	

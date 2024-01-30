@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.4.sort }}</strong>
+			  	<p><i>{{ itens.4.name }}:</i> {{ itens.4.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'cidade' 3 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '3-4' 0 'familia' 5 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+			<img src={% static '/img/12/livros.png' %} alt="Papel" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" >
+    	<a href="{% url 'livro1:lesson' 'cidade' 4 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <nav class="box happy large">
+			<img class="sticker-right" src={% static '/img/1/lembrese.gif' %} alt="lembrese" width="150px">
+			<div class="box"> <h3 class="box base purple">Lembre-se</h3>
+			    <img class="sticker-left" src={% static '/img/16/lixo2.png' %} alt="omi" width="50%">
+				<p><h5>Você percebeu que a regra jogar lixo no lixo se repete em todos os lugares? </h5>
+					<a>O excesso de lixo é um dos principais problemas das cidades, sejam elas grandes ou pequenas. <br>
+					Para ajudar a acabar com isso, você deve sempre jogar o lixo num local adequado. Quando estiver andando pela rua, cuide para não
+					jogar lixo sem pensar. Às vezes somos levados por impulso a jogar o lixo em qualquer lugar, mas isso não é correto! <br>
+					Se estiver na rua e não encontrar uma lixeira, guarde o lixo com você e jogue-o, no lixo, quando chegar em casa ou
+					quando encontrar uma lixeira. <br>
+					Quem mora em um prédio, deve tomar cuidado para não jogar nada pela janela ou sacada. Até mesmo um fio de
+					cabelo deve ser jogado no lugar certo! </a>
+					<h5>Separar o lixo reciclável do lixo orgânico também é uma ótima atitude, pois além de ajudar na preservação da natureza,
+					você estará ajudando a manter a cidade limpa!</h5></p>
+			</div>
+		</nav>
+		<img class="sticker-right" src={% static '/img/16/lixo3.png' %} alt="omi" width="100%">
+		<nav class="box base large">
+			<img class="sticker-left" src={% static '/img/1/VcSabia.gif' %} alt="lembrese" width="150px">
+			<div class="box"> <h3 class="box base purple">Você sabia que...</h3>
+				<p>...os seres humanos produzem em média cerca de 3,5 milhões de toneladas de lixo por dia?</p>
+			</div>
+		</nav>
+		<div class="line"></div>
+		<nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividades" width="150px">
+			<div class="box"> <h3 class="box yellow">Atividade</h3>
+				<p>Analise as duas imagens abaixo e pense sobre as coisas que estão erradas no mundo e como você pode torná-las melhor. Clique nas opções boas para
+					garantir uma cidade mais correta e bonita.</p>
+			</div>
+		</nav>
+		<div class="line"></div>
+		{% if itens.8 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.8.score < 100 %} 
+						Você marcou <strong>{{itens.8.score}}</strong> pontos e a pontuação máxima é 100. Você pode tentar marcar os 100 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.8.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.8.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.8.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.8.score < 100 %}
+				{% if request.user.profile.credits > itens.8.credits %}
+					<a href="{% url 'livro1:questUndo' '16-3' itens.8.score 'cidade' 5 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.8.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.8.credits }} créditos e poderá receber até <strong>100,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<a href="{% url 'livro1:chapter' 16 request.user.profile.id %}" class="btn completed">
+				Meu livro &ensp;<i class="fas fa-book-reader"></i></a>
+		{% else %}
+			<nav style="width:50%">
+				<input type="hidden" id="cSize" name="50" value="50">
+				<input type="hidden" id="ready" value="0">
+				<img class="sticker-right" src={% static '/img/16/cidadeBonita.png' %} alt="omi" width="50%" id="gCity" style="transition: 0.5s">	
+				<img class="sticker-right" src={% static '/img/16/cidadeFeia.png' %} alt="omi" width="50%" id="bCity" style="transition: 0.5s">
+			</nav>
+			<nav class="page base"><div class="flex">
+				<div class="thought interactive" onclick="saveCity(this,'Bad')">
+					<h5>Investir só em indústrias</h5>
+				</div>
+				<div class="thought interactive" onclick="saveCity(this,'Good')">
+					<h5>Plantar árvores</h5>
+				</div>
+				<div class="thought interactive" onclick="saveCity(this,'Good')">
+					<h5>Manter a cidade limpa</h5>
+				</div>
+				<div class="thought interactive" onclick="saveCity(this,'Bad')">
+					<h5>Jogar lixo no chão</h5>
+				</div>
+				<div class="thought interactive" onclick="saveCity(this,'Good')">
+					<h5>Investir em cultura</h5>
+				</div>
+				<div class="thought interactive" onclick="saveCity(this,'Bad')">
+					<h5>Tirar todas as leis</h5>
+				</div>
+				<div class="thought interactive" onclick="saveCity(this,'Bad')">
+					<h5>Caçar animais silvestres</h5>
+				</div>
+				<div class="thought interactive" onclick="saveCity(this,'Good')">
+					<h5>Conscientizar sobre o meio ambiente</h5>
+				</div>
+				<div class="thought interactive" onclick="saveCity(this,'Good')">
+					<h5>Realizar projetos sociais</h5>
+				</div>
+			</div></nav>
+			<a class="button" style="display:none;" id="btnFinish" onclick="clearCity('questModal','16-3','cidade',5);">Terminar</a>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

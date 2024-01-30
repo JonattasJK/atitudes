@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'teatro' 1 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/stickers/21.png' %} alt="Troféu Joinha" height="120px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '3-4' 0 'familia' 5 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão Home irá voltar para a página inicial!</h5>
+		<h5>Você já está na <em class="green">lição 15!!!</em> Está quase completando todas as lições.</h5>
+		<img src={% static '/img/15/danca.png' %} alt="Seta" width="70%">
+		<p>Apresentações são muito <em class="red">legaaais</em>! Se você sabe fazer bem alguma coisa, saiba que apresentar não é pagar mico.</p>
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page">
+       <h2 class="green">Boas Maneiras em <br><b class="pink">eventos e apresentações</b></h2>
+        <img src={% static '/img/15/capa.png' %} alt="Atitudes" width="100%">
+        <h3 class="yellow" style=" display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-end;">
+        	<img src={% static '/img/EthosVoando.png' %} alt="Atitudes" width="20%">Atitudes: comportamento social e educação</h3>
+        <nav class="box base">
+        	<img class="sticker-right" src={% static '/img/15/cantar.png' %} alt="Livros" width="50%">
+			<h3 class="item base-detail white">As boas maneiras nas apresentações artísticas</h3> 
+			<p>O teatro é uma forma de arte em que um ou mais atores representam uma história para o público. A representação pode acontecer em diversos
+				lugares como, por exemplo, na rua, num teatro fechado, num <em class="blue">anfiteatro</em> ou num auditório.</p>
+		</nav>
+		<div class="line"></div>
+	    {% if itens.1 %}
+			<nav class="box alert large">
+				<img class="sticker-right" src={% static '/img/1/glossario.gif' %} width="150px">
+				<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+					<p>{{ itens.0.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/glossario.gif' %} width="150px"></a>
+			</section>
+		{% endif %}
+		<div class="line"></div>
+		<nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividades" width="100px">
+			<div class="box"> <h3 class="box yellow">Atividade</h3>
+				<h4>Vamos fazer só algumas perguntinhas :)</h4>
+			</div>
+		</nav>
+		{% if itens.10 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.10.score < 30 %} 
+						Você marcou <strong>{{itens.10.score}}</strong> pontos e a pontuação máxima é 30. Você pode tentar marcar os 30 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.10.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.10.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.10.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.10.score < 30 %}
+				{% if request.user.profile.credits > itens.10.credits %}
+					<a href="{% url 'livro1:questUndo' '15-1' itens.10.score 'teatro' 1 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.10.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.10.credits }} créditos e poderá receber até <strong>30,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<div class="line"></div>
+			<nav class="box shine">
+				<img class="sticker-left" src={% static '/img/1/VcSabia.gif' %} alt="vc sabia" width="150px">
+				<div class="box"> <h3 class="box important white">Você sabia que...</h3>
+					<h4>... o teatro “Nova Jerusalém” é o maior teatro ao ar livre do mundo? Localizado no município de Brejo da Madre de Deus, em Pernambuco, o teatro
+						(ou cidade-teatro como é conhecido), representa uma reconstrução parcial da cidade de Jerusalém (Israel) nos tempos em que viveu Jesus.
+						“Nova Jerusalém”, onde desde 1968 é encenada a história da paixão de Cristo, conta com quase 100 mil metros quadrados e recebe,
+						todos os anos, cerca de 80 mil espectadores.</h4>
+				</div>
+			</nav>
+			<a href="{% url 'livro1:lesson' 'teatro' 2 %}" class="large">
+				<button class="button next"><span>VAMOS LÁ!</span></button>
+			</a>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav>
+				<p id="quests">Em sua escola existe uma sala de apresentação ou um teatro?</p>
+				<label class="item sunny">
+					<input type="radio" name="quest1" id="q1s" onclick="selectAnsware(this,['q1n'])">
+					Sim
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="quest1" id="q1n" onclick="selectAnsware(this,['q1s'])">
+					Não
+				</label>
+			</nav>
+			<nav>
+				<p id="quests">E a sua cidade possui um teatro, um anfiteatro ou um local para apresentações artísticas e culturais?</p>
+				<label class="item sunny">
+					<input type="radio" name="quest2" id="q2s" onclick="selectAnsware(this,['q2n'])">
+					Sim		
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="quest2" id="q2n" onclick="selectAnsware(this,['q2s'])">
+					Não		
+				</label>
+			</nav>
+			<nav>
+				<p id="quests">Você já assistiu a alguma peça de teatro ou apresentação artística?</p>
+				<label class="item sunny">
+					<input type="radio" name="quest3" id="q3s" onclick="selectAnsware(this,['q3n'])">
+					Sim	
+				</label>
+				<label class="item sunny">
+					<input type="radio" name="quest3" id="q3n" onclick="selectAnsware(this,['q3s'])">
+					Não		
+				</label>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','15-1','teatro',1,30);">Terminar</a>
+		{% endif %}
+    </article>
+  </section>
+{% endblock %} 	

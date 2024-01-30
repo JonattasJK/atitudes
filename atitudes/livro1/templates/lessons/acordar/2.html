@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.0.sort }}</strong>
+			  	<p><i>{{ itens.0.name }}:</i> {{ itens.0.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.0.id 'acordar' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  		</div>
+	  		<form action="#" method="post" class="element box">
+	  			{% csrf_token %}
+				<input type="hidden" name="text" id="text" value="10">
+				<input type="submit" value="Resgatar meu prêmio">
+		  	</form>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h4>É hora de interagir!</h4>
+		<h5>Fale com as pessoas próximas a você para terminar essa atividade :D</h5>
+	  	<img class="sticker-left" src={% static '/img/2/meninoFala.png' %} alt="Menino Fala" width="300px">
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" style="height:100%">
+        <a href="{% url 'livro1:lesson' 'acordar' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box alert large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Mãos à obra" width="150px">
+			<div class="box"> <h3 class="red">Atividade</h3>
+				<h4>Agora é hora de escrever sobre sua rotina!</h4>
+				<p>Meu nome é <em class="blue">{{request.user.first_name}}</em> e todos os dias quando acordo...</p>
+			</div>
+		</nav>
+		<div class="line"></div>
+		{% if itens.4 != False %}
+			<nav class="box base">
+				<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Mãos à obra" width="150px">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.4.score < 50 %} 
+						Você marcou <strong>{{itens.4.score}}</strong> pontos e a pontuação máxima é 50. Você pode tentar marcar os 50 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.4.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.4.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.4.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.4.score < 50 %}
+				{% if request.user.profile.credits > itens.4.credits %}
+					<a href="{% url 'livro1:questUndo' '4-1' itens.4.score 'acordar' 2 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.4.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.4.credits }} créditos e poderá receber até <strong>50,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<nav class="item happy">
+				{% for word in itens.5 %}
+					{{word}} 
+				{% endfor %}
+			</nav>
+			<p></p>
+		{% else %}				
+			<nav class="flex">
+				<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="box alert large">	
+				<p></p>
+				<textarea name="rotina" id="ftext" placeholder="... Complete aqui o seu texto descrevendo a sua rotina :D "
+					oninput="textSize(this,50)" rows="4" cols="100"></textarea>
+				<p></p>
+			</nav>
+			<a class="button" onclick="answareText('questModal','4-1');">Terminar</a><p></p>
+		{% endif %}
+		<div class="line"></div>
+		<nav class="box happy">
+			<img class="sticker-left" src={% static '/img/1/VcSabia.gif' %} alt="Você sabia" width="150px">
+			<div class="box"> <h3 class="box contrast white">Você sabia que...</h3>
+			<h4>... o bocejo é contagioso? A ciência ainda não conseguiu
+				esclarecer totalmente as causas ou finalidades do reflexo de
+				bocejar, mas sabe-se que o bocejo pode ser acionado também
+				pela visão de outro bocejo - ou seja, é contagioso: quando
+				vemos alguém bocejando, logo sentimos vontade de fazer o
+				mesmo.</h4>
+		</nav>
+		<div class="line"></div>
+		{% if itens.1 %}
+			<section class="box base">
+				<img src={% static '/img/4/bocejar.png' %} alt="Bocejando" width="250px" height="280px">
+				<div class="box"> <h3 class="blue">{{ itens.0.name }}</h3>
+					<p>{{ itens.0.text }}</p>
+				</div>
+				<img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" height="150px" width="150px">
+			</section><br>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/lembrese.gif' %} alt="Glossario" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		<a href="{% url 'livro1:lesson' 'acordar' 3 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+
+{% endblock %}

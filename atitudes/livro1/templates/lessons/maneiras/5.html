@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<img src={% static '/img/stickers/16.png' %} alt="sticker" width="120px" class="sticker">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '2-4' 0 'maneiras' 5 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão <strong>Home</strong> irá voltar para a página inicial!</h5>
+		<img src={% static '/img/2/palavraMagica.png' %} alt="chat" width="350px">
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'maneiras' 4 %}" class="large">
+        	<button class="button previous"><span>Voltar</span></button>
+        </a>
+        {% if itens.11 != False %}
+			<nav class="box base">
+				<img class="sticker-right" src={% static '/img/1/maosAObra.gif' %} alt="Mãos à obra" width="150px">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.11.score < 30 %} 
+						Você marcou <strong>{{itens.11.score}}</strong> pontos e a pontuação máxima é 30. Você pode tentar marcar os 30 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.11.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.11.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.11.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.11.score < 30 %}
+				{% if request.user.profile.credits > itens.11.credits %}
+					<a href="{% url 'livro1:questUndo' '2-4' itens.11.score 'maneiras' 5 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.11.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.11.credits }} créditos e poderá receber até <strong>30,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+			<div class="line"></div>
+			<a href="{% url 'livro1:chapter' 3 request.user.profile.id %}" class="btn completed">
+					Meu livro &ensp;<i class="fas fa-book-reader"></i></a>
+		{% else %}
+			<nav class="box happy">
+				<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="amigos" width="200">
+				<h3 class="red">Atividade</h3>
+				<p>Observe as imagens abaixo e escreva ao lado a(s) palavra(s)
+					mágica(s) que poderia(m) ser utilizada(s) na situação retratada:
+				</p>
+				<div class="line"></div>
+			</nav>
+			<div class="flex">
+				<div class="item sunny">Acertos:&ensp;<strong id="hits" class="red">0</strong></div>&emsp;
+				<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</div>
+			<p></p>
+			<nav class="item happy">
+				<img src={% static '/img/2/empresta.png' %} alt="Emprestou" height="400px">
+				<div class="thought">
+					<i id="f1Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+					<input type="hidden" id="f1Score" value="10">
+					<select name="f1" id="f1" onchange="selectAnswer('f1Smile','f1Score','f1')">
+						<option value="" >--Clique--</option>
+						<option value="False" >Por favor</option>
+						<option value="False" >De nada</option>
+						<option value="False" >Morango</option>
+						<option value="True" >Obrigado</option>
+						<option value="False" >Bom dia</option>
+						<option value="False" >Boa tarde</option>
+						<option value="False" >Boa noite</option>
+						<option value="False" >Desculpa</option>
+						<option value="False" >Pinguim</option>
+					</select>
+				</div>
+			</nav>
+			<nav class="item happy">
+				<img src={% static '/img/2/endereco.png' %} alt="Endereço" height="400px">
+				<div class="thought">
+					<i id="f2Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+					<input type="hidden" id="f2Score" value="10">
+					<select name="f2" id="f2" onchange="selectAnswer('f2Smile','f2Score','f2')">
+						<option value="" >--Clique--</option>
+						<option value="True" >Por favor</option>
+						<option value="False" >De nada</option>
+						<option value="False" >Morango</option>
+						<option value="False" >Obrigado</option>
+						<option value="False" >Bom dia</option>
+						<option value="False" >Boa tarde</option>
+						<option value="False" >Boa noite</option>
+						<option value="False" >Desculpa</option>
+						<option value="False" >Pinguim</option>
+					</select>
+				</div>
+			</nav>
+			<nav class="item happy">
+				<div class="page"><img src={% static '/img/2/cumprimento.png' %} alt="Cumprimento" height="400px"></div>
+				<div class="thought">
+					<i id="f3Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+					<input type="hidden" id="f3Score" value="10">
+					<select name="f3" id="f3" onchange="selectAnswer('f3Smile','f3Score','f3')">
+						<option value="" >--Clique--</option>
+						<option value="False" >Por favor</option>
+						<option value="False" >De nada</option>
+						<option value="False" >Morango</option>
+						<option value="False" >Obrigado</option>
+						<option value="True" >Bom dia</option>
+						<option value="True" >Boa tarde</option>
+						<option value="True" >Boa noite</option>
+						<option value="False" >Desculpa</option>
+						<option value="False" >Pinguim</option>
+					</select>
+				</div>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','2-4','maneiras',5,30);">Terminar</a>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

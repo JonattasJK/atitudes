@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.2.sort }}</strong>
+			  	<p><i>{{ itens.2.name }}:</i> {{ itens.2.text }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.2.id 'livros' 2 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+	<img src={% static '/img/12/aberto.png' %} alt="Livro" width="100%">
+	<h4>Ler é uma ótima forma de conhecer o mundo.</h4>
+  	<img src={% static '/img/12/fechado.png' %} alt="Livro" width="100%">
+	
+  </aside>
+  
+  <section class="page box clean">
+
+    <article class="page" style="height:100%">
+        <a href="{% url 'livro1:lesson' 'livros' 1 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+		<nav class="box">
+			<h3 class="purple">Boas Maneiras com os livros</h3>
+			<p><em class="box contrast white">1</em>Lave bem as mãos antes de manusear os livros. Algumas substâncias,
+				como a gordura e o suor, podem manchar e estragar os livros.</p>
+			<p><em class="box contrast white">2</em>Folheie o livro com cuidado, segurando a folha no alto, à
+				direita. Passe a mão delicadamente por trás da folha para virar a página, evitando que o livro se
+				rasgue ou amasse.</p>
+			<img class="sticker-right" src={% static '/img/12/lendo.png' %} alt="lendo" width="50%">
+			<p><em class="box contrast white">3</em>Não se apoie sobre os livros. A posição correta para os estudos é sentado.</p>
+			<p><em class="box contrast white">4</em>Ao ler, deixe o livro sobre a mesa. Ou em um apoio para livros. Jamais dobre os
+				livros para ler, pois as folhas poderão se amassar ou se desprender.</p>
+			<p><em class="box contrast white">5</em>Ações como riscar, rabiscar e grifar os textos do livro também não são aceitas.
+				Você poderá copiar as informações necessárias num local apropriado (como cadernos e folhas para rascunho) ou até 
+				mesmo providenciar uma cópia das páginas de que necessita.</p>
+			<p><em class="box contrast white">6</em>Não use clipes ou outros objetos para marcar as páginas do livro. Os marcadores de página existem para isso.</p>
+			<p><em class="box contrast white">7</em>Não espirre sobre os livros, pois a saliva pode estragá-los.</p>
+			<p><em class="box contrast white">8</em>Não molhe a ponta dos dedos com saliva para folhear os livros. Além de estragá-los, 
+				você poderá ser contaminado por <i class="blue">micro-organismos</i>.</p>
+			<p><em class="box contrast white">9</em>Caso o livro seja emprestado, de um amigo ou da biblioteca, devolva assim que terminar de ler.
+				Nunca fique com algo que não é seu. Além de errada, esta atitude demonstra egoísmo para com o próximo, que não mais poderá
+				utilizar o livro.</p>
+	    </nav>
+		{% if itens.3 %}
+			<section class="box sunny">
+				<div class="box"> <h3 class="blue">{{ itens.2.name }}</h3>
+					<p>{{ itens.2.text }}</p>
+				</div>
+				<img src={% static '/img/1/glossario.gif' %} alt="Glossário" height="150px" width="150px">
+			</section><div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/glossario.gif' %} alt="Glossário" width="150px"></a>
+			</section><p></p>
+		{% endif %}
+		<nav class="box base large">
+			<img class="sticker-left" src={% static '/img/1/VcSabia.gif' %} alt="Você sabia" width="150px">
+			<div class="box"> <h3 class="white base-detail">Você sabia que...</h3>
+				<h4>...o maior livro do mundo tem 2 metros de altura por 1,54 metros de largura? Trata-se de uma edição especial do livro
+					O Pequeno Príncipe, do escritor francês Antoine de Saint-Exupery. Pesando 250 quilos, a fantástica história do Pequeno
+					Príncipe é contada em 128 grandes páginas.
+				</h4>
+			</div>
+		</nav>
+		<a href="{% url 'livro1:lesson' 'livros' 3 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+
+{% endblock %}

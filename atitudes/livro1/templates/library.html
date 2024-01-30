@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!--class="btn completed"  <i class="fas fa-check">-->
+<aside class="side clean-detail" id="leftSide">
+    <a {% if stage > 1 %} href="{% url 'livro1:chapter' 1 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 1 para acessar esse capítulo por aqui');" 
+        {% endif %} class="btn {% if stage > 1 %} available {% else  %} locked {% endif %}">
+        <img src={% static '/img/lessons/01.png' %} alt="lesson 1" width="48px">
+        <div class="namespace">Capítulo 1</div>&ensp;<i class="fas fa-book"></i></a>
+	<a {% if stage > 2 %} href="{% url 'livro1:chapter' 2 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 2 para acessar esse capítulo por aqui');" 
+        {%endif%} class="btn {% if stage > 2 %} available {% else  %} locked {% endif %}">
+	    <img src={% static '/img/lessons/02.png' %} alt="lesson 1" width="48px">
+	    <div class="namespace">Capítulo 2</div>&ensp;<i class="fas fa-book"></i></a>
+    {% if request.user.profile.active %}
+		<a {% if stage > 3 %} href="{% url 'livro1:chapter' 3 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 3 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 3 %} available {% else  %} locked {% endif %}">
+			<img src={% static '/img/lessons/03.png' %} alt="lesson 1" width="48px">
+			<div class="namespace">Capítulo 3</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage > 4 %} href="{% url 'livro1:chapter' 4 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 4 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 4 %} available {% else  %} locked {% endif %}">
+		    <img src={% static '/img/lessons/04.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Capítulo 4</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage > 5 %} href="{% url 'livro1:chapter' 5 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 5 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 5 %} available {% else  %} locked {% endif %}">
+		    <img src={% static '/img/lessons/05.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Capítulo 5</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage > 6 %} href="{% url 'livro1:chapter' 6 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 6 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 6 %} available {% else  %} locked {% endif %}">
+		    <img src={% static '/img/lessons/06.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Capítulo 6</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage > 7 %} href="{% url 'livro1:chapter' 7 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 7 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 7 %} available {% else  %} locked {% endif %}">
+		    <img src={% static '/img/lessons/07.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Capítulo 7</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage > 8 %} href="{% url 'livro1:chapter' 8 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 8 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 8 %} available {% else  %} locked {% endif %}">
+		    <img src={% static '/img/lessons/08.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Capítulo 8</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage > 9 %} href="{% url 'livro1:chapter' 9 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 9 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 9 %} available {% else  %} locked {% endif %}">
+		    <img src={% static '/img/lessons/09.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Capítulo 9</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage > 10 %} href="{% url 'livro1:chapter' 10 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 10 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 10 %} available {% else  %} locked {% endif %}">
+		    <img src={% static '/img/lessons/10.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Capítulo 10</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage > 11 %} href="{% url 'livro1:chapter' 11 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 11 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 11 %} available {% else  %} locked {% endif %}">
+		    <img src={% static '/img/lessons/11.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Capítulo 11</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage > 12 %} href="{% url 'livro1:chapter' 12 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 12 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 12 %} available {% else  %} locked {% endif %}">
+		    <img src={% static '/img/lessons/12.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Capítulo 12</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage > 13 %} href="{% url 'livro1:chapter' 13 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 13 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 13 %} available {% else  %} locked {% endif %}">
+		    <img src={% static '/img/lessons/13.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Capítulo 13</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage > 14 %} href="{% url 'livro1:chapter' 14 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 14 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 14 %} available {% else  %} locked {% endif %}">
+		    <img src={% static '/img/lessons/14.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Capítulo 14</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage > 15 %} href="{% url 'livro1:chapter' 15 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 15 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 15 %} available {% else  %} locked {% endif %}">
+		    <img src={% static '/img/lessons/15.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Capítulo 15</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage > 16 %} href="{% url 'livro1:chapter' 16 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 16 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 16 %} available {% else  %} locked {% endif %}">
+		    <img src={% static '/img/lessons/16.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Capítulo 16</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage > 17 %} href="{% url 'livro1:chapter' 17 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 17 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 17 %} available {% else  %} locked {% endif %}">
+		    <img src={% static '/img/lessons/17.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Capítulo 17</div>&ensp;<i class="fas fa-book"></i></a>
+		<a {% if stage > 18 %} href="{% url 'livro1:chapter' 18 request.user.profile.id %}" {% else %} onclick="return alert('Você precisa concluir a lição 18 para acessar esse capítulo por aqui');" 
+            {% endif %} class="btn {% if stage > 18 %} available {% else  %} locked {% endif %}">
+		    <img src={% static '/img/lessons/18.png' %} alt="lesson 1" width="48px">
+		    <div class="namespace">Capítulo 18</div>&ensp;<i class="fas fa-book"></i></a>
+		<a href="{% url 'livro1:color' %}" class="btn available">
+		    <div class="namespace green"><i class="fas fa-palette"></i>&emsp;Livro de colorir!</div>&ensp;<i class="fas fa-paint-brush"></i></a>
+		<a href="{% url 'livro1:ludo' %}" class="btn available">
+		    <div class="namespace green"><i class="fas fa-trash-alt"></i>&emsp;Ludo reciclar!</div>&ensp;<i class="fas fa-recycle"></i></a>
+    {% else %}
+    	<h3>Todas as outras lições estarão disponíveis assim que sua conta for ativada</h3>
+    {% endif %}
+  </aside>
+
+  <article class="main clean">
+  	{% if title %}
+		<h2 class="green">{{title}}</h2>
+  	{% else %}
+		<h2 class="green">Biblioteca</h2>
+		<h5>Com o Projeto Atitudes você escreve sua própria história, que está disponível aqui<br> Para editar use o menu Lição</h5>
+	{% endif %}
+	{% for c in chapter %}
+		<nav class="chapter {% if forloop.counter|divisibleby:2 %} happy {% else %} base {% endif %}">
+			<div>
+				<nav class="box base-detail white"><h4>Capítulo {{forloop.counter}}</h4></nav>
+				{% for p in c %}
+					{% if p.style == 'img' %}
+						<img class="{% if p != c.last %} {{ p.position }} {% endif %}" src={% static p.paragraph %} alt="Atitudes" width="150px">
+						
+					{% else %}
+						<{{ p.style }} class="{{ p.color }}"> {{p.paragraph}} </{{ p.style }}>
+					{% endif %}
+				{% endfor %}
+			</div>
+			<nav class="box base-detail white"><p></p></nav>
+			<div class="line"></div>
+			<nav class="box base-detail white"><p></p></nav>
+		</nav>
+	{% endfor%}
+	
+	<h4 class="green">Autor {{request.user.username}}</h4>
+  </article>
+{% endblock %} 	

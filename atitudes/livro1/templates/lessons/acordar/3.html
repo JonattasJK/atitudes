@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '4-2' 0 'acordar' 3 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <img src={% static '/img/4/sol.png' %} alt="sol" width="100%">
+    <img src={% static '/img/4/lua.png' %} alt="lua" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" >
+    	<a href="{% url 'livro1:lesson' 'acordar' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <nav class="item sunny">
+			<h4>Cumprir os desafios das atividades é muito bom! Assim você ganha créditos e pontos. Você poderá trocar seus créditos por personalizações do seu avatar
+			e também por figurinhas para usar no seu livro.</h4>
+		</nav>
+		<nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividade" width="150px">
+			<div class="box"> <h3 class="box contrast white">Atividade</h3>
+				<h4>Reaja de acordo com a sua rotina:</h4>
+				<br>
+			</div>
+		</nav>
+		<div class="line"></div>
+		{% if itens.6 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.6.score < 40 %} 
+						Você marcou <strong>{{itens.6.score}}</strong> pontos e a pontuação máxima é 40. Você pode tentar marcar os 40 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.6.score}}</strong> pontos, a pontuação máxima! Meus parabéns!
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.6.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.6.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.6.score < 40 %}
+				{% if request.user.profile.credits > itens.6.credits %}
+					<a href="{% url 'livro1:questUndo' '4-2' itens.6.score 'acordar' 3 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.6.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.6.credits }} créditos e poderá receber até <strong>40,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+		{% else %}
+			<nav class="flex">
+				<div class="item sunny">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="box happy large">
+				<div class="box">
+					<div class="form"><table>
+						<tr><th>Você arruma a sua cama?</th><th>
+							<label id="a1" class="emoji" onclick="selectAnsware(this,['a2','a3'])"><i class="far fa-laugh-beam yellow"></i></label>
+							<label id="a2" class="emoji" onclick="selectAnsware(this,['a1','a3'])"><i class="far fa-meh yellow" style="font-size:50px"></i></label>
+							<label id="a3" class="emoji" onclick="selectAnsware(this,['a2','a1'])"><i class="far fa-frown yellow" style="font-size:50px"></i></label>
+						</th></tr>
+						<tr><th>Você dobra e guarda as suas roupas?</th><th>
+							<label id="b1" class="emoji" onclick="selectAnsware(this,['b2','b3'])"><i class="far fa-laugh-beam yellow"></i></label>
+							<label id="b2" class="emoji" onclick="selectAnsware(this,['b1','b3'])"><i class="far fa-meh yellow" style="font-size:50px"></i></label>
+							<label id="b3" class="emoji" onclick="selectAnsware(this,['b2','b1'])"><i class="far fa-frown yellow" style="font-size:50px"></i></label>
+						</th></tr>
+						<tr><th>Você escova os dentes ao acordar?</th><th>
+							<label id="c1" class="emoji" onclick="selectAnsware(this,['c2','c3'])"><i class="far fa-laugh-beam yellow"></i></label>
+							<label id="c2" class="emoji" onclick="selectAnsware(this,['c1','c3'])"><i class="far fa-meh yellow" style="font-size:50px"></i></label>
+							<label id="c3" class="emoji" onclick="selectAnsware(this,['c2','c1'])"><i class="far fa-frown yellow" style="font-size:50px"></i></label>
+						</th></tr>
+						<tr><th>Você fala bom dia para alguém?</th><th>
+							<label id="d1" class="emoji" onclick="selectAnsware(this,['d2','d3'])"><i class="far fa-laugh-beam yellow"></i></label>
+							<label id="d2" class="emoji" onclick="selectAnsware(this,['d1','d3'])"><i class="far fa-meh yellow" style="font-size:50px"></i></label>
+							<label id="d3" class="emoji" onclick="selectAnsware(this,['d2','d1'])"><i class="far fa-frown yellow" style="font-size:50px"></i></label>
+						</th></tr>
+					</table></div>
+					<br>
+				</div>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','4-2','acordar',3,40);">Terminar</a>
+		{% endif %}
+		<div class="line"></div>
+		{% if itens.6 != False %}
+			<nav class="box base large">
+				<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividade" width="150px">
+				<div class="box"> <h3 class="box alert white">Atividade</h3>
+					<h4>Complete a frase de acordo com as ilustrações.</h4>
+					<br>
+				</div>
+			</nav>
+			<div class="line"></div>
+			{% if itens.7 != False %}
+				<nav class="box happy">
+					<h5>
+						Você já completou esse desafio e conquistou a sua recompensa <br>
+						{% if itens.7.score < 20 %} 
+							Você marcou <strong>{{itens.7.score}}</strong> pontos e a pontuação máxima é 20. Você pode tentar marcar os 20 pontos se quiser
+						{% else %}
+							Você marcou <strong>{{itens.7.score}}</strong> pontos, a pontuação máxima! Meus parabéns!
+						{% endif %}
+					</h5>
+				</nav><p></p>
+				<em>Recompensa obtida:</em>
+				<nav class="flex">
+					<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.7.score }}</strong></div>&emsp;
+					<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.7.credits }}</strong></div>&emsp;
+					<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+				</nav>
+				{% if itens.7.score < 20 %}
+					{% if request.user.profile.credits > itens.7.credits %}
+						<a href="{% url 'livro1:questUndo' '4-3' itens.7.score 'acordar' 3 %}" class="large">
+							<button class="button previous next"><span>Tentar novamente</span></button>	
+						</a>
+					{% else %}
+						<button onclick="alert('Ops... Você não tem {{itens.7.credits}} créditos disponíveis para tentar novamente')" 
+							class="button previous next"><span>Tentar novamente</span></button>
+					{% endif %}
+					<nav class="item alert">
+						<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+							Você irá gastar {{ itens.7.credits }} créditos e poderá receber até <strong>20,00</strong> créditos de volta.</h5>
+					</nav>
+				{% endif %}
+				<p></p>
+				<a href="{% url 'livro1:lesson' 'acordar' 4 %}" class="large">
+					<button class="button next"><span>VAMOS LÁ!</span></button>
+				</a>
+			{% else %}
+				<nav class="flex">
+					<div class="item sunny">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+					</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+				</nav>
+				<nav class="box base large">
+					<div class="box">		
+						<div class="crosswords"><table>
+							<tr>
+								<td><h5>Quando acordo pela manhã, posso me</h5></td>
+								<td>
+									<select name="f1" id="f1" onchange="selectAnswer('f1Smile','f1Score','f1')">
+										<option value="" >__Complete__</option>
+										<option value="True" >Espreguiçar</option>
+										<option value="False" >Roncar</option>
+										<option value="False" >Voltar a dormir</option>
+									</select> 
+								</td>
+								<td>
+									<i id="f1Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+									<input type="hidden" id="f1Score" value="10">
+								</td>
+							</tr><tr>
+								<td><h4>até despertar, mas preciso</h4></td>
+								<td>
+									<select name="f2" id="f2" onchange="selectAnswer('f2Smile','f2Score','f2')">
+										<option value="" >__Complete__</option>
+										<option value="True" >Arrumar a cama</option>
+										<option value="False" >Deixar a cama sem arrumar</option>
+										<option value="False" >Ir brincar</option>
+									</select>
+								</td>
+								<td>
+									<i id="f2Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+									<input type="hidden" id="f2Score" value="10">
+								</td>
+							</tr>
+						</table></div>
+					</div>
+				</nav>
+				<a class="button" onclick="questFinish('questModal','4-3','acordar',3,20);">Terminar</a>
+				<p></p>
+				<nav class="item happy">
+					<img src={% static '/img/2/endereco.png' %} alt="Endereço" height="400px">
+				</nav>
+			{% endif %}
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

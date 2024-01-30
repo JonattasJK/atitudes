@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="finishModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Projeto Atitudes</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/trueFinish.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="green item" style="background-color:rgba(255, 255, 255, 0.5);">Parabéns!</strong>
+			  	<p>Você concluiu todas as lições.</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green">Você tem prêmios para resgatar</em><br>
+		  		<a href="#" class="large">
+					<button class="button next"><span>Vamos Lá!</span></button>
+				</a>
+	  		</div>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+<!--class="btn completed"  <i class="fas fa-check">-->
+  <aside class="side clean-detail" id="leftSide">
+    <div class="item column sunny"> 
+        <h2 class="element">{{ request.user.profile.stars }}</h2>
+		<img src={% static '/img/star.gif' %} alt="Medalha estrela" width="100%" class="element">
+    </div>
+    <div class="item column sunny"> 
+        <h2 class="element">{{ request.user.profile.likes }}</h2>
+		<img src={% static '/img/joia.gif' %} alt="Troféu Joinha" width="100%" class="element">
+    </div>
+    <div class="item page sunny">
+    	<h3 class="blue"><strong>{{ request.user.profile.score }}</strong> Pontos </h3>
+    </div>
+  </aside>
+
+  <article class="main clean">
+    
+	<section class="box" style=" display: flex; align-items: center;">
+	    <em class="green">Projeto Atitudes e {{request.user.username}}, uma pessoa de atitude!</em>
+		<img src={% static '/img/Ethos.png' %} class="sticker-right" width="30%">
+	</section>
+    <div> 
+	    
+	    
+	</div>
+	<img src={% static '/img/trueFinish.gif' %} class="box" alt="Você sabia?" width="100%">
+
+	<nav class="item base-detail">
+		<h1 class="box base-detail white">{{request.user.username}}</h1><p> Você concluiu todas as etapas da jornada!</p>
+	</nav><nav class="item base-detail">
+		<p class="white">Parabéns e obrigado por ter participado do Projeto Atitudes e por ter chegado até aqui! Você é uma pessoa de atitude!</p>
+	</nav><nav class="flex">
+	<h1 class="box clean green">E agora?</h1>&nbsp;<p>Agora você poderá dar um título ao seu livro e resgatar suas lembranças dessa jornada</p>
+	</nav>
+	<form action="#" method="post">
+	<article class="item happy page">
+	  {% csrf_token %}
+	  <div class="box">
+	  	{% if form.errors %}
+			{{form.non_field_errors}}
+		{% endif %}
+	  </div>
+	  <div class="page large">
+		{% if request.user.profile.bookTitle %}
+			<strong class="purple">{{request.user.profile.bookTitle}}</strong> <h4>Você pode alterar o título do seu livro.</h4>
+			<input type="text" id="ftitle" name="title" value="{{ form.title.value|default_if_none:"" }}" placeholder="{{request.user.profile.bookTitle}}">
+		{% else %}
+			<h4>Dê um título para o seu livro!</h4>
+			<input type="text" id="ftitle" name="title" value="{{ form.title.value|default_if_none:"" }}" placeholder="O seu livro">
+		{% endif %}
+		
+	  </div>
+	</article>
+	<input type="submit" value="Salvar título">
+  </form>
+	<section class="box happy">
+		<div class="box">
+			<p>Você poderá baixar seu livro em PDF para mostrar para todos que quiser. Além disso, seu livro será avaliado e se for selecionado poderá estar online no site oficial
+				do Projeto Atitudes.</p>
+			<h5>Você também poderá baixar um pacote de figurinhas do projeto atitudes para usar no whatsapp e no telegram</h5>
+		</div>
+	</section>
+  	<a id="myBook" href="{% url 'livro1:printBook' request.user.profile.id %}" target="_blank" class="btn completed interactive" >
+		Meu livro &ensp;<i class="fas fa-book-medical"></i></a>
+	<a class="btn completed interactive" onclick="return alert('Infelizmente as figurinhas ainda não estão liberadas.')">
+	    Figurinhas</div>&ensp;<i class="fas fa-sticky-note"></i></i></a>
+	<p></p>
+	<h4 class="purple">Para concluir a jornada, clique uma última vez no <a class="green">Vamos lá</a>. Ao clicar, você se tornará um usuário veterano do Projeto Atitudes. Nunca se esqueça 
+		das lições que aprendeu aqui. Te desejamos um ótimo futuro pela frente! Até a próxima!</h4>
+	
+	{% if request.user.profile.bookTitle %}
+		<a href="{% url 'livro1:finishLesson' 19 %}" class="large">
+			<button class="button next"><span>O último VAMOS LÁ!</span></button>
+		</a>
+	{% else %}
+		<a onclick="return alert('Dê um título ao seu livro e depois clique aqui novamente :D')" class="large">
+			<button class="button next"><span>O último VAMOS LÁ!</span></button>
+		</a>
+	{% endif %}
+		
+  </article>
+{% endblock %} 	

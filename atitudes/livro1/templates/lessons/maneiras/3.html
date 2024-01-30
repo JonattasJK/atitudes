@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '1-1' 0 'abertura' 3 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Nesta atividade você pode ver 3 listas e um caça-palavras. No caça-palavras você deve encontrar as palavras e então elas
+		serão marcadas na lista correta.</h5>
+		<h4 class="green"> Dica: O caça-palavras tem 6 cumprimentos, 1 agradecimento e 4 pedidos.</h4>
+		<img src={% static '/img/2/meninoFala.png' %} alt="Menino Fala" width="150px">
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%">
+    	<a href="{% url 'livro1:lesson' 'maneiras' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    {% if itens.9 != False %}
+			<nav class="box base">
+				<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Mãos à obra" width="150px">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.9.score < 110 %} 
+						Você marcou <strong>{{itens.9.score}}</strong> pontos e a pontuação máxima é 110. Você pode tentar marcar os 110 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.9.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.9.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.9.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.9.score < 110 %}
+				{% if request.user.profile.credits > itens.9.credits %}
+					<a href="{% url 'livro1:questUndo' '2-2' itens.9.score 'maneiras' 3 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.9.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.9.credits }} créditos e poderá receber até <strong>110,00</strong> créditos de volta.</h5>
+				</nav>
+			{% else %}
+				<nav class="item happy">
+					<h5>Você tem talento para encontrar as palavras, meus parabéns! Acho que as palavras nunca mais vão tentar se esconder de você. haha :D</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+    	<a href="{% url 'livro1:lesson' 'maneiras' 4 %}" class="large">
+        	<button class="button next"><span>VAMOS LÁ!</span></button>
+        </a>
+		{% else %}
+			<nav class="box happy">
+				<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Atividade" width="150px">
+				<h3 class="orange">Atividade</h3>
+				<h5>Procure no caça-palavras abaixo as seguintes palavras mágicas.</h5>
+			</nav>
+			<nav class="item base-detail" style="width:100%">
+				<h3 class="white">Cumprimentos:</h3>
+				<ul id="cumprimentos" class="flex" style="list-style-type: none;font-size: 0.7em;">
+					<li id="a" value="6">Bom dia, </li>
+					<li id="b" value="8">boa tarde, </li>
+					<li id="c" value="8">boa noite, </li>
+					<li id="d" value="9">até amanhã, </li>
+					<li id="e" value="3">olá, </li>
+					<li id="f" value="7">como vai.</li>
+				</ul>
+			</nav>
+			<nav class="item base-detail" style="width:100%">
+				<h3 class="white">Agradecimento:</h3>
+				<ul id="agradecimento" class="flex" style="list-style-type: none;font-size: 0.7em;">
+					<li id="g" value="8">Obrigado.</li>
+				</ul>
+			</nav>
+			<nav class="item base-detail" style="width:100%">
+				<h3 class="white">Pedidos:</h3>
+				<ul id="pedidos" class="flex" style="list-style-type: none;font-size: 0.7em;">
+					<li id="h" value="10">Com licença, </li>
+					<li id="i" value="8">por favor, </li>
+					<li id="j" value="11">posso ajudar, </li>
+					<li id="k" value="8">desculpe.</li>
+				</ul>
+			</nav>
+			<nav class="flex">
+				<div class="item sunny">Palavras:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="wordSearch">
+				<b>V</b><b>M</b><b>L</b><b>R</b><b>V</b><b>V</b><b>Z</b><b>I</b><b>K</b><b>X</b><b>E</b><b>X</b><b>R</b><b>V</b><b>C</b><b id="f1" onclick="c('f1');">C</b><b>U</b><b>X</b><b>L</b><b>R</b><b>K</b><b>H</b><b>B</b><b>B</b><b>V</b><b>R</b><b>N</b>
+				
+				<b>V</b><b>K</b><b>O</b><b>Z</b><b>A</b><b>H</b><b id="k1" onclick="c('k1');">D</b><b>K</b><b>D</b><b>M</b><b>P</b><b>D</b><b>C</b><b>J</b><b>K</b><b id="f2" onclick="c('f2');">O</b><b>A</b><b>N</b><b>T</b><b>M</b><b>C</b><b>E</b><b>E</b><b>E</b><b>C</b><b>R</b><b>U</b>
+				
+				<b>B</b><b>N</b><b>T</b><b>U</b><b>J</b><b>O</b><b id="k2" onclick="c('k2');">E</b><b>H</b><b>P</b><b>I</b><b>O</b><b>V</b><b>D</b><b>Y</b><b>I</b><b id="f3" onclick="c('f3');">M</b><b>T</b><b>P</b><b>P</b><b>T</b><b id="i1" onclick="c('i1');">P</b><b>B</b><b>L</b><b>J</b><b>H</b><b>U</b><b id="j1" onclick="c('j1');">P</b>
+
+				<b>U</b><b id="a1" onclick="c('a1');">B</b><b>J</b><b>T</b><b>Z</b><b>B</b><b id="k3" onclick="c('k3');">S</b><b>U</b><b>P</b><b>W</b><b>Q</b><b>S</b><b>D</b><b>A</b><b>O</b><b id="f4" onclick="c('f4');">O</b><b>P</b><b>F</b><b>D</b><b>X</b><b id="i2" onclick="c('i2');">O</b><b>Z</b><b>H</b><b id="e1" onclick="c('e1');">O</b><b>I</b><b>Q</b><b id="j2" onclick="c('j2');">O</b>
+				
+				<b>X</b><b id="a2" onclick="c('a2');">O</b><b>K</b><b>B</b><b>I</b><b>D</b><b id="k4" onclick="c('k4');">C</b><b>Y</b><b>N</b><b>G</b><b>V</b><b>U</b><b>I</b><b>S</b><b>L</b><b id="f5" onclick="c('f5');">V</b><b>K</b><b>C</b><b>A</b><b>B</b><b id="i3" onclick="c('i3');">R</b><b>H</b><b>I</b><b id="e2" onclick="c('e2');">L</b><b>N</b><b>C</b><b id="j3" onclick="c('j3');">S</b>
+				
+				<b>Z</b><b id="a3" onclick="c('a3');">M</b><b>O</b><b>O</b><b>H</b><b>J</b><b id="k5" onclick="c('k5');">U</b><b>M</b><b>O</b><b>O</b><b>B</b><b>J</b><b>G</b><b>J</b><b>M</b><b id="f6" onclick="c('f6');">A</b><b>K</b><b>L</b><b>R</b><b>V</b><b id="i4" onclick="c('i4');">F</b><b>S</b><b>X</b><b id="e3" onclick="c('e3');">A</b><b>K</b><b>S</b><b id="j4" onclick="c('j4');">S</b>
+				
+				<b>K</b><b id="a4" onclick="c('a4');">D</b><b>U</b><b>G</b><b>V</b><b>Q</b><b id="k6" onclick="c('k6');">L</b><b>T</b><b>O</b><b>R</b><b>O</b><b>N</b><b>J</b><b>A</b><b>B</b><b id="f7" onclick="c('f7');">I</b><b>U</b><b>U</b><b>E</b><b>P</b><b id="i5" onclick="c('i5');">A</b><b>Z</b><b>U</b><b>Ç</b><b>O</b><b>M</b><b id="j5" onclick="c('j5');">O</b>
+				
+				<b>Q</b><b id="a5" onclick="c('a5');">I</b><b>F</b><b>I</b><b>X</b><b>E</b><b id="k7" onclick="c('k7');">P</b><b>R</b><b>P</b><b>K</b><b>X</b><b>E</b><b>M</b><b>I</b><b>S</b><b>Z</b><b>R</b><b>S</b><b>I</b><b>S</b><b id="i6" onclick="c('i6');">V</b><b>H</b><b>M</b><b>S</b><b>J</b><b>G</b><b id="j6" onclick="c('j6');">A</b>
+				
+				<b>E</b><b id="a6" onclick="c('a6');">A</b><b>D</b><b>V</b><b>L</b><b>B</b><b id="k8" onclick="c('k8');">E</b><b>M</b><b>Q</b><b>R</b><b>L</b><b>W</b><b>M</b><b>T</b><b>I</b><b>N</b><b>V</b><b>D</b><b>C</b><b>K</b><b id="i7" onclick="c('i7');">O</b><b>X</b><b>J</b><b>O</b><b>A</b><b>E</b><b id="j7" onclick="c('j7');">J</b>
+				
+				<b>D</b><b>G</b><b>J</b><b>L</b><b>W</b><b>T</b><b>O</b><b>Q</b><b>J</b><b>E</b><b>W</b><b>X</b><b>A</b><b>C</b><b>D</b><b>S</b><b>C</b><b>S</b><b>U</b><b>G</b><b id="i8" onclick="c('i8');">R</b><b>W</b><b>H</b><b>V</b><b>M</b><b>Q</b><b id="j8" onclick="c('j8');">U</b>
+				
+				<b>J</b><b>C</b><b>V</b><b>O</b><b>A</b><b>L</b><b>T</b><b>R</b><b>H</b><b>L</b><b>Q</b><b>U</b><b>M</b><b>I</b><b>G</b><b>T</b><b>Q</b><b>E</b><b>F</b><b>L</b><b>Q</b><b>W</b><b>O</b><b>I</b><b>G</b><b>M</b><b id="j9" onclick="c('j9');">D</b>
+				
+				<b>J</b><b>C</b><b>I</b><b>Z</b><b>T</b><b>L</b><b>U</b><b>X</b><b>J</b><b>L</b><b>B</b><b>J</b><b>A</b><b>H</b><b>P</b><b>X</b><b>Z</b><b>J</b><b>E</b><b>K</b><b>G</b><b>U</b><b>S</b><b>W</b><b>P</b><b>C</b><b id="j10" onclick="c('j10');">A</b>
+				
+				<b>C</b><b>D</b><b id="h1" onclick="c('h1');">C</b><b id="h2" onclick="c('h2');">O</b><b id="h3" onclick="c('h3');">M</b><b id="h4" onclick="c('h4');">L</b><b id="h5" onclick="c('h5');">I</b><b id="h6" onclick="c('h6');">C</b><b id="h7" onclick="c('h7');">E</b><b id="h8" onclick="c('h8');">N</b><b id="h9" onclick="c('h9');">Ç</b><b id="h10" onclick="c('h10');">A</b><b>F</b><b>S</b><b>K</b><b>E</b><b>L</b><b>W</b><b>K</b><b>O</b><b>P</b><b>F</b><b>Y</b><b>J</b><b>H</b><b>D</b><b id="j11" onclick="c('j11');">R</b>
+				
+				<b>O</b><b>A</b><b>F</b><b>C</b><b>S</b><b>W</b><b>H</b><b>E</b><b>Q</b><b>G</b><b>Y</b><b>Y</b><b>J</b><b>G</b><b>L</b><b>N</b><b id="b1" onclick="c('b1');">B</b><b id="b2" onclick="c('b2');">O</b><b id="b3" onclick="c('b3');">A</b><b id="b4" onclick="c('b4');">T</b><b id="b5" onclick="c('b5');">A</b><b id="b6" onclick="c('b6');">R</b><b id="b7" onclick="c('b7');">D</b><b id="b8" onclick="c('b8');">E</b><b>Z</b><b>F</b><b>D</b>
+				
+				<b>V</b><b>S</b><b>O</b><b>X</b><b>T</b><b>I</b><b>W</b><b>G</b><b>Q</b><b>K</b><b>X</b><b>S</b><b>M</b><b>P</b><b>V</b><b>R</b><b>A</b><b>Z</b><b>N</b><b>K</b><b>T</b><b>G</b><b>T</b><b>H</b><b>K</b><b>Y</b><b>K</b>
+				
+				</b><b>C</b><b>U</b><b>S</b><b>O</b><b>N</b><b>F</b><b>H</b><b>H</b><b>E</b><b>G</b><b>Q</b><b>V</b><b>C</b><b>K</b><b>Q</b><b>G</b><b>E</b><b>C</b><b>V</b><b>B</b><b>J</b><b>M</b><b>I</b><b>V</b><b>O</b><b>F</b><b>H</b>
+				
+				<b>C</b><b>S</b><b>J</b><b>Q</b><b>A</b><b>R</b><b>G</b><b>N</b><b id="g1" onclick="c('g1');">O</b><b id="g2" onclick="c('g2');">B</b><b id="g3" onclick="c('g3');">R</b><b id="g4" onclick="c('g4');">I</b><b id="g5" onclick="c('g5');">G</b><b id="g6" onclick="c('g6');">A</b><b id="g7" onclick="c('g7');">D</b><b id="g8" onclick="c('g8');">O</b><b>D</b><b>O</b><b>N</b><b>O</b><b>Q</b><b>U</b><b>J</b><b>F</b><b>J</b><b>R</b><b>C</b>
+				
+				</b><b>C</b><b>P</b><b>C</b><b>W</b><b>G</b><b>N</b><b>S</b><b>O</b><b>N</b><b>K</b><b>J</b><b>I</b><b>H</b><b>F</b><b>C</b><b>K</b><b>G</b><b>Z</b><b>P</b><b>N</b><b>B</b><b>G</b><b>H</b><b>G</b><b>J</b><b>Z</b><b>O</b>
+				
+				<b>M</b><b>L</b><b>F</b><b>E</b><b>R</b><b>X</b><b>N</b><b>D</b><b>A</b><b>L</b><b>H</b><b>V</b><b>Z</b><b>Q</b><b>J</b><b>Y</b><b>H</b><b>R</b><b>D</b><b>Z</b><b>V</b><b>S</b><b>D</b><b>F</b><b>J</b><b>I</b><b>W</b>
+				
+				<b>V</b><b>V</b><b>C</b><b>E</b><b>D</b><b>H</b><b>W</b><b>N</b><b>L</b><b>L</b><b>G</b><b>U</b><b>K</b><b>J</b><b>O</b><b>A</b><b>Q</b><b id="d1" onclick="c('d1');">A</b><b id="d2" onclick="c('d2');">T</b><b id="d3" onclick="c('d3');">E</b><b id="d4" onclick="c('d4');">A</b><b id="d5" onclick="c('d5');">M</b><b id="d6" onclick="c('d6');">A</b><b id="d7" onclick="c('d7');">N</b><b id="d8" onclick="c('d8');">H</b><b id="d9" onclick="c('d9');">A</b><b>D</b>
+				
+				<b>N</b><b>P</b><b id="c1" onclick="c('c1');">B</b><b id="c2" onclick="c('c2');">O</b><b id="c3" onclick="c('c3');">A</b><b id="c4" onclick="c('c4');">N</b><b id="c5" onclick="c('c5');">O</b><b id="c6" onclick="c('c6');">I</b><b id="c7" onclick="c('c7');">T</b><b id="c8" onclick="c('c8');">E</b><b>K</b><b>U</b><b>G</b><b>F</b><b>U</b><b>P</b><b>Y</b><b>G</b><b>X</b><b>L</b><b>L</b><b>C</b><b>H</b><b>T</b><b>V</b><b>M</b><b>L</b>
+				
+				<b>U</b><b>Q</b><b>U</b><b>R</b><b>A</b><b>R</b><b>L</b><b>V</b><b>G</b><b>H</b><b>Z</b><b>L</b><b>F</b><b>E</b><b>F</b><b>G</b><b>R</b><b>Y</b><b>Z</b><b>T</b><b>W</b><b>F</b><b>I</b><b>K</b><b>T</b><b>Q</b><b>N</b>
+			</nav>
+			<p></p>
+			<a class="button" onclick="questFinish('questModal','2-2','maneiras',3,110);">Terminar</a>
+		{% endif %}
+    </article>
+  </section>
+
+{% endblock %}

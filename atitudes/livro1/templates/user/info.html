@@ -1,0 +1,159 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+	<script src="{% static 'js/functions.js' %}"></script>
+	<title>Projeto Atitudes</title>
+	<link rel="Atitudes icon" href="{%  static '/img/atitude.ico' %}">
+</head>
+<body class="base">
+
+<!-- Header -->
+<header>
+	<img src={% static '/img/title2.png' %} alt="Atitudes">
+  	<!-- Navigation Bar -->
+  <nav class="navbar base-detail">
+  	<span class="menu-link" id="leftBtn" onclick="openSide('leftSide','leftBtn')">Pontuação
+  	<div class="menu-icon-container">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+  	</span>
+        <a class="menu-link" href="{% url 'livro1:home' %}"><i class="fas fa-hand-point-left"></i> Início</a>
+    <span class="menu-link" id="rightBtn" onclick="openSide('rightSide','rightBtn')">
+    <div class="menu-icon-container">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+    Opções</span>
+  </nav>
+</header>
+
+<!-- The flexible grid (content) -->
+<main class="back-img">
+
+  <aside class="side clean-detail" id="leftSide">
+    <div class="item column happy"> 
+        <h3 class="element">Nível: {{ profile.stage }}</h3>
+    </div>
+    <div class="item column sunny"> 
+        <h2 class="element">{{ profile.stars }}</h2>
+		<img src={% static '/img/star.gif' %} alt="Medalha estrela" width="100%" class="element">
+    </div>
+    <div class="item column sunny"> 
+        <h2 class="element">{{ profile.likes }}</h2>
+		<img src={% static '/img/joia.gif' %} alt="Troféu Joinha" width="100%" class="element">
+    </div>
+  </aside> 
+  
+  <article class="main clean" style="width:100%">
+  	<div class="item column base-detail"> 
+        <h2>{% if profile.active %} <i class="fas fa-splotch green"></i> {% endif %} {{ profile.user.username }} 
+        	{% if profile.stage >= 20 %}&ensp; <i class="fas fa-crown yellow"></i>{% endif %}</h2>
+    </div>
+    <div class="item base" style="display: flex; justify-content: center; align-items: center;"> 
+        <div class="box element">
+            <nav class="frame">
+    			<img id="background" src={% static profile.avatar.background %} alt="." width="100%">
+    			<img class="avatar" src={% static profile.avatar.active %} alt="Usuári0" width="100%">
+    		</nav>
+		</div>
+        <div class="box element"><h3>
+        	<div>{{ profile.user.first_name }}</div><div>{{ profile.user.last_name }}<div>
+        	<p>Pontuação: <strong>{{ profile.score }}</strong></p>
+        	<p>Créditos: <strong>{{ profile.credits }}</strong></p>
+		    <em>{{ profile.user.email }}</em>
+        </h3></div>
+    </div>
+  	<a href="{% url 'livro1:library' profile.id %}" class="btn available">
+		Livro de {{profile.user.username}} &ensp;<i class="fas fa-atlas"></i></a>
+    <div class="item base column"> 
+    	{% if profile.related_school %}
+    		<a href="{% url 'livro1:schoolInfo' profile.related_school.id %}" class="btn completed">
+				{{ profile.related_school.name }} &ensp;<i class="fas fa-university"></i></a>	
+		    <em>{{ profile.related_school.description }}</em>
+		    <em>{{ profile.related_school.address }}</em>
+		    <p>{{profile.student.class_year}}º ano. Turma: {{profile.student.class_number}}</p>
+    	{% else %}
+    		<p>Responsável: {{ profile.sponsor.name }} <br> Relacionamento: {{ profile.sponsor.relationship }}</p>
+		    <h5>{{ profile.sponsor.email }}</h5>
+    	{% endif %}
+    </div>
+  </article>
+ 
+  
+  <aside class="side clean-detail" id="rightSide">
+  	<a href="{% url 'livro1:editUser' profile.user.id %}" class="btn completed">
+		Editar perfil &ensp;<i class="fas fa-user-edit"></i></a>
+  	<a href="{% url 'livro1:editPassword' profile.user.id %}" class="btn completed">
+		Trocar senha &ensp;<i class="fas fa-key"></i></a>
+	<a href="{% url 'livro1:editRelated' profile.id %}" class="btn completed">
+		{% if profile.related_school %}	Alterar classe {% else %} Alterar responsável {% endif %} &ensp;<i class="fas fa-chalkboard-teacher"></i></a>
+	{% if request.user.id == profile.user.id %}
+	  	<a href="{% url 'livro1:changeAvatar' profile.id %}" class="btn completed">
+			Editar avatar &ensp;<i class="fas fa-user-astronaut"></i></a>
+	{% endif %}
+	{% if request.user.profile.level <= 3 %}
+	  	{% if profile.active %}
+		  	<a href="{% url 'livro1:deactivateUser' profile.id %}" class="btn available"
+		  	onclick="return confirm('O usuário {{profile.user.first_name}} será desativado. Você tem certeza disso?');">
+				Desativar perfil &ensp;<i class="fas fa-user-lock"></i></a>
+		{% else %}
+		  	<a href="{% url 'livro1:activateUser' profile.id %}" class="btn completed" {% if profile.related_school.accession <= 0 %}disabled{% endif %} 
+		  	onclick="return confirm(' {{profile.related_school.name}} irá consumir um acesso para ativar o usuário {{profile.user.first_name}}');">
+				Ativar perfil &ensp;<i class="fas fa-user-tag"></i></a>
+		{% endif %}
+		{% if request.user.profile.active == True %}
+			<a class="btn available" href="{% url 'livro1:admPanel' %}">Painel de administração <i class="fas fa-toolbox"></i></a>
+		{% endif %}
+	{% endif %}
+	<br><br>
+  	{% if request.user.profile.level <= 3 or request.user.profile == profile %}
+	  	<a href="{% url 'livro1:deleteUser' profile.id %}" class="btn available"
+	  	onclick="return confirm('ATENÇÃO! Essa conta será excluída permanentemente, essa ação não pode ser desfeita');">
+			Excluir perfil &ensp;<i class="fas fa-user-alt-slash"></i></a>
+	{% endif %}
+  	{% if request.user.profile.level <= 1 %}
+  		{% if profile.stage == 20 %}
+		  	<a href="{% url 'livro1:saveBook' profile.id 1 %}" class="btn completed">
+				Salvar livro &ensp;<i class="far fa-star"></i></a>
+		  	<a href="{% url 'livro1:saveBook' profile.id 2 %}" class="btn completed">
+				Salvar livro &ensp;<i class="far fa-star"></i><i class="far fa-star"></i></a>
+		  	<a href="{% url 'livro1:saveBook' profile.id 3 %}" class="btn completed">
+				Salvar livro &ensp;<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></a>
+		  	<a href="{% url 'livro1:saveBook' profile.id 4 %}" class="btn completed">
+				Salvar livro &ensp;<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></a>
+		  	<a href="{% url 'livro1:saveBook' profile.id 5 %}" class="btn completed">
+				Salvar livro &ensp;<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></a>
+  		{% elif profile.stage == 21 %}
+		  	<a href="{% url 'livro1:saveBook' profile.id 0 %}" class="btn available">
+				Remover dos livros salvos &ensp;<i class="fas fa-fire-alt"></i></a>
+  		{% endif %}
+  		
+	  	<a href="{% url 'livro1:resetProfile' profile.id %}" class="btn available"
+	  	    onclick="return confirm('Todas as missões serão pagadas e {{profile.user.first_name}} voltará para a lição 1');">
+			Resetar usuário &ensp;<i class="fas fa-undo"></i></a>
+	{% endif %}
+		
+		
+  </aside>
+</main>
+
+<!-- Footer -->
+<footer class="base-detail">
+    <a class="menu-link" href="{% url 'livro1:privacy' %}" ><i class="fas fa-book"></i>Política de privacidade</a>
+    <a class="menu-link" href="{% url 'livro1:suport' %}" ><i class="fas fa-book"></i>Suporte</a>
+</footer>
+
+<script>
+    screenSize();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,157 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ADM - Atitudes</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+	<script src="{% static 'js/functions.js' %}"></script>
+	<link rel="Atitudes icon" href="{%  static '/img/atitude.ico' %}">
+	
+</head>
+<body class="base">
+
+<!-- Header -->
+<header>
+  <img src={% static '/img/title1.png' %} alt="Atitudes">
+  <!-- Navigation Bar -->
+  <nav class="navbar base-detail">
+	{% if request.user.profile.active %}
+    	<a class="menu-link" href="{% url 'livro1:home' %}"><i class="fas fa-hand-point-left"></i> Início</a>
+	{% else %}
+		<a class="menu-link" href="{% url 'livro1:logout' %}"><i class="fas fa-sign-out-alt"></i>Sair</a>
+	{% endif %}
+	
+	<span class="menu-link" id="rightBtn" onclick="openSide('rightSide','rightBtn')">
+		<div class="menu-icon-container">
+			<div class="bar1"></div>
+			<div class="bar2"></div>
+			<div class="bar3"></div>
+		</div>
+	Saiba mais</span>
+  </nav>
+</header>
+
+<!-- The flexible grid (content) -->
+<main class="back-img">
+  <aside class="side clean-detail" id="leftSide">
+	x
+  </aside>
+
+	<article class="main clean">
+		<h2 class="green">Seja bem vindo ao Projeto Atitudes</h2>
+		
+		<nav class="box happy">
+		    <br>
+			<img class="sticker-left" src={% static '/img/Ethos.png' %} alt="Mãos à obra" width="300px">
+			<div class="box base-detail"><h3 class="white">Falta muito pouco para ter acesso completo ao nosso portal</h3></div>
+			<b class="green">Você já fez o seu cadastro e efetuou o seu login com sucesso, Mas ainda precisamos ativar a sua conta</b><br><br>
+			<b class="purple">Ao clicar em "Ativar conta" você será redirecionado para uma página do Mercado Pago</b><br><br>
+			<b class="orange">Atenção! Após efetuar o pagamento não feche a página. Clique em "Voltar para o site" ou aguarde o redirecionamento automático.</b><br><br>
+			<b class="blue">Pagamentos com boleto podem demorar até 48 horas para a ativação após ser compensado.</b>
+			<!--div class="box base-detail"><h3 class="white">Tudo que seu filho precisa saber, aprender e fazer sobre boas maneiras na vida em família e em sociedade </h3></div>
+			<b class="green">Guia completo com 18 Lições para aprender as Boas Atitudes</b><br><br>
+			<b class="orange">Aqui a criança é um autor mirim de sucesso. Podendo escrever e personalizar seu próprio livro com
+				ilustrações exclusivas</b><br><br>
+			<b class="blue">A plataforma inclui minigames educativos sobre Boas Maneiras e centenas de ilustrações</b><br><br>
+			<b class="purple">O PREMIUM oferece figurinhas divertidas das Boas Atitudes para a criança usar nas
+				redes sociais da família. Para obter as figurinhas é preciso concluir todas as lições. </b-->
+		</nav>
+		{% if preference == "error" %}
+			<nav class="item sunny">
+				<p>Infelizmente o serviço de pagamento está off-line.<br>Por favor, volte mais tarde.</p>
+			</nav>
+		{% else %}
+			<nav class="item sunny"><div class="box">
+				<h1 class="pink">Desconto à vista</h1>
+				<br><strong>Até 12x de R$8,96</strong>
+				<br><strong>Ou <b class="blue">R$89,80</b> à vista (R$4,99 por lição)</strong>
+				<br><br>
+				<a class="button next" href="{{ preference.init_point }}" target="_blank">Ativar conta</a>
+				<br><br>
+				<a>Em até 7 dias após a conta ser ativada, você pode solicitar o cancelamento entrando em contato com um de nossos canais de suporte.</a>
+			</div></nav>
+			<img src={% static '/img/12/rodape.png' %} alt="Você sabia?" width="100%">
+		{% endif %}
+		{% if orders %}
+			<nav class="box">
+				<p>Veja a situação do{{ orders|pluralize }} pagamento{{ orders|pluralize }}:</p>
+				{% for o in orders %}
+					<nav class="item sunny">
+						<a style="width:50%">Pagamento {{o.id}}</a>
+						{% if o.mp_status == "approved" %}
+							<a style="width:50%" class="green">Aprovado</a>
+						{% elif o.mp_status == "pending" or o.mp_status == "in_process" %}
+							<a style="width:50%">Pendente</a>
+						{% else %}
+							<a style="width:50%" class="red">{{o.mp_status}}</a>
+						{% endif %}
+					</nav>
+				{% endfor %}
+			</nav>
+		{% endif %}
+	</article>
+  
+  <aside class="side clean-detail" id="rightSide">
+	<div class="box">
+		<strong>
+			<img class="sticker-right" src={% static '/img/1/BoasManeiras.png' %} alt="Mãos à obra" width="80px">
+			Aprendizado com jogos educativos e mais de 200 ilustrações
+		</strong><br><br>
+		<strong>
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="Mãos à obra" width="80px">
+			A criança será autora do seu próprio livro. Publicaremos o livro no nosso site e você poderá baixá-lo
+		</strong><br><br>
+		<strong>
+			<img class="sticker-left" src={% static '/img/1/Observando.gif' %} alt="Mãos à obra" width="80px">
+			O melhor de tudo é a forma lúdica e divertida que a criança aprende as Boas Maneiras
+		</strong><br><br>
+		<strong>
+			<img class="sticker-left" src={% static '/img/1/VcSabia.gif' %} alt="Mãos à obra" width="80px">
+			Ahhh! Você sabia que atualmente as empresas não contratam apenas pelo currículo, mas pelo comportamento!
+		</strong><br><br>
+		<strong>
+			<img class="sticker-right" src={% static '/img/1/maosAObra.gif' %} alt="Mãos à obra" width="80px">
+			Aprendizado rápido e efetivo ao praticar as atitudes em família e transformá-las em hábitos
+		</strong><br><br>
+		<strong>
+			<img class="sticker-left" src={% static '/img/1/Atitudes.png' %} alt="Mãos à obra" width="80px">
+			O Projeto Atitudes ajuda você a formar com ética o futuro do seu filho
+		</strong><br><br>
+		<strong>
+			<img class="sticker-right" src={% static '/img/1/glossario.gif' %} alt="Mãos à obra" width="80px">
+			Usar nossa plataforma é simples
+		</strong><br><br>
+		<strong>
+			<img class="sticker-left" src={% static '/img/2/meninoFala.png' %} alt="Mãos à obra" width="80px">
+			Produto Exclusivo – Converse conosco para tirar suas dúvidas sempre que precisar
+		</strong>
+		<a href="https://wa.me/message/SLD2HWSJYSVZF1" class="btn completed">
+			Fale conosco &ensp;<i class="fab fa-whatsapp"></i></a>
+		<a href="{{ preference.init_point }}" class="btn completed">
+			Quero ser premium &ensp;<i class="fas fa-star"></i></a>
+	</div>
+  </aside>
+</main>
+
+<!-- Footer -->
+<footer class="base-detail">
+  {% if request.user.profile.related_school %}
+	<nav class="item sunny"><i class="fas fa-university"></i><a>{{ request.user.profile.related_school.name }}</a></nav>
+	<nav class="item sunny"><i class="fas fa-key"></i><a>Acessos disponíveis: {{ request.user.profile.related_school.accession}}</a></nav>
+  {% else %}
+	<a class="white">Você não está vinculado a nenhuma escola</a>
+  {% endif %}
+</footer>
+	<script>
+		if (window.innerWidth > 999) {
+    	    openSide('rightSide', 'rightBtn');
+        }
+	</script>
+</body>
+</html>
+
+
+

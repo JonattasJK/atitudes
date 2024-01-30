@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.4.sort }}</strong>
+			  	<p><i>{{ itens.4.name }}:</i> {{ itens.4.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.4.id 'cidade' 4 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+			<img src={% static '/img/16/predio.png' %} alt="Papel" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" >
+    	<a href="{% url 'livro1:lesson' 'cidade' 3 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <nav class="box base">
+			<h3 class="purple">2ª parada: monumentos da cidade</h3>
+			<p>Como é a entrada de sua cidade? Tem placas ou monumentos? <br>
+				A caminho da escola, podemos observar praças, estátuas, construções novas e antigas e outros monumentos. Esses elementos contam a história
+				da cidade e devem ser bem preservados.</p>
+		</nav><div class="line"></div>
+		{% if itens.5 %}
+			<nav class="box alert large" style="width:100%">
+				<img class="sticker-right" src={% static '/img/1/lembrese.gif' %} width="150px" height="150px">
+				<div class="box"> <h3 class="blue">{{ itens.4.name }}</h3>
+					<p>{{ itens.4.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal2');"><img src={% static '/img/1/lembrese.gif' %} width="150px"></a>
+			</section>
+		{% endif %}<div class="line"></div>
+	    <nav class="box happy large">
+			<img class="sticker-right" src={% static '/img/1/maosAObra.gif' %} alt="Atividades" width="250px">
+			<div class="box"> <h3 class="box base-detail white">Mãos à obra</h3>
+				<h5 class="purple">Placa de boas-vindas</h5>
+				<p>Centenas de pessoas passam pela entrada de uma cidade. É sempre bom recepcionar as pessoas que chegam. Abaixo você encontra materiais para elaborar
+					uma placa de boas-vindas para a sua cidade.</p>
+			</div>
+		</nav>
+		<a href="{% url 'livro1:color' %}" class="button previous next"><span>Criar Placa</span></a>
+	    <nav class="box base">
+			<img class="sticker-left" src={% static '/img/5/lixo.png' %} alt="bike" width="40%">
+			<h3 class="purple">3ª parada: lanchonetes</h3>
+			<p><em class="box contrast white">1</em>Se houver fila, espere com calma, reclamar não vai fazer a fila andar mais depressa!</p>
+			<p><em class="box contrast white">2</em>Peça seu lanche e agradeça o atendente.</p>
+			<p><em class="box contrast white">3</em>Antes de começar a comer, ofereça a quem estiver com você. É bom dividir com os amigos!</p>
+			<p><em class="box contrast white">4</em>As sobras descartáveis, como canudinho, copo e papel devem ser jogadas na lixeira, sempre
+				observando a separação correta do lixo!</p>
+	    </nav><div class="line"></div>
+	    <nav class="box base">
+			<img class="sticker-right" src={% static '/img/16/lanxe.png' %} alt="bike" width="40%">
+			<h3 class="purple">4ª parada: shopping e supermercados</h3>
+			<p><em class="box contrast white">1</em>Atenção ao subir ou descer as escadas: utilize sempre o corrimão.</p>
+			<p><em class="box contrast white">2</em>Se encontrar pessoas idosas ou que tenham alguma necessidade especial ofereça o lugar e deixe
+				livre o corrimão da escada.</p>
+			<p><em class="box contrast white">3</em>Preste atenção na circulação de pessoas. Se esbarrar em alguém, peça desculpas!</p>
+			<img class="sticker-left" src={% static '/img/16/escadas.png' %} alt="escada" width="40%">
+			<p><em class="box contrast white">4</em>Para pedir informações, procure o balcão de informações ou os funcionários do shopping. Uma boa maneira para
+				começar a conversa é dizer “por favor, pode me informar...”. Após receber a informação, não se esqueça do “obrigado(a)”.</p>
+			<p><em class="box contrast white">5</em>Ao encontrar alguém conhecido, não se esqueça de cumprimentá-lo.</p>
+			<p><em class="box contrast white">6</em>Peça licença ao passar.</p>
+	    </nav><div class="line"></div><div class="line"></div>
+	    <nav class="box happy large">
+			<img class="sticker-left" src={% static '/img/1/lembrese.gif' %} alt="lembrese" width="150px">
+			<img class="sticker-right" src={% static '/img/16/omi.png' %} alt="omi" width="50%">
+			<div class="box"> <h3 class="box base purple">Lembre-se</h3>
+				<p>Lembre-se de que as boas atitudes são importantes em qualquer lugar, seja no shopping ou na praça da cidade. Elas devem estar com você em
+					todos os lugares. <br>
+					Durante um passeio, ou no centro da cidade, é possível que você se depare com alguma situação <em class="blue">inusitada</em>. Se você for abordado
+					por um estranho, perceber que alguém está correndo perigo ou precisando de ajuda, peça auxílio a um adulto de sua confiança ou
+					avise a polícia.</p>
+				<nav class="box base large">
+					<img class="sticker-right" src={% static '/img/1/glossario.gif' %} alt="glossario" width="150px">
+					<div class="box"> <h3 class="box sunny">Glossário</h3>
+						<p>Inusitado: não usado, não usual, incomum, estranho.</p>
+					</div>
+				</nav>
+			</div>
+		</nav>
+    	<a href="{% url 'livro1:lesson' 'cidade' 5 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+
+{% endblock %}

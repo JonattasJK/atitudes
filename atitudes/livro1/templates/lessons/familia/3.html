@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  		</div>
+	  		<form action="#" method="post" class="element box">
+	  			<a href="{% url 'livro1:questConclude' '3-2' 0 'familia' 3 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+		  	</form>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <h5><br><br></h5>
+    <img src={% static '/img/3/brincar.png' %} alt="Brincando" width="100%">
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" id="page1">
+    	<a href="{% url 'livro1:lesson' 'familia' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    
+		<nav class="box happy">
+			<img class="sticker-left" src={% static '/img/1/Observando.gif' %} alt="Mãos à obra" width="150px">
+			<div class="box"> <h3 class="box contrast white">Observando</h3>
+				<h4>Com a ajuda de um familiar, escreva quais são os principais 
+					gastos de sua família e faça a soma do total das despesas</h4>
+			</div>
+		</nav>
+		<div class="line"></div>
+		{% if itens.6 != False %}
+			<nav class="box base">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.6.score < 40 %} 
+						Você marcou <strong>{{itens.6.score}}</strong> pontos e a pontuação máxima é 40. Você pode tentar marcar os 40 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.6.score}}</strong> pontos, a pontuação máxima! Meus parabéns!
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.6.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.6.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.6.score < 40 %}
+				{% if request.user.profile.credits > itens.6.credits %}
+					<a href="{% url 'livro1:questUndo' '3-2' itens.6.score 'familia' 3 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.6.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.6.credits }} créditos e poderá receber até <strong>40,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<p></p>
+		{% else %}
+			<nav class="happy large box">
+				<nav class="flex">
+					<div class="item sunny">Respostas:&ensp;<strong id="hits" class="red">0</strong>
+					</div>&emsp;<div class="item sunny"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+				</nav>
+				<div class="form"><table>
+					<tr>
+						<td class="base"><em>Supermercado</em></td>
+						<td>R$:</td>
+						<td><input type="number" id="supermercado" placeholder="R$" pattern="[0-9]" step="any" oninput="values('total',['supermercado','agua','luz','telefone'])"></td>
+					</tr><tr>
+						<td class="base"><em>Taxa de água</em></td>
+						<td>R$:</td>
+						<td><input type="number" id="agua" placeholder="R$" pattern="[0-9]" step="any" oninput="values('total',['supermercado','agua','luz','telefone'])"></td>
+					</tr><tr>
+						<td class="base"><em>Taxa de luz</em></td>
+						<td>R$:</td>
+						<td><input type="number" id="luz" placeholder="R$" pattern="[0-9]" step="any" oninput="values('total',['supermercado','agua','luz','telefone'])"></td>
+					</tr><tr>
+						<td class="base"><em>Conta de telefone</em></td>
+						<td>R$:</td>
+						<td><input type="number" id="telefone" placeholder="R$" pattern="[0-9]" step="any" oninput="values('total',['supermercado','agua','luz','telefone'])"></td>
+					</tr><tr>
+						<td class="base"><em>Total</em></td>
+						<td>R$:</td>
+						<td><input type="number" id="total" placeholder="R$" readonly></td>
+					</tr>
+				</table></div>
+				<p></p>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','3-2','familia',3,40);">Terminar</a>
+			<p></p>
+		{% endif %}
+		<img src={% static '/img/3/bomdia.png' %} alt="lar" width="50%">
+		<strong class="purple">Receita para uma Família Feliz</strong>
+		<h4>Uma família feliz é aquela em que os membros convivem em harmonia,
+			respeitando e ajudando uns aos outros. Cada família tem o seu jeito
+			de ser feliz. Abaixo relacionamos algumas atitudes e valores que ajudam no
+			relacionamento familiar. Observe:</h4>
+		<div class="crosswords"><table>
+			<tr>   
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+				<th class="contrast white">F</th><th>R</th><th>A</th><th>T</th>
+				<th>E</th><th>R</th><th>N</th><th>I</th><th>D</th><th>A</th>
+				<th>D</th><th>E</th>
+			</tr><tr>
+				<td></td><td></td><td></td>
+				<th>A</th><th>M</th><th>I</th><th>Z</th><th class="contrast white">A</th>
+				<th>D</ht><th>E</ht>
+			</tr><tr>
+				<td></td><th>C</th><th>O</th><th>M</th><th>P</th><th>R</th><th>O</th>
+				<th class="contrast white">M</th><th>I</th><th>S</th><th>S</th><th>O</th>
+			</tr><tr>
+				<td></td><td></td><td></td><th>C</th><th>O</th><th>N</th><th>F</th>
+				<th class="contrast white">I</th><th>A</th><th>N</th><th>Ç</th><th>A</th>
+			</tr><tr>
+				<td></td><td></td><td></td><td></td><td></td><th>F</th><th>E</th>
+				<th class="contrast white">L</th><th>I</th><th>C</th><th>I</th><th>D</th>
+				<th>A</th><th>D</th><th>E</th>
+			</tr><tr>
+				<td></td><td></td><td></td><td></td><th>S</th><th>O</th><th>L</th>
+				<th class="contrast white">I</th><th>D</th><th>A</th><th>R</th><th>I</th>
+				<th>E</th><th>D</th><th>A</th><th>D</th><th>E</th>
+			</tr><tr>
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+				<th class="contrast white">A</th><th>M</th><th>O</th><th>R</th>
+			</tr><tr>
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+				<th class="happy">F</th><th>É</th>
+			</tr><tr>
+				<td></td><td></td><td></td><th>S</th><th>I</th><th>N</th><th>C</th>
+				<th class="happy">E</th><th>R</th><th>I</th><th>D</th><th>A</th>
+				<th>D</th><th>E</th>
+			</tr><tr>
+				<td></td><td></td><td></td><td></td><th>R</th><th>E</th><th>F</th>
+				<th class="happy">L</th><th>E</th><th>X</th><th>Ã</th><th>O</th>
+			</tr><tr>
+				<td></td><td></td><th>S</th><th>E</th><th>R</th><th>E</th><th>N</th>
+				<th class="happy">I</th><th>D</th><th>A</th><th>D</th><th>E</th>
+			</tr><tr>
+				<th>H</th><th>O</th><th>N</th><th>R</th><th>A</th><th>D</th><th>E</th>
+				<th class="happy">Z</th>
+			</tr>
+		</table></div>
+	    {% if itens.6 != False %}
+	    	<button onclick="openPage('page2', 'page1');" class="button next"><span>VAMOS LÁ!</span></button>
+	    {% endif %}
+    </article>
+    <article class="page" id="page2">
+	    <button onclick="openPage('page1', 'page2');" class="button previous"><span>Voltar</span></button>
+	    <nav>
+		    <img class="sticker-right" src={% static '/img/3/historia.png' %} alt="historia" width="50%">
+		    <img class="sticker-left" src={% static '/img/3/lar.png' %} alt="lar" width="50%">
+		    <em>Vamos conhecer algumas normas básicas de boas maneiras:</em><br><br>
+			1. Cumprimentar as pessoas.<br>
+			2. Dizer “por favor”, “obrigado(a)”, “com licença” e “desculpe”.<br>
+			3. Apertar as mãos e olhar as pessoas ao cumprimentar.<br>
+			4. Mostrar respeito pelos mais velhos.<br>
+			5. Respeitar a privacidade dos pais e de outras pessoas.<br>
+			6. Responder, quando lhe falarem.<br>
+			7. Não interromper a conversa dos adultos.<br>
+			8. Respeitar a atitude “silêncio” em lugares públicos como hospitais, teatros e igrejas.<br>
+			9. Não tocar e nem brincar com objetos das outras pessoas, a não ser quando o convidarem a fazer isso.<br>
+			10. Relacionar-se com os irmãos e as outras crianças.<br>
+			<h5>Adaptado de "O livro completo de Etiqueta de Amy Vanderbilt", reescrito e atualizado por Nancy Tuckerman e Nancy Dunnan</h5>
+		    <img class="sticker-right" src={% static '/img/3/pequenique.png' %} alt="pequenique" width="50%">
+		    <img class="sticker-left" src={% static '/img/3/ajudar.png' %} alt="ajudar" width="50%">
+	    </nav>
+		<a href="{% url 'livro1:lesson' 'familia' 4 %}" class="large">
+			<button class="button next"><span>VAMOS LÁ!</span></button>
+		</a>
+    </article>
+  </section>
+
+  <script>
+  	openPage('page1','page2');
+  </script>
+{% endblock %}

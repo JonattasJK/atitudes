@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Modal -->
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.4.sort }}</strong>
+			  	<p><i>{{ itens.4.name }}:</i> {{ itens.4.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.4.id 'computadores' 3 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p></p>
+    <p>Além de passear pela internet, os computadores são ótimas ferramentas para aprimorar suas habilidades artísticas</p>
+    <img src={% static '/img/14/arte.png' %} alt="abc" width="100%">
+    <h5 class="orange">Todas as imagens deste site foram feitas por algum artista no computador!</h5>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" id="page1">
+    	<a href="{% url 'livro1:lesson' 'computadores' 2 %}" class="large">
+	    	<button class="button previous"><span>Voltar</span></button>
+	    </a>
+	    <nav class="box">
+			<h3 class="purple">A internet e as atitudes</h3>
+			<img class="sticker-left" src={% static '/img/14/pc5.png' %} alt="lendo" width="50%">
+			<p>Na internet, pessoas do mundo inteiro estão interligadas pelo computador, podendo se comunicar e buscar todo tipo de informação.
+				Por isso dizemos que ela é uma rede de alcance mundial em que todos que estão conectados a ela podem trocar mensagens
+				e obter informações e serviços.<br>
+				Tudo isso faz da internet um excelente local para aprender, se divertir, bater papo com os amigos da escola, ou simplesmente
+				relaxar e navegar por um mundo infinito de imagens, vídeos e textos.</p>
+			<img class="sticker-right" src={% static '/img/14/pc6.png' %} alt="lendo" width="50%">
+			<p>Através da internet, é possível viajar sem sair de casa: visitar parques, museus e exposições no mundo
+				inteiro, conhecer países e suas culturas, animais, planetas.<br>
+				No entanto, assim como o mundo “real”, a internet também oferece riscos à sua segurança, pois é um lugar de interação entre pessoas que 
+				não se conhecem pessoalmente. Veja na próxima página algumas boas atitudes para navegar na internet de forma segura.</p>
+	    </nav>
+		{% if itens.5 %}
+			<nav class="box sunny large" style="width:100%">
+				<img class="sticker-right" src={% static '/img/1/lembrese.gif' %} width="150px" height="150px">
+				<div class="box"> 
+					<p>{{ itens.4.text|linebreaks }}</p>
+				</div>
+			</nav>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/lembrese.gif' %} width="150px"></a>
+			</section>
+		{% endif %}<div class="line"></div>
+    	<a href="{% url 'livro1:lesson' 'computadores' 4 %}" class="large">
+	    	<button class="button next"><span>VAMOS LÁ!</span></button>
+	    </a>
+    </article>
+  </section>
+
+ 
+  <script>
+  	openPage('page1','page2');
+  </script>
+
+{% endblock %}

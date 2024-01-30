@@ -1,0 +1,329 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+
+<!-- Modal -->
+<div id="questModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><button class="button previous" onclick="location.reload(true);"><span>Tentar novamente</span></button></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/congratulations.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">Missão cumprida!</strong>
+			  	<p id="questCaption">Meus parabéns</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green" id="reward"> Você ganhou: X pontos, X créditos e um troféu joinha</em><br>
+	  			<a class="orange"> Clique no troféu para pegar o que você ganhou!</a>
+	  		</div>
+	  		<a href="{% url 'livro1:questConclude' '2-5' 0 'maneiras' 4 %}" id="conclud"><img src={% static '/img/joia.gif' %} alt="Troféu Joinha" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="discoveryModal" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez uma descoberta!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.4.sort }}</strong>
+			  	<p><i>{{ itens.4.name }}:</i> {{ itens.4.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.4.id 'maneiras' 4 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<div id="discoveryModal2" class="modal">
+  <div class="modal-container">
+  	<nav class="box clean modal-container">
+	  	<nav class="element box base"><h1 class="green">Você fez oooutraaa descobertaA!</h1></nav>
+	  	<div class="modal-animation gradiant-loop">
+		  	<img src={% static '/img/discovery.gif' %} alt="Parabéns" width="100%">
+		  	<div class="caption">
+			  	<strong class="orange item" style="background-color:rgba(0, 0, 0, 0.5);">{{ itens.6.sort }}</strong>
+			  	<p><i>{{ itens.6.name }}:</i> {{ itens.6.text|linebreaks }}</p>
+		  	</div>
+	  	</div>
+	  	<nav class="element box base">
+	  		<div class="modal-backgif"><p></p>
+	  			<em class="green"> Você ganhou: 30 pontos, 30 créditos e uma medalha</em><br>
+	  			<a class="orange"> Clique na medalha para pegar o que você ganhou</a>
+	  		</div>
+	  		<a href="{% url 'livro1:discoveryFound' itens.6.id 'maneiras' 4 %}" ><img src={% static '/img/star.gif' %} alt="Star medal" height="120px"></a>
+	  	</nav>
+	</nav>
+  </div>
+</div>
+<!-- /Modal -->
+
+  <aside class="side clean-detail" id="leftSide">
+    <a href="{% url 'livro1:home' %}" class="btn completed">
+        Home &ensp;<i class="fas fa-home"></i></a>
+    <p class="box base">
+		<h5>Se você clicar no botão <strong>Home</strong> irá voltar para a página inicial!</h5>
+		<h4 class="green">Dica: use o máximo de palavras mágicas que você puder!</h4>
+		
+		<img src={% static '/img/2/fala.png' %} alt="chat" width="350px">
+	</p>
+  </aside>
+  
+  <section class="page box clean">
+    <article class="page" style="height:100%" id="page1">
+    	<a href="{% url 'livro1:lesson' 'maneiras' 3 %}" class="large">
+        	<button class="button previous"><span>Voltar</span></button>
+        </a>
+       {% if itens.5 %}
+			<section class="box alert">
+				<div class="box"> <h3 class="blue">{{ itens.4.name }}</h3>
+					<p>{{ itens.4.text|linebreaks }}</p>
+				</div>
+				<img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" width="150px" height="270px">
+			</section>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal');"><img src={% static '/img/1/lembrese.gif' %} alt="Lembre-se" width="150px" height="270px"></a>
+			</section>
+		{% endif %}
+		<div class="line"></div>
+		{% if itens.7 %}
+			<section class="box contrast" >
+				<div class="box"> <h3 class="blue">{{ itens.6.name }}</h3>
+					<p>{{ itens.6.text|linebreaks }}</p>
+				</div>
+				<img src={% static '/img/1/glossario.gif' %} alt="Lembre-se" width="150px" height="150px">
+			</section>
+			<div class="line"></div>
+		{% else %}
+			<section class="box">
+				<a class="button" onclick="showModal('discoveryModal2');"><img src={% static '/img/1/glossario.gif' %} alt="Lembre-se" width="150px" height="150px"></a>
+			</section>
+		{% endif %}<p></p>
+		<nav class="box sunny">
+			<img class="sticker-left" src={% static '/img/1/atividades.gif' %} alt="amigos" width="200">
+			<h3 class="red">Atividade</h3>
+			<p>Observe as cenas a seguir e crie diálogos usando as palavras mágicas: 
+				bom dia; boa tarde; até amanhã; olá; como vai?; com licença; por favor; posso ajudar?; desculpe; obrigado(a).
+			</p>
+		</nav>
+		{% if itens.12 != False %}
+			<nav class="box base">
+				<img class="sticker-right" src={% static '/img/1/maosAObra.gif' %} alt="Mãos à obra" width="150px">
+				<h5>
+					Você já completou esse desafio e conquistou a sua recompensa <br>
+					{% if itens.12.score < 90 %} 
+						Você marcou <strong>{{itens.12.score}}</strong> pontos e a pontuação máxima é 90. Você pode tentar marcar os 90 pontos se quiser
+					{% else %}
+						Você marcou <strong>{{itens.12.score}}</strong> pontos, a pontuação máxima! Meus parabéns
+					{% endif %}
+				</h5>
+			</nav><p></p>
+			<em>Recompensa obtida:</em>
+			<nav class="flex">
+				<div class="item base">Pontos:&ensp;<strong class="blue">{{ itens.12.score }}</strong></div>&emsp;
+				<div class="item base">Créditos:&ensp;<strong class="blue">{{ itens.12.credits }}</strong></div>&emsp;
+				<div class="item base">Troféu:&ensp;<strong class="blue">1</strong></div>&emsp;
+			</nav>
+			{% if itens.12.score < 90 %}
+				{% if request.user.profile.credits > itens.12.credits %}
+					<a href="{% url 'livro1:questUndo' '2-5' itens.12.score 'maneiras' 4 %}" class="large">
+						<button class="button previous next"><span>Tentar novamente</span></button>	
+					</a>
+				{% else %}
+					<button onclick="alert('Ops... Você não tem {{itens.12.credits}} créditos disponíveis para tentar novamente')" 
+						class="button previous next"><span>Tentar novamente</span></button>
+				{% endif %}
+				<nav class="item alert">
+					<h5>Ao clicar em Tentar novamente, você perderá a recompensa atual para conquistar outra. 
+						Você irá gastar {{ itens.12.credits }} créditos e poderá receber até <strong>90,00</strong> créditos de volta.</h5>
+				</nav>
+			{% endif %}
+			<div class="line"></div>
+			<button onclick="openPage('page2', 'page1');" class="button next"><span>VAMOS LÁ!</span></button>
+		{% else %}
+			<nav class="flex">
+				<div class="item base">Frases educadas:&ensp;<strong id="hits" class="red">0</strong>
+				</div>&emsp;<div class="item base"> Pontuação:&ensp;<strong id="totalScore" class="red">0</strong></div>
+			</nav>
+			<nav class="box">
+				<nav class="page sunny" style="overflow:auto; width: 100%; align-items: center;">
+					<img src={% static '/img/2/conversa1.png' %} alt="Conversa 1" width="50%">
+					<div class="crosswords"><table>
+						<tr>
+							<th style="border:0px">
+								<i id="f1Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+								<input type="hidden" id="f1Score" value="10">
+							</th>
+							<th style="border:0px">
+								<i id="f2Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+								<input type="hidden" id="f2Score" value="10">
+							</th>
+							<th style="border:0px">
+								<i id="f3Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+								<input type="hidden" id="f3Score" value="10">
+							</th>
+							<th style="border:0px">
+								<i id="f4Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+								<input type="hidden" id="f4Score" value="10"></tr>
+							</th>
+						<tr>
+							<td>
+								<select name="f1" id="f1" onchange="selectAnswer('f1Smile','f1Score','f1')">
+									<option value="" >__-------__</option>
+									<option value="True" >Bom dia</option>
+									<option value="False" >Tchau</option>
+								</select> 
+							</td>
+							<td><h5> Laura!</h5></td>
+							<td>
+								<select name="f2" id="f2" onchange="selectAnswer('f2Smile','f2Score','f2')">
+									<option value="" >__-------__</option>
+									<option value="False" >Parabéns</option>
+									<option value="True" >Posso ajudar</option>
+								</select> 
+							</td>
+							<td><h5> Você a subir a rampa?</h5></td>
+						</tr><tr>
+							<td>
+								<select name="f3" id="f3" onchange="selectAnswer('f3Smile','f3Score','f3')">
+									<option value="" >__-------__</option>
+									<option value="True" >Bom dia</option>
+									<option value="False" >Bom dia pra quem?</option>
+								</select>
+							</td>
+							<td><h4>Pedro! </h4></td>
+							<td>
+								<select name="f4" id="f4" onchange="selectAnswer('f4Smile','f4Score','f4')">
+									<option value="" >__-------__</option>
+									<option value="True" >Obrigada, eu</option>
+									<option value="False" >Não, eu não</option>
+								</select>
+							</td>
+							<td><h5> aceito a sua ajuda.</h5></td>
+						</tr>
+					</table></div>
+				</nav>
+				<nav class="page base" style="overflow:auto; width: 100%; align-items: center;">
+					<img src={% static '/img/2/conversa2.png' %} alt="Conversa 2" width="50%">
+					<div class="crosswords"><table>
+						<tr>
+							<th style="border:0px">
+								<i id="f5Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+								<input type="hidden" id="f5Score" value="10">
+							</th>
+							<th style="border:0px">
+								<i id="f6Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+								<input type="hidden" id="f6Score" value="10">
+							</th>
+							<th style="border:0px">
+								<i id="f7Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+								<input type="hidden" id="f7Score" value="10">
+							</th>
+						<tr>
+							<td>
+								<select name="f5" id="f5" onchange="selectAnswer('f5Smile','f5Score','f5')">
+									<option value="" >__-------__</option>
+									<option value="True" >Olá</option>
+									<option value="False" >Por favor</option>
+								</select> 
+							</td>
+							<td><h5> Paulo!</h5></td>
+							<td>
+								<select name="f6" id="f6" onchange="selectAnswer('f6Smile','f6Score','f6')">
+									<option value="" >__-------__</option>
+									<option value="False" >Tchau</option>
+									<option value="True" >Como vai?</option>
+								</select> 
+							</td>
+						</tr><tr>
+							<td><h4>Olá, João! </h4></td>
+							<td>
+								<select name="f7" id="f7" onchange="selectAnswer('f7Smile','f7Score','f7')">
+									<option value="" >__-------__</option>
+									<option value="True" >Estou bem</option>
+									<option value="False" >Não importa</option>
+								</select>
+							</td>
+							<td><h5> e você?</h5></td>
+						</tr>
+					</table></div>
+				</nav>
+				<nav class="page shine" style="overflow:auto; width: 100%; align-items: center;">
+					<img src={% static '/img/2/amigas.png' %} alt="Conversa 1" width="50%">
+					<div class="crosswords"><table>
+						<tr>
+							<th style="border:0px">
+								<i id="f8Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+								<input type="hidden" id="f8Score" value="10">
+							</th>
+							<th style="border:0px">
+								<i id="f9Smile" class="fas fa-laugh-beam" style="color: #0284cf;"></i>
+								<input type="hidden" id="f9Score" value="10">
+							</th>
+						<tr>
+							<td>
+								<select name="f8" id="f8" onchange="selectAnswer('f8Smile','f8Score','f8')">
+									<option value="" >__-------__</option>
+									<option value="False" >Ah... oi</option>
+									<option value="True" >Boa tarde, amiga</option>
+								</select> 
+							</td>
+							<td><h5> Você está indo para aula?</h5></td>
+						</tr><tr>
+							<td><h4>Boa tarde, Maria! </h4></td>
+							<td>
+								<select name="f9" id="f9" onchange="selectAnswer('f9Smile','f9Score','f9')">
+									<option value="" >__-------__</option>
+									<option value="True" >Estou sim, vamos juntas?</option>
+									<option value="False" >Não quero ir com você.</option>
+								</select>
+							</td>
+						</tr>
+					</table></div>
+				</nav>
+			</nav>
+			<a class="button" onclick="questFinish('questModal','2-5','maneiras',4,90);">Terminar</a><p></p>
+		{% endif %}
+    </article>
+
+    <article class="page" id="page2">
+    	<button onclick="openPage('page1', 'page2');" class="button previous"><span>Voltar</span></button>
+    	<br>
+    	<p></p>
+    	<em class="purple">Qual é a mágica?</em>
+		<h5>Ao utilizar as palavras mágicas, as portas vão se abrir para você!
+Essa é a mágica!</h5>
+		<img src={% static '/img/2/educados.png' %} alt="Educados" width="50%">
+		<div class="line"></div>
+		<nav class="box happy">
+			<img class="sticker-right" src={% static '/img/1/maosAObra.gif' %} alt="amigos" height="150px">
+			<h3 class="blue">Mãos à obra!</h3>
+			<p>No início dessa lição, dissemos que as palavras mágicas são utilizadas em
+				todo o mundo. Depois de todo esse aprendizado, vamos pôr em prática essas
+				palavras? Pratique o uso das “palavras mágicas” aprendidas nesta lição em casa
+				com seus familiares e também com seus colegas da escola. Então, mãos à obra.</p>
+		</nav>
+    	<a href="{% url 'livro1:lesson' 'maneiras' 5 %}" class="large">
+        	<button class="button next"><span>VAMOS LÁ!</span></button>
+        </a>
+    </article>
+  </section>
+
+
+  <script>
+  	openPage('page1','page2');
+  </script>
+{% endblock %}
