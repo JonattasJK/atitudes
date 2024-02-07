@@ -271,7 +271,7 @@ def ludo(request):
 def movies(request, id_movie):
 	movie = ''
 	if id_movie == 1:
-		movie = '/img/video/DUMBO.mp4'
+		movie = None
 	return render(request, 'games/movies.html', {'movie':movie})
 
 @login_required
