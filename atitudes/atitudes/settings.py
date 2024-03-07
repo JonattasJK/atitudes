@@ -25,7 +25,7 @@ SECRET_KEY = '4!v1!ban$i)soj#pqd*-aqna%d8$28n6l=8$o^@273h&ajtp+v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['play.projetoatitudes.com','www.play.projetoatitudes.com','127.0.0.1']
+ALLOWED_HOSTS = ['play.projetoatitudes.com','www.play.projetoatitudes.com','localhost', 'jonattasjk.pythonanywhere.com']
 
 
 # Application definition
