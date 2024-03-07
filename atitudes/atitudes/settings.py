@@ -25,7 +25,7 @@ SECRET_KEY = '4!v1!ban$i)soj#pqd*-aqna%d8$28n6l=8$o^@273h&ajtp+v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['play.projetoatitudes.com','www.play.projetoatitudes.com']
+ALLOWED_HOSTS = ['play.projetoatitudes.com','www.play.projetoatitudes.com','127.0.0.1']
 
 
 # Application definition
@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_mysql',
     'livro1',
 ]
 
@@ -77,15 +76,10 @@ WSGI_APPLICATION = 'atitudes.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'atitude_data',
-        'USER': 'atitude_root',
-        'PASSWORD': '{wVdv!&0w1Y={iP7aJ!N5ZW(',
-        'HOST': 'localhost', 
-        'PORT': '3306'
-    }
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "project.db",
+    },
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
